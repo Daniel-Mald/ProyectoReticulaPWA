@@ -1,0 +1,28 @@
+{
+  "name": "Reticula PWA",
+  "short_name": "Seguimiento de reticula escolar",
+  "description": "Una aplicacion para ver tu reticula",
+  "start_url": "/index",
+  "display": "standalone",
+  "background_color": "",
+  "theme_color": "",
+  "icons" [
+    {
+      "src": "assets/logos/Logo144x144.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/logos/Logo192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/logos/Logo512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+
+  ],
+  "scope": "/"
+}

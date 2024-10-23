@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" translate="no">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="estilos.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="shortcut icon"
+      href="assets/logos/Logo144x144.png"
+      type="image/x-icon"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="main-container">
+      <header class="header">
+        <div class="header__div">
+          <figure class="header__logo">
+            <img
+              src="assets/logos/Logo192x192.png"
+              alt="Logo"
+              class="header__logo-img"
+            />
+          </figure>
+          <h1 class="header__title">Avance Reticular</h1>
+        </div>
+
+        <figure class="header__figure">
+          <img
+            src="assets/iconos/opciones.svg"
+            alt="Opciones"
+            class="header__img"
+          />
+        </figure>
+
+        <div class="menu-flotante">
+          <div class="menu-flotante__info menu-flotante__item">
+            <img
+              src="assets/iconos/card-info.svg"
+              alt="info"
+              class="menu-flotante__img"
+            />
+            <div class="menu-flotante__info-div">
+              <label class="menu-flotante__nombre"
+                >Jorge Fabian Liñan Alcala</label
+              >
+              <label class="menu-flotante__numcontrol">201G0264</label>
+            </div>
+          </div>
+
+          <div class="menu-flotante__pdf menu-flotante__item">
+            <img
+              src="assets/iconos/download.svg"
+              alt="download"
+              class="menu-flotante__img"
+            />
+            <label class="menu-flotante__pdf-label">Descargar Retícula</label>
+          </div>
+          <div class="menu-flotante__logout menu-flotante__item">
+            <img
+              src="assets/iconos/logout.svg"
+              alt="logout"
+              class="menu-flotante__img"
+            />
+            <label class="menu-flotante__pdf-label">Cerrar Sesión</label>
+          </div>
+        </div>
+      </header>
+      <aside class="menu">
+        <nav class="nav">
+          <ul class="nav__list">
+            <li class="nav__item" id="link-reticula">
+              <img
+                src="assets/iconos/reticula.svg"
+                alt="Reticula"
+                class="nav__img"
+              />
+              <a href="#" class="nav__link">Materias</a>
+            </li>
+            <li class="nav__item" id="link-perfil">
+              <img src="assets/iconos/user.svg" alt="Perfil" class="nav__img" />
+              <a href="#" class="nav__link">Perfil</a>
+            </li>
+          </ul>
+        </nav>
+
+        <section class="modal">
+          <div class="modal__cerrar-sesion">
+            <p class="cerrar-sesion__titulo">
+              ¿Está seguro de que desea cerrar sesión?
+            </p>
+            <p class="cerrar-sesion__descripcion">
+              Deberá volver a introducir sus credenciales si quiere volver a
+              acceder al sistema.
+            </p>
+            <div class="cerrar__sesionn__botones">
+              <button class="cerrar-sesion__btn" id="btnAceptar">
+                Aceptar
+              </button>
+              <button class="cerrar-sesion__btn" id="btnCancelar">
+                Cancelar
+              </button>
+            </div>
+          </div>
+        </section>
+      </aside>
+
+      <main class="main">
+        <!-- contenido -->
+      </main>
+    </div>
+
+    <script src="main.js"></script>
+  </body>
+</html>
