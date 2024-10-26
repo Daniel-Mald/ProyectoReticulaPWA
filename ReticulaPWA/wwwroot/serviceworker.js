@@ -30,6 +30,7 @@ async function staleWhileRevalidate(url) {
     try {
         let cache = await caches.open(cacheName);
         let response = await cache.match(url);
+        let response = await cache.match(new Request(url));
 
         let fetchPromise = fetch(url).then(async networkResponse => {
             if (networkResponse.ok) {
@@ -46,4 +47,3 @@ async function staleWhileRevalidate(url) {
         return new Response("Error interno", { status: 500 });
     }
 }
-staleWhileRevalidate();
