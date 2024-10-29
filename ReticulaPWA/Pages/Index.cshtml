@@ -1,8 +1,6 @@
 ﻿@page
 @model ReticulaPWA.Pages.IndexModel
-@{
-    Layout = "Layout";
-}
+
 <div class="main__contenido">
     <section class="simbologia">
         <div class="simbologia__contenido">
@@ -34,150 +32,288 @@
     </section>
 
     <section class="tabla-container">
-        <table class="tabla">
-            <thead class="tabla__encabezados">
-                <tr>
-                    <th>1</th>
-                    <th>2</th>
-                    <th>3</th>
-                    <th>4</th>
-                    <th>5</th>
-                    <th>6</th>
-                    <th>7</th>
-                    <th>8</th>
-                    <th>9</th>
-                </tr>
-            </thead>
+        <section class="tabla">
+            <div class="tabla__columna" data-semestre="1">
+                <h2 class="tabla__columna__titulo">1</h2>
+                <div class="tabla__materia materia-acreditada">
+                    <h3 class="tabla__materia__titulo">ARQUITECTURA DE COMP</h3>
+                    <span class="tabla__materia__clave">CA1344</span>
+                    <div class="tabla__materia__oportunidad">
+                        <span class="tabla__materia__oportunidad--texto">Oportunidad:</span>
+                        <span class="tabla__materia__oportunidad--numero">3.º</span>
+                    </div>
+                </div>
+                <div class="tabla__materia materia-acreditada">
+                    <h3 class="tabla__materia__titulo">Materia 1</h3>
+                    <span class="tabla__materia__clave">CA1344</span>
+                </div>
+                <div class="tabla__materia materia-no-acreditada">
+                    <h3 class="tabla__materia__titulo">Materia 1</h3>
+                    <span class="tabla__materia__clave">CA1344</span>
+                </div>
+                <div class="tabla__materia materia-no-acreditada">
+                    <h3 class="tabla__materia__titulo">Materia 1</h3>
+                    <span class="tabla__materia__clave">CA1344</span>
+                </div>
+                <div class="tabla__materia materia-cursando">
+                    <h3 class="tabla__materia__titulo">Materia 1</h3>
+                    <span class="tabla__materia__clave">CA1344</span>
+                </div>
 
-            <tbody class="tabla__contenido">
-                <tr>
-                    <td>
-                        <div class="tabla__materia materia-acreditada">
-                            <label class="materia__nombre">Programación web</label>
-                            <label class="materia__clave">ACBD12-22</label>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="tabla__materia materia-acreditada">
-                            <label class="materia__nombre">Programación web</label>
-                            <label class="materia__clave">ACBD12-22</label>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="tabla__materia materia-acreditada">
-                            <label class="materia__nombre">Programación web</label>
-                            <label class="materia__clave">ACBD12-22</label>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="tabla__materia materia-acreditada">
-                            <label class="materia__nombre">Programación web</label>
-                            <label class="materia__clave">ACBD12-22</label>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="tabla__materia materia-acreditada">
-                            <label class="materia__nombre">Programación web</label>
-                            <label class="materia__clave">ACBD12-22</label>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="tabla__materia materia-acreditada">
-                            <label class="materia__nombre">Programación web</label>
-                            <label class="materia__clave">ACBD12-22</label>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="tabla__materia materia-cursando">
-                            <label class="materia__nombre">Programación web</label>
-                            <label class="materia__clave">ACBD12-22</label>
-                        </div>
-                    </td>
+                <div class="tabla__materia">
+                    <h3 class="tabla__materia__titulo">Materia 1</h3>
+                    <span class="tabla__materia__clave">CA1344</span>
+                </div>
+                <div class="tabla__materia">
+                    <h3 class="tabla__materia__titulo">Materia 1</h3>
+                    <span class="tabla__materia__clave">CA1344</span>
+                </div>
+                <div class="tabla__materia">
+                    <h3 class="tabla__materia__titulo">Materia 7</h3>
+                    <span class="tabla__materia__clave">CA1344</span>
+                </div>
+            </div>
+            <div class="tabla__columna" data-semestre="2">
+                <h2 class="tabla__columna__titulo">2</h2>
+                <div class="tabla__materia tabla__materia--oportunidad">
+                    <h3 class="tabla__materia__titulo">Materia 1</h3>
+                    <span class="tabla__materia__clave">CA1344</span>
+                </div>
+                <div class="tabla__materia">
+                    <h3 class="tabla__materia__titulo">Materia 1</h3>
+                    <span class="tabla__materia__clave">CA1344</span>
+                    <div class="tabla__materia__oportunidad">
+                        <span class="tabla__materia__oportunidad--texto">Oportunidad:</span>
+                        <span class="tabla__materia__oportunidad--numero">3.º</span>
+                    </div>
+                </div>
+                <div class="tabla__materia">
+                    <h3 class="tabla__materia__titulo">Materia 1</h3>
+                    <span class="tabla__materia__clave">CA1344</span>
+                </div>
+                <div class="tabla__materia">
+                    <h3 class="tabla__materia__titulo">Materia 1</h3>
+                    <span class="tabla__materia__clave">CA1344</span>
+                </div>
+                <div class="tabla__materia">
+                    <h3 class="tabla__materia__titulo">Materia 1</h3>
+                    <span class="tabla__materia__clave">CA1344</span>
+                </div>
 
-                    <td>
-                        <div class="tabla__materia materia-sin-cursar">
-                            <label class="materia__nombre">Programación web</label>
-                            <label class="materia__clave">ACBD12-22</label>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="tabla__materia materia-sin-cursar">
-                            <label class="materia__nombre">Programación web</label>
-                            <label class="materia__clave">ACBD12-22</label>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="tabla__materia materia-acreditada">
-                            <label class="materia__nombre">Programación web</label>
-                            <label class="materia__clave">ACBD12-22</label>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="tabla__materia materia-acreditada">
-                            <label class="materia__nombre">Programación web</label>
-                            <label class="materia__clave">ACBD12-22</label>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="tabla__materia materia-acreditada">
-                            <label class="materia__nombre">Programación web</label>
-                            <label class="materia__clave">ACBD12-22</label>
-                        </div>
-                    </td>
-                    <td class="celda-vacia"></td>
-                    <td class="celda-vacia"></td>
-                    <td class="celda-vacia"></td>
-                    <td>
-                        <div class="tabla__materia materia-cursando">
-                            <label class="materia__nombre">Programación web</label>
-                            <label class="materia__clave">ACBD12-22</label>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="tabla__materia materia-acreditada">
-                            <label class="materia__nombre">Programación web</label>
-                            <label class="materia__clave">ACBD12-22</label>
-                        </div>
-                    </td>
-                    <td class="celda-vacia"></td>
-                    <td>
-                        <div class="tabla__materia materia-no-acreditada">
-                            <label class="materia__nombre">Programación web</label>
-                            <label class="materia__clave">ACBD12-22</label>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="tabla__materia materia-acreditada">
-                            <label class="materia__nombre">Programación web</label>
-                            <label class="materia__clave">ACBD12-22</label>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="tabla__materia materia-acreditada">
-                            <label class="materia__nombre">Programación web</label>
-                            <label class="materia__clave">ACBD12-22</label>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="tabla__materia materia-acreditada">
-                            <label class="materia__nombre">Programación web</label>
-                            <label class="materia__clave">ACBD12-22</label>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+                <div class="tabla__materia">
+                    <h3 class="tabla__materia__titulo">Materia 1</h3>
+                    <span class="tabla__materia__clave">CA1344</span>
+                </div>
+                <div class="tabla__materia">
+                    <h3 class="tabla__materia__titulo">Materia 1</h3>
+                    <span class="tabla__materia__clave">CA1344</span>
+                </div>
+                <div class="tabla__materia">
+                    <h3 class="tabla__materia__titulo">Materia 1</h3>
+                    <span class="tabla__materia__clave">CA1344</span>
+                </div>
+            </div>
+            <div class="tabla__columna" data-semestre="3">
+                <h2 class="tabla__columna__titulo">3</h2>
+                <div class="tabla__materia">
+                    <h3 class="tabla__materia__titulo">Materia 1</h3>
+                    <span class="tabla__materia__clave">CA1344</span>
+                </div>
+                <div class="tabla__materia">
+                    <h3 class="tabla__materia__titulo">Materia 1</h3>
+                    <span class="tabla__materia__clave">CA1344</span>
+                </div>
+                <div class="tabla__materia">
+                    <h3 class="tabla__materia__titulo">Materia 1</h3>
+                    <span class="tabla__materia__clave">CA1344</span>
+                </div>
+                <div class="tabla__materia">
+                    <h3 class="tabla__materia__titulo">Materia 1</h3>
+                    <span class="tabla__materia__clave">CA1344</span>
+                </div>
+                <div class="tabla__materia">
+                    <h3 class="tabla__materia__titulo">Materia 1</h3>
+                    <span class="tabla__materia__clave">CA1344</span>
+                </div>
+
+                <div class="tabla__materia">
+                    <h3 class="tabla__materia__titulo">Materia 1</h3>
+                    <span class="tabla__materia__clave">CA1344</span>
+                </div>
+                <div class="tabla__materia">
+                    <h3 class="tabla__materia__titulo">Materia 1</h3>
+                    <span class="tabla__materia__clave">CA1344</span>
+                </div>
+                <div class="tabla__materia">
+                    <h3 class="tabla__materia__titulo">Materia 1</h3>
+                    <span class="tabla__materia__clave">CA1344</span>
+                </div>
+            </div>
+            <div class="tabla__columna" data-semestre="4">
+                <h2 class="tabla__columna__titulo">4</h2>
+
+                <div class="tabla__materia">
+                    <h3 class="tabla__materia__titulo">Materia 1</h3>
+                    <span class="tabla__materia__clave">CA1344</span>
+                </div>
+
+                <div class="tabla__materia materia-acreditada">
+                    <h3 class="tabla__materia__titulo">Materia 1</h3>
+                    <span class="tabla__materia__clave">CA1344</span>
+                    <div class="tabla__materia__oportunidad">
+                        <span class="tabla__materia__oportunidad--texto">Oportunidad:</span>
+                        <span class="tabla__materia__oportunidad--numero">3.º</span>
+                    </div>
+                </div>
+
+                <div class="tabla__materia">
+                    <h3 class="tabla__materia__titulo">Materia 1</h3>
+                    <span class="tabla__materia__clave">CA1344</span>
+                </div>
+            </div>
+            <div class="tabla__columna" data-semestre="5">
+                <h2 class="tabla__columna__titulo">5</h2>
+                <div class="tabla__materia">
+                    <h3 class="tabla__materia__titulo">Materia 1</h3>
+                    <span class="tabla__materia__clave">CA1344</span>
+                </div>
+            </div>
+            <div class="tabla__columna" data-semestre="6">
+                <h2 class="tabla__columna__titulo">6</h2>
+                <div class="tabla__materia">
+                    <h3 class="tabla__materia__titulo">Materia 1</h3>
+                    <span class="tabla__materia__clave">CA1344</span>
+                </div>
+            </div>
+            <div class="tabla__columna" data-semestre="7">
+                <h2 class="tabla__columna__titulo">7</h2>
+                <div class="tabla__materia">
+                    <h3 class="tabla__materia__titulo">Materia 1</h3>
+                    <span class="tabla__materia__clave">CA1344</span>
+                </div>
+                <div class="tabla__materia">
+                    <h3 class="tabla__materia__titulo">Materia 1</h3>
+                    <span class="tabla__materia__clave">CA1344</span>
+                </div>
+                <div class="tabla__materia">
+                    <h3 class="tabla__materia__titulo">Materia 1</h3>
+                    <span class="tabla__materia__clave">CA1344</span>
+                </div>
+                <div class="tabla__materia">
+                    <h3 class="tabla__materia__titulo">Materia 1</h3>
+                    <span class="tabla__materia__clave">CA1344</span>
+                </div>
+                <div class="tabla__materia">
+                    <h3 class="tabla__materia__titulo">Materia 1</h3>
+                    <span class="tabla__materia__clave">CA1344</span>
+                </div>
+
+                <div class="tabla__materia">
+                    <h3 class="tabla__materia__titulo">Materia 1</h3>
+                    <span class="tabla__materia__clave">CA1344</span>
+                </div>
+                <div class="tabla__materia">
+                    <h3 class="tabla__materia__titulo">Materia 1</h3>
+                    <span class="tabla__materia__clave">CA1344</span>
+                </div>
+                <div class="tabla__materia">
+                    <h3 class="tabla__materia__titulo">Materia 1</h3>
+                    <span class="tabla__materia__clave">CA1344</span>
+                </div>
+            </div>
+            <div class="tabla__columna" data-semestre="8">
+                <h2 class="tabla__columna__titulo">8</h2>
+                <div class="tabla__materia">
+                    <h3 class="tabla__materia__titulo">Materia 1</h3>
+                    <span class="tabla__materia__clave">CA1344</span>
+                </div>
+                <div class="tabla__materia">
+                    <h3 class="tabla__materia__titulo">Materia 1</h3>
+                    <span class="tabla__materia__clave">CA1344</span>
+                </div>
+                <div class="tabla__materia">
+                    <h3 class="tabla__materia__titulo">Materia 1</h3>
+                    <span class="tabla__materia__clave">CA1344</span>
+                </div>
+                <div class="tabla__materia">
+                    <h3 class="tabla__materia__titulo">Materia 1</h3>
+                    <span class="tabla__materia__clave">CA1344</span>
+                </div>
+                <div class="tabla__materia">
+                    <h3 class="tabla__materia__titulo">Materia 1</h3>
+                    <span class="tabla__materia__clave">CA1344</span>
+                </div>
+
+                <div class="tabla__materia">
+                    <h3 class="tabla__materia__titulo">Materia 1</h3>
+                    <span class="tabla__materia__clave">CA1344</span>
+                </div>
+                <div class="tabla__materia">
+                    <h3 class="tabla__materia__titulo">Materia 1</h3>
+                    <span class="tabla__materia__clave">CA1344</span>
+                </div>
+                <div class="tabla__materia">
+                    <h3 class="tabla__materia__titulo">Materia 1</h3>
+                    <span class="tabla__materia__clave">CA1344</span>
+                </div>
+            </div>
+            <div class="tabla__columna" data-semestre="9">
+                <h2 class="tabla__columna__titulo">9</h2>
+                <div class="tabla__materia">
+                    <h3 class="tabla__materia__titulo">Materia 1</h3>
+                    <span class="tabla__materia__clave">CA1344</span>
+                </div>
+                <div class="tabla__materia">
+                    <h3 class="tabla__materia__titulo">Materia 1</h3>
+                    <span class="tabla__materia__clave">CA1344</span>
+                </div>
+                <div class="tabla__materia">
+                    <h3 class="tabla__materia__titulo">Materia 1</h3>
+                    <span class="tabla__materia__clave">CA1344</span>
+                </div>
+                <div class="tabla__materia">
+                    <h3 class="tabla__materia__titulo">Materia 1</h3>
+                    <span class="tabla__materia__clave">CA1344</span>
+                </div>
+                <div class="tabla__materia">
+                    <h3 class="tabla__materia__titulo">Materia 1</h3>
+                    <span class="tabla__materia__clave">CA1344</span>
+                </div>
+
+                <div class="tabla__materia">
+                    <h3 class="tabla__materia__titulo">Materia 1</h3>
+                    <span class="tabla__materia__clave">CA1344</span>
+                </div>
+                <div class="tabla__materia">
+                    <h3 class="tabla__materia__titulo">Materia 1</h3>
+                    <span class="tabla__materia__clave">CA1344</span>
+                </div>
+                <div class="tabla__materia">
+                    <h3 class="tabla__materia__titulo">Materia 1</h3>
+                    <span class="tabla__materia__clave">CA1344</span>
+                </div>
+            </div>
+        </section>
     </section>
 </div>
-<script src="main.js"></script>
 
+<script>
+    const materiasOportunidadesDiv = document.querySelectorAll(
+        ".tabla__materia__oportunidad"
+    );
+
+    materiasOportunidadesDiv.forEach((oportunidad) => {
+        oportunidad.addEventListener("click", function () {
+            this.querySelector(
+                ".tabla__materia__oportunidad--texto"
+            ).classList.toggle("opotunidad-texto-active");
+            oportunidad.classList.toggle("oportunidad-active");
+        });
+        oportunidad.addEventListener("mouseleave", function () {
+            this.querySelector(
+                ".tabla__materia__oportunidad--texto"
+            ).classList.remove("opotunidad-texto-active");
+            oportunidad.classList.remove("oportunidad-active");
+        });
+    });
+</script>

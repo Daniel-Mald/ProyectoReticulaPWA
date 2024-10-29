@@ -26,11 +26,11 @@ function monstrarMenuFlotante() {
 }
 
 function navegarReticula(e) {
-  window.location.href = "/Reticula.html";
+  window.location.href = "/";
 }
 
 function navegarPerfil() {
-  window.location.href = "/perfil.html";
+  window.location.href = "/perfil";
 }
 
 function cancelarCerrarSesion() {
@@ -55,7 +55,7 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 
 function navegarLogin() {
-  window.location.href = "/login.html";
+  window.location.href = "/login";
 }
 
 btnAceptarCerrarSesion.addEventListener("click", navegarLogin);

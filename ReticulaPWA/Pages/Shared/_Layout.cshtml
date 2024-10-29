@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="estilos.css" />
+    <link rel="stylesheet" href="~/css/estilos.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="shortcut icon"
-          href="assets/logos/Logo144x144.png"
+          href="~/assets/logos/Logo144x144.png"
           type="image/x-icon" />
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
           rel="stylesheet" />
-    <link rel="manifest" href="/manifest.json">
+    <link rel="manifest" href="~/manifest.json" />
 
-    <title>Document</title>
+    <title>Reticula</title>
 </head>
 <body>
     <div class="main-container">
@@ -30,7 +30,7 @@
             <figure class="header__figure">
                 <img src="assets/iconos/opciones.svg"
                      alt="Opciones"
-                     class="header__img" />
+                     class="header__img__opciones" />
             </figure>
 
             <div class="menu-flotante">
@@ -96,10 +96,10 @@
         </aside>
 
         <main class="main">
-            @RenderBody()
+          @RenderBody()
         </main>
     </div>
 
-    <script src="main.js"></script>
+    <script src="~/scripts/main.js"></script>
 </body>
 </html>
