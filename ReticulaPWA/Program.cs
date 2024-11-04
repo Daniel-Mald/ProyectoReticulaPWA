@@ -1,5 +1,9 @@
+using ReticulaPWA.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
+builder.Services.AddHttpClient();
+builder.Services.AddSingleton<ApiService>();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigin",
@@ -10,6 +14,7 @@ builder.Services.AddCors(options =>
 var app = builder.Build();
 app.UseCors("AllowSpecificOrigin");
 app.MapRazorPages();
+app.MapControllers();
 app.UseStaticFiles();
 
 app.Run();
