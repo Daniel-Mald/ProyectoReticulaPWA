@@ -2,7 +2,9 @@
 <html lang="en" translate="no">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    @* <meta name="viewport" content="width=device-width, initial-scale=1.0" /> *@
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+
     <link rel="stylesheet" href="~/css/estilos.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -11,12 +13,17 @@
           type="image/x-icon" />
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
           rel="stylesheet" />
+
     <link rel="manifest" href="~/manifest.json" />
 
-    <title>Reticula</title>
+    <title>Avance Reticular</title>
 </head>
 <body>
-    <div class="main-container">
+    <div class="container">
+
+
+        <!-- #region HEADER -->
+
         <header class="header">
             <div class="header__div">
                 <figure class="header__logo">
@@ -58,6 +65,10 @@
                 </div>
             </div>
         </header>
+
+        <!-- #endregion HEADER -->
+        <!-- #region MENU -->
+
         <aside class="menu">
             <nav class="nav">
                 <ul class="nav__list">
@@ -65,11 +76,11 @@
                         <img src="assets/iconos/reticula.svg"
                              alt="Reticula"
                              class="nav__img" />
-                        <a href="#" class="nav__link">Materias</a>
+                        <a class="nav__link">Materias</a>
                     </li>
                     <li class="nav__item" id="link-perfil">
                         <img src="assets/iconos/user.svg" alt="Perfil" class="nav__img" />
-                        <a href="#" class="nav__link">Perfil</a>
+                        <a class="nav__link">Perfil</a>
                     </li>
                 </ul>
             </nav>
@@ -95,10 +106,24 @@
             </section>
         </aside>
 
+        <!-- #endregion MENU-->
+        <!-- #region CONTENIDO -->
+
         <main class="main">
-          @RenderBody()
+            @RenderBody()
         </main>
+
+        <!-- #endregion CONTENIDO-->
+
     </div>
+
+    <script>
+
+
+    </script>
+
+
+
 
     <script src="~/scripts/main.js"></script>
 </body>
