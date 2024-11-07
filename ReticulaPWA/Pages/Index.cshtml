@@ -79,12 +79,19 @@
     function crearMaterias() { }
 
     function crearColumnas(semestres) {
+
+        const fragmento = document.createDocumentFragment();
+
+        tabla.innerHTML = "";
+
         for (let i = 0; i < semestres; i++) {
             const columna = plantillaColumna.content.cloneNode(true);
             const titulo = columna.querySelector(".tabla__columna__titulo");
             titulo.textContent = i + 1;
-            tabla.appendChild(columna);
+            fragmento.appendChild(columna);
         }
+
+        tabla.appendChild(fragmento);
     }
 
     crearColumnas(9);

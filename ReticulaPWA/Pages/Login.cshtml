@@ -52,11 +52,19 @@
         const btnIngresar = document.getElementById("btnIngresar");
 
         function ingresar(e) {
-          e.preventDefault();
+          
+           e.preventDefault();
+            
+          localStorage.setItem('authToken', 'token');
+
           window.location.href = "/";
         }
 
         btnIngresar.addEventListener("click", ingresar);
+
+
+        
+
     </script>
 </body>
 </html>
