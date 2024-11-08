@@ -20,8 +20,8 @@ body {
     font-family: "Montserrat", sans-serif;
 }
 
-.main-container {
-    height: 100dvh;
+.container {
+    height: 100svh;
     overflow: hidden;
     display: grid;
     grid-template-columns: 110px 1fr;
@@ -67,7 +67,7 @@ body {
 .header__figure {
     width: 3rem;
     height: 2.5rem;
-    padding: 7px;
+    padding: 4px;
     cursor: pointer;
 }
 
@@ -186,7 +186,6 @@ body {
 .main {
     grid-area: main;
     overflow: hidden;
-    padding: 1rem;
 }
 
 .simbologia {
@@ -221,28 +220,28 @@ body {
     height: 1.2rem;
 }
 
-/* REGION PERFIL  */
+/* REGION PERFIL-  */
 
-.main-perfil {
+.perfil__container {
     height: 100%;
     overflow: auto;
     scrollbar-width: thin;
 }
 
 .perfil {
-    height: 100%;
-    min-height: 600px;
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr auto 3fr;
-    row-gap: 1rem;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 }
 
-.perfil__imagen {
-    position: relative;
-}
+    .perfil .perfil__fondo {
+        height: 150px;
+        width: 100%;
+        position: relative;
+    }
 
-.perfil__fondo {
+.perfil__fondo__color {
     width: 100%;
     height: 80%;
     background-color: var(--color-surface);
@@ -254,13 +253,13 @@ body {
 }
 
 .perfil__foto {
-    width: 150px;
-    height: 150px;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 3px solid white;
     position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
+    bottom: 0;
     left: 2rem;
-    transform: translateY(-40%);
 }
 
 .perfil__img {
@@ -268,12 +267,10 @@ body {
     height: 100%;
     border-radius: 50%;
     object-fit: cover;
-    border: 5px solid white;
 }
 
 .perfil__info {
     padding-inline: 1rem;
-    height: 60px;
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
@@ -297,16 +294,12 @@ body {
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    overflow: auto;
-    stroke-width: thin;
 }
 
-.informacion__contenido {
+.perfil__contenido__informacion {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1rem;
-    overflow: auto;
-    scrollbar-width: thin;
 }
 
 .informacion__titulo {
@@ -397,6 +390,7 @@ body {
 
 .main__contenido {
     height: 100%;
+    padding: 1rem;
     display: flex;
     gap: 1rem;
     flex-direction: column;
@@ -439,34 +433,68 @@ body {
         z-index: 1000;
     }
 
-    .tabla .tabla__materia {
-        height: 100px;
-        width: 100%;
-        padding: 1rem;
-        background-color: var(--color-sin-cursar);
-        border: 1px solid #d1d1d1;
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-        align-items: center;
-        justify-content: center;
-    }
-
-.tabla__materia .tabla__materia__titulo {
-    font-size: 1rem;
-    font-weight: 600;
+.tabla__materia {
+    height: 100px;
+    width: 100%;
+    padding: 1rem;
+    background-color: var(--color-sin-cursar);
+    border: 1px solid #d1d1d1;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: center;
+    justify-content: center;
 }
 
-.tabla__materia__oportunidad {
+    .tabla__materia .tabla__materia__titulo {
+        font-size: 1rem;
+        font-weight: 600;
+    }
+
+.tabla .tabla__columna:first-of-type .tabla__materia:last-of-type {
+    border-radius: 0 0 0 10px;
+}
+
+.tabla .tabla__columna:last-of-type .tabla__materia:last-of-type {
+    border-radius: 0 0 10px 0;
+}
+
+.tabla .tabla__columna:first-of-type .tabla__columna__titulo:first-of-type {
+    border-radius: 10px 0 0 0;
+}
+
+.tabla .tabla__columna:last-of-type .tabla__columna__titulo:last-of-type {
+    border-radius: 0 10px 0 0;
+}
+
+/* REGION ESTILOS MATERIAS */
+.materia-acreditada {
+    background-color: var(--color-acredito);
+}
+
+.materia-cursando {
+    background-color: var(--color-cursando);
+}
+
+.materia-no-acreditada {
+    background-color: var(--color-no-acreditado);
+}
+
+.materia-sin-cursar {
+    background-color: var(--color-sin-cursar);
+}
+
+.oportunidad {
     background-color: var(--color-principal);
+    color: white;
     width: 2rem;
     height: 2rem;
-    color: white;
-    cursor: pointer;
-    padding-right: 0.2rem;
     border-radius: 1.6rem 0 0 0;
     overflow: hidden;
+    cursor: pointer;
+    font-size: 0.8rem;
+    padding-right: 0.2rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -477,58 +505,20 @@ body {
     transition: width 0.3s ease, height 0.3s ease, border-radius 0.3s ease;
 }
 
-.tabla__materia__oportunidad--texto {
-    display: none;
-    font-size: 0.8rem;
-}
+    .oportunidad.oportunidad-active {
+        align-items: center;
+        gap: 0.2rem;
+        border-radius: 0;
+        width: 100%;
+        height: 100%;
+    }
 
-.opotunidad-texto-active {
-    display: block;
-    opacity: 1;
-}
+        .oportunidad.oportunidad-active::before {
+            content: "Oportunidad";
+            font-size: 0.8rem;
+        }
 
-.tabla__materia__oportunidad--numero {
-    font-size: 0.8rem;
-}
-
-.oportunidad-active {
-    align-items: center;
-    gap: 0.2rem;
-    border-radius: 0;
-    width: 100%;
-    height: 100%;
-}
-
-.tabla__materia.materia-acreditada {
-    background-color: var(--color-acredito);
-}
-
-.tabla__materia.materia-cursando {
-    background-color: var(--color-cursando);
-}
-
-.tabla__materia.materia-no-acreditada {
-    background-color: var(--color-no-acreditado);
-}
-
-.tabla__materia.materia-sin-cursar {
-    background-color: var(--color-sin-cursar);
-}
-
-/* .tabla .tabla__columna:first-of-type .tabla__materia:last-of-type {
-  border-radius: 0 0 0 10px;
-}
-.tabla .tabla__columna:last-of-type .tabla__materia:last-of-type {
-  border-radius: 0 0 10px 0;
-}
-
-.tabla .tabla__columna:first-of-type .tabla__columna__titulo:first-of-type {
-  border-radius: 10px 0 0 0;
-}
-
-.tabla .tabla__columna:last-of-type .tabla__columna__titulo:last-of-type {
-  border-radius: 0 10px 0 0;
-} */
+/* END REGION ESTILOS MATERIAS */
 
 /* END REGION TABLA MATERIAS */
 
@@ -618,27 +608,20 @@ body {
 /* END REGION LOGIN */
 
 /* REGION PDF */
-
 .header__pdf {
-    width: 80%;
+    width: 90%;
     margin: 0 auto;
-    padding-inline: 1rem;
     text-align: center;
-    display: grid;
-    place-items: center;
-    grid-auto-flow: column;
-    grid-template-columns: auto 1fr;
-}
-
-.header__pdf__title {
-    font-size: 1.2rem;
-    font-weight: bold;
+    padding: 1rem;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
 }
 
 .header__pdf__figure {
-    width: auto;
-    height: 100px;
-    margin-right: 20px;
+    height: 80px;
+    padding: 4px;
+    cursor: pointer;
 }
 
 .header__pdf__img {
@@ -647,24 +630,12 @@ body {
     object-fit: cover;
 }
 
-.main__pdf {
-    height: calc(100vh - 100px);
-    width: 80%;
-    margin: 0 auto;
-    padding: 1rem;
-    display: grid;
-    grid-template-rows: auto 1fr;
+.header__pdf__title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--color-principal);
 }
 
-.tabla-container.tabla__container--pdf {
-    width: 100%;
-    overflow: hidden;
-    background-color: var(--color-terciario);
-}
-
-.tabla.tabla--pdf {
-    min-width: 100%;
-}
 /* END REGION PDF */
 
 @media (max-width: 768px) {
@@ -698,14 +669,26 @@ body {
         padding: 0.3rem 1rem;
     }
 
-    .main-container {
+    .container {
         grid-template-columns: 1fr;
-        grid-template-rows: auto 1fr auto;
+        grid-template-rows: 60px 1fr 60px;
         grid-template-areas:
             "header"
             "main"
             "menu";
     }
+
+    /* .header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+  }
+
+  .menu {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+  } */
 
     .menu {
         height: 60px;
@@ -730,25 +713,30 @@ body {
         font-size: 0.8rem;
     }
 
-    .main {
+    .main__contenido {
         padding: 0;
+        padding-bottom: 1rem;
     }
 
     .tabla-container {
         padding-inline: 1rem;
     }
 
-    .perfil {
-        padding: 1rem 1rem;
-    }
-
     .simbologia {
         border-radius: 0;
     }
 
+    .perfil .perfil__fondo {
+        height: 7rem;
+    }
+
     .perfil__foto {
-        width: 100px;
-        height: 100px;
+        width: 80px;
+        height: 80px;
+    }
+
+    .perfil__img {
+        border: 2px solid white;
     }
 
     .simbologia__contenido {
@@ -799,12 +787,8 @@ body {
         height: 0.7rem;
     }
 
-    .perfil {
-        height: 100%;
-        display: grid;
+    .perfil__contenido__informacion {
         grid-template-columns: 1fr;
-        grid-template-rows: 1fr auto 4fr;
-        row-gap: 1rem;
     }
 
     .perfil__imagen {

@@ -1,5 +1,6 @@
-﻿@page
+﻿@page "/"
 @model ReticulaPWA.Pages.IndexModel
+
 
 <div class="main__contenido">
     <section class="simbologia">
@@ -32,288 +33,72 @@
     </section>
 
     <section class="tabla-container">
-        <section class="tabla">
-            <div class="tabla__columna" data-semestre="1">
-                <h2 class="tabla__columna__titulo">1</h2>
+        <section class="tabla" id="tabla-materias">
+            <!-- PLANTILLA COLUMNA -->
+            <template class="plantilla-columna">
+                <div class="tabla__columna" data-semestre="1">
+                    <h2 class="tabla__columna__titulo"></h2>
+                </div>
+            </template>
+            <!-- PLANTILLA MATERIA -->
+            <template class="plantilla-materia">
                 <div class="tabla__materia materia-acreditada">
-                    <h3 class="tabla__materia__titulo">ARQUITECTURA DE COMP</h3>
-                    <span class="tabla__materia__clave">CA1344</span>
-                    <div class="tabla__materia__oportunidad">
-                        <span class="tabla__materia__oportunidad--texto">Oportunidad:</span>
-                        <span class="tabla__materia__oportunidad--numero">3.º</span>
-                    </div>
+                    <h3 class="tabla__materia__titulo"></h3>
+                    <span class="tabla__materia__clave"></span>
                 </div>
-                <div class="tabla__materia materia-acreditada">
-                    <h3 class="tabla__materia__titulo">Materia 1</h3>
-                    <span class="tabla__materia__clave">CA1344</span>
-                </div>
-                <div class="tabla__materia materia-no-acreditada">
-                    <h3 class="tabla__materia__titulo">Materia 1</h3>
-                    <span class="tabla__materia__clave">CA1344</span>
-                </div>
-                <div class="tabla__materia materia-no-acreditada">
-                    <h3 class="tabla__materia__titulo">Materia 1</h3>
-                    <span class="tabla__materia__clave">CA1344</span>
-                </div>
-                <div class="tabla__materia materia-cursando">
-                    <h3 class="tabla__materia__titulo">Materia 1</h3>
-                    <span class="tabla__materia__clave">CA1344</span>
-                </div>
-
-                <div class="tabla__materia">
-                    <h3 class="tabla__materia__titulo">Materia 1</h3>
-                    <span class="tabla__materia__clave">CA1344</span>
-                </div>
-                <div class="tabla__materia">
-                    <h3 class="tabla__materia__titulo">Materia 1</h3>
-                    <span class="tabla__materia__clave">CA1344</span>
-                </div>
-                <div class="tabla__materia">
-                    <h3 class="tabla__materia__titulo">Materia 7</h3>
-                    <span class="tabla__materia__clave">CA1344</span>
-                </div>
-            </div>
-            <div class="tabla__columna" data-semestre="2">
-                <h2 class="tabla__columna__titulo">2</h2>
-                <div class="tabla__materia tabla__materia--oportunidad">
-                    <h3 class="tabla__materia__titulo">Materia 1</h3>
-                    <span class="tabla__materia__clave">CA1344</span>
-                </div>
-                <div class="tabla__materia">
-                    <h3 class="tabla__materia__titulo">Materia 1</h3>
-                    <span class="tabla__materia__clave">CA1344</span>
-                    <div class="tabla__materia__oportunidad">
-                        <span class="tabla__materia__oportunidad--texto">Oportunidad:</span>
-                        <span class="tabla__materia__oportunidad--numero">3.º</span>
-                    </div>
-                </div>
-                <div class="tabla__materia">
-                    <h3 class="tabla__materia__titulo">Materia 1</h3>
-                    <span class="tabla__materia__clave">CA1344</span>
-                </div>
-                <div class="tabla__materia">
-                    <h3 class="tabla__materia__titulo">Materia 1</h3>
-                    <span class="tabla__materia__clave">CA1344</span>
-                </div>
-                <div class="tabla__materia">
-                    <h3 class="tabla__materia__titulo">Materia 1</h3>
-                    <span class="tabla__materia__clave">CA1344</span>
-                </div>
-
-                <div class="tabla__materia">
-                    <h3 class="tabla__materia__titulo">Materia 1</h3>
-                    <span class="tabla__materia__clave">CA1344</span>
-                </div>
-                <div class="tabla__materia">
-                    <h3 class="tabla__materia__titulo">Materia 1</h3>
-                    <span class="tabla__materia__clave">CA1344</span>
-                </div>
-                <div class="tabla__materia">
-                    <h3 class="tabla__materia__titulo">Materia 1</h3>
-                    <span class="tabla__materia__clave">CA1344</span>
-                </div>
-            </div>
-            <div class="tabla__columna" data-semestre="3">
-                <h2 class="tabla__columna__titulo">3</h2>
-                <div class="tabla__materia">
-                    <h3 class="tabla__materia__titulo">Materia 1</h3>
-                    <span class="tabla__materia__clave">CA1344</span>
-                </div>
-                <div class="tabla__materia">
-                    <h3 class="tabla__materia__titulo">Materia 1</h3>
-                    <span class="tabla__materia__clave">CA1344</span>
-                </div>
-                <div class="tabla__materia">
-                    <h3 class="tabla__materia__titulo">Materia 1</h3>
-                    <span class="tabla__materia__clave">CA1344</span>
-                </div>
-                <div class="tabla__materia">
-                    <h3 class="tabla__materia__titulo">Materia 1</h3>
-                    <span class="tabla__materia__clave">CA1344</span>
-                </div>
-                <div class="tabla__materia">
-                    <h3 class="tabla__materia__titulo">Materia 1</h3>
-                    <span class="tabla__materia__clave">CA1344</span>
-                </div>
-
-                <div class="tabla__materia">
-                    <h3 class="tabla__materia__titulo">Materia 1</h3>
-                    <span class="tabla__materia__clave">CA1344</span>
-                </div>
-                <div class="tabla__materia">
-                    <h3 class="tabla__materia__titulo">Materia 1</h3>
-                    <span class="tabla__materia__clave">CA1344</span>
-                </div>
-                <div class="tabla__materia">
-                    <h3 class="tabla__materia__titulo">Materia 1</h3>
-                    <span class="tabla__materia__clave">CA1344</span>
-                </div>
-            </div>
-            <div class="tabla__columna" data-semestre="4">
-                <h2 class="tabla__columna__titulo">4</h2>
-
-                <div class="tabla__materia">
-                    <h3 class="tabla__materia__titulo">Materia 1</h3>
-                    <span class="tabla__materia__clave">CA1344</span>
-                </div>
-
-                <div class="tabla__materia materia-acreditada">
-                    <h3 class="tabla__materia__titulo">Materia 1</h3>
-                    <span class="tabla__materia__clave">CA1344</span>
-                    <div class="tabla__materia__oportunidad">
-                        <span class="tabla__materia__oportunidad--texto">Oportunidad:</span>
-                        <span class="tabla__materia__oportunidad--numero">3.º</span>
-                    </div>
-                </div>
-
-                <div class="tabla__materia">
-                    <h3 class="tabla__materia__titulo">Materia 1</h3>
-                    <span class="tabla__materia__clave">CA1344</span>
-                </div>
-            </div>
-            <div class="tabla__columna" data-semestre="5">
-                <h2 class="tabla__columna__titulo">5</h2>
-                <div class="tabla__materia">
-                    <h3 class="tabla__materia__titulo">Materia 1</h3>
-                    <span class="tabla__materia__clave">CA1344</span>
-                </div>
-            </div>
-            <div class="tabla__columna" data-semestre="6">
-                <h2 class="tabla__columna__titulo">6</h2>
-                <div class="tabla__materia">
-                    <h3 class="tabla__materia__titulo">Materia 1</h3>
-                    <span class="tabla__materia__clave">CA1344</span>
-                </div>
-            </div>
-            <div class="tabla__columna" data-semestre="7">
-                <h2 class="tabla__columna__titulo">7</h2>
-                <div class="tabla__materia">
-                    <h3 class="tabla__materia__titulo">Materia 1</h3>
-                    <span class="tabla__materia__clave">CA1344</span>
-                </div>
-                <div class="tabla__materia">
-                    <h3 class="tabla__materia__titulo">Materia 1</h3>
-                    <span class="tabla__materia__clave">CA1344</span>
-                </div>
-                <div class="tabla__materia">
-                    <h3 class="tabla__materia__titulo">Materia 1</h3>
-                    <span class="tabla__materia__clave">CA1344</span>
-                </div>
-                <div class="tabla__materia">
-                    <h3 class="tabla__materia__titulo">Materia 1</h3>
-                    <span class="tabla__materia__clave">CA1344</span>
-                </div>
-                <div class="tabla__materia">
-                    <h3 class="tabla__materia__titulo">Materia 1</h3>
-                    <span class="tabla__materia__clave">CA1344</span>
-                </div>
-
-                <div class="tabla__materia">
-                    <h3 class="tabla__materia__titulo">Materia 1</h3>
-                    <span class="tabla__materia__clave">CA1344</span>
-                </div>
-                <div class="tabla__materia">
-                    <h3 class="tabla__materia__titulo">Materia 1</h3>
-                    <span class="tabla__materia__clave">CA1344</span>
-                </div>
-                <div class="tabla__materia">
-                    <h3 class="tabla__materia__titulo">Materia 1</h3>
-                    <span class="tabla__materia__clave">CA1344</span>
-                </div>
-            </div>
-            <div class="tabla__columna" data-semestre="8">
-                <h2 class="tabla__columna__titulo">8</h2>
-                <div class="tabla__materia">
-                    <h3 class="tabla__materia__titulo">Materia 1</h3>
-                    <span class="tabla__materia__clave">CA1344</span>
-                </div>
-                <div class="tabla__materia">
-                    <h3 class="tabla__materia__titulo">Materia 1</h3>
-                    <span class="tabla__materia__clave">CA1344</span>
-                </div>
-                <div class="tabla__materia">
-                    <h3 class="tabla__materia__titulo">Materia 1</h3>
-                    <span class="tabla__materia__clave">CA1344</span>
-                </div>
-                <div class="tabla__materia">
-                    <h3 class="tabla__materia__titulo">Materia 1</h3>
-                    <span class="tabla__materia__clave">CA1344</span>
-                </div>
-                <div class="tabla__materia">
-                    <h3 class="tabla__materia__titulo">Materia 1</h3>
-                    <span class="tabla__materia__clave">CA1344</span>
-                </div>
-
-                <div class="tabla__materia">
-                    <h3 class="tabla__materia__titulo">Materia 1</h3>
-                    <span class="tabla__materia__clave">CA1344</span>
-                </div>
-                <div class="tabla__materia">
-                    <h3 class="tabla__materia__titulo">Materia 1</h3>
-                    <span class="tabla__materia__clave">CA1344</span>
-                </div>
-                <div class="tabla__materia">
-                    <h3 class="tabla__materia__titulo">Materia 1</h3>
-                    <span class="tabla__materia__clave">CA1344</span>
-                </div>
-            </div>
-            <div class="tabla__columna" data-semestre="9">
-                <h2 class="tabla__columna__titulo">9</h2>
-                <div class="tabla__materia">
-                    <h3 class="tabla__materia__titulo">Materia 1</h3>
-                    <span class="tabla__materia__clave">CA1344</span>
-                </div>
-                <div class="tabla__materia">
-                    <h3 class="tabla__materia__titulo">Materia 1</h3>
-                    <span class="tabla__materia__clave">CA1344</span>
-                </div>
-                <div class="tabla__materia">
-                    <h3 class="tabla__materia__titulo">Materia 1</h3>
-                    <span class="tabla__materia__clave">CA1344</span>
-                </div>
-                <div class="tabla__materia">
-                    <h3 class="tabla__materia__titulo">Materia 1</h3>
-                    <span class="tabla__materia__clave">CA1344</span>
-                </div>
-                <div class="tabla__materia">
-                    <h3 class="tabla__materia__titulo">Materia 1</h3>
-                    <span class="tabla__materia__clave">CA1344</span>
-                </div>
-
-                <div class="tabla__materia">
-                    <h3 class="tabla__materia__titulo">Materia 1</h3>
-                    <span class="tabla__materia__clave">CA1344</span>
-                </div>
-                <div class="tabla__materia">
-                    <h3 class="tabla__materia__titulo">Materia 1</h3>
-                    <span class="tabla__materia__clave">CA1344</span>
-                </div>
-                <div class="tabla__materia">
-                    <h3 class="tabla__materia__titulo">Materia 1</h3>
-                    <span class="tabla__materia__clave">CA1344</span>
-                </div>
-            </div>
+            </template>
+            <!-- PLANTILLA OPORTUNIDAD -->
+            <template class="platilla-oportunidad">
+                <span class="oportunidad"></span>
+            </template>
         </section>
     </section>
+      
 </div>
 
-<script>
-    const materiasOportunidadesDiv = document.querySelectorAll(
-        ".tabla__materia__oportunidad"
-    );
 
-    materiasOportunidadesDiv.forEach((oportunidad) => {
-        oportunidad.addEventListener("click", function () {
-            this.querySelector(
-                ".tabla__materia__oportunidad--texto"
-            ).classList.toggle("opotunidad-texto-active");
-            oportunidad.classList.toggle("oportunidad-active");
-        });
-        oportunidad.addEventListener("mouseleave", function () {
-            this.querySelector(
-                ".tabla__materia__oportunidad--texto"
-            ).classList.remove("opotunidad-texto-active");
-            oportunidad.classList.remove("oportunidad-active");
-        });
+<script>
+    const oportunidad = document.querySelectorAll(".oportunidad");
+    const plantillaColumna = document.querySelector(".plantilla-columna");
+    const plantillaMateria = document.querySelector(".plantilla-materia");
+    const plantillaOportunidad = document.querySelector(
+        ".platilla-oportunidad"
+    );
+    const tabla = document.getElementById("tabla-materias");
+
+    function mostrarOportunidades(event) {
+        console.log(event.target);
+        event.target.classList.toggle("oportunidad-active");
+    }
+
+    function ocultarOportunidades(event) {
+        console.log(event.target);
+        event.target.classList.remove("oportunidad-active");
+    }
+   
+    function crearMaterias() { }
+
+    function crearColumnas(semestres) {
+
+        const fragmento = document.createDocumentFragment();
+
+        tabla.innerHTML = "";
+
+        for (let i = 0; i < semestres; i++) {
+            const columna = plantillaColumna.content.cloneNode(true);
+            const titulo = columna.querySelector(".tabla__columna__titulo");
+            titulo.textContent = i + 1;
+            fragmento.appendChild(columna);
+        }
+
+        tabla.appendChild(fragmento);
+    }
+
+    crearColumnas(9);
+
+    oportunidad.forEach((oportunidad) => {
+        oportunidad.addEventListener("click", mostrarOportunidades);
+        oportunidad.addEventListener("mouseleave", ocultarOportunidades);
     });
+
 </script>

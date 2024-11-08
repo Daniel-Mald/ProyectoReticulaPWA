@@ -10,7 +10,7 @@ namespace ReticulaPWA.Services
     {
         private readonly IHttpClientFactory _httpClientFactory;
         string sieUri = "https://sie.itesrc.net/api/alumno/";
-        public ApiService(IHttpClientFactory httpClientFactory )
+        public ApiService(IHttpClientFactory httpClientFactory)
         {
             _httpClientFactory = httpClientFactory;
 
@@ -105,7 +105,7 @@ namespace ReticulaPWA.Services
         //        Valido = false
         //    };
         //    return mod;
-            
+
         //}
     }
 }
