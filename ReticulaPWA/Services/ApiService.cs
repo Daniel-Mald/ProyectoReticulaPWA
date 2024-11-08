@@ -55,10 +55,11 @@ namespace ReticulaPWA.Services
             else { inf.Problemas = true; }
             return inf;
         }
-        public async Task<IEnumerable<MateriasDTO>?> GetMaterias(LoginDTO dto)
+        public async Task<IEnumerable<MateriasDTO>?> GetMateriasPlan(string plan)
         {
             var client = _httpClientFactory.CreateClient();
-            var response = await client.GetAsync($"{sieUri}kardex?control={dto.NumeroControl}&password={dto.Password}");
+             var response = await client.GetAsync($"https://horarios.itesrc.edu.mx/api/materias/{plan}");
+
             if (response.IsSuccessStatusCode)
             {
                 var json = response.Content.ReadAsStringAsync().Result;
@@ -70,10 +71,11 @@ namespace ReticulaPWA.Services
             }
             return null;
         }
-        public async Task<IEnumerable<HorarioDTO>?> GetHorario(string plan)
+        public async Task<IEnumerable<HorarioDTO>?> GetHorario(LoginDTO dto)
         {
             var client = _httpClientFactory.CreateClient();
-            var response = await client.GetAsync($"https://horarios.itesrc.edu.mx/api/materias/{plan}");
+            var response = await client.GetAsync($"{sieUri}horario?control={dto.NumeroControl}&password={dto.Password}");
+
             if (response.IsSuccessStatusCode)
             {
                 var json = response.Content.ReadAsStringAsync().Result;

@@ -17,7 +17,7 @@
         public string PeriodoActualUltimo { get; set; } = null!;
         public int SemestreActualUltimo { get; set; }
         public string Curp { get; set; } = null!;
-        public DateTime FechaNacimiento { get; set; }
+        public string FechaNacimiento { get; set; }
         public string Calle { get; set; } = "";
         public string Num { get; set; } = "";
         public string Colonia { get; set; } = "";
@@ -28,12 +28,20 @@
         public string Correo { get; set; } = "";
         public string EscuelaProcedencia { get; set; } = "";
         public string Tutor { get; set; } = "";
+        public int TotalSemestres { get; set; }
+        public IEnumerable<Semestre> Semestres { get; set; } = null!;
     }
     public class MateriaReticula
     {
         public string Nombre { get; set; } = null!;
         public string Clave { get; set; } = null!;
         public string Estado { get; set; } = null!;
+        public int Semestre { get; set; }
         public int Oportunidad { get; set; }
+    }
+    public class Semestre
+    {
+        public int Numero { get; set; }
+        public IEnumerable<MateriaReticula> Materias { get; set; } = null!;
     }
 }
