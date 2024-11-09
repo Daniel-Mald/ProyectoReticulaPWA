@@ -19,18 +19,25 @@ namespace ReticulaPWA.Controllers
         {
             this.apiService = apiService;
         }
+
+        [HttpGet]
+        public IActionResult Get()
+        {
+            return Ok("Hola mundo");
+        }
+
         [HttpPost]
         public async Task<IActionResult> Login(LoginDTO dto)
         {
             if (dto == null) { return BadRequest(); }
-            if (string.IsNullOrWhiteSpace(dto.NumeroControl)) 
+            if (string.IsNullOrWhiteSpace(dto.NumeroControl))
             { ModelState.AddModelError("", "El número de control no puede estar vacio"); }
-            if(string.IsNullOrWhiteSpace(dto.Password))
+            if (string.IsNullOrWhiteSpace(dto.Password))
             { ModelState.AddModelError("", "La contraseña no puede estar vacia"); }
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 var informacionGeneral = await apiService.GetInformacionGeneral(dto);
-                if(informacionGeneral == null) { return BadRequest(); }
+                if (informacionGeneral == null) { return BadRequest(); }
                 if (informacionGeneral.CredencialesIncorrectas == true) { return BadRequest("Credenciales incorrectas"); }
                 else if (informacionGeneral.Problemas == true) { return BadRequest("Ha ocurrido un problema"); }
                 else
@@ -76,9 +83,10 @@ namespace ReticulaPWA.Controllers
                         {
                             Clave = x.clave,
                             Nombre = x.materia
-                            ,Oportunidad = x.oportunidad
+                            ,
+                            Oportunidad = x.oportunidad
 
-                        }).ToList() ;
+                        }).ToList();
 
                         foreach (var item in materiasFromKardex)
                         {
@@ -111,7 +119,7 @@ namespace ReticulaPWA.Controllers
                         foreach (var item in materiasFromPlan)
                         {
                             if (materiasFromKardex.FirstOrDefault(x => x.Clave == item.Clave) == null
-                                && materiasFromKardex.FirstOrDefault(x => x.Nombre == item.Nombre)== null)
+                                && materiasFromKardex.FirstOrDefault(x => x.Nombre == item.Nombre) == null)
                             {
                                 MateriaReticula m = new()
                                 {
@@ -119,8 +127,8 @@ namespace ReticulaPWA.Controllers
                                     Clave = item.Clave,
                                     Semestre = item.Semestre
                                 };
-                                if(resultado.Horario.FirstOrDefault(x=>x.clave.Split(" ")[0] == item.Clave) != null||
-                                    resultado.Horario.FirstOrDefault(x=>x.nombre == item.Nombre) != null)
+                                if (resultado.Horario.FirstOrDefault(x => x.clave.Split(" ")[0] == item.Clave) != null ||
+                                    resultado.Horario.FirstOrDefault(x => x.nombre == item.Nombre) != null)
                                 {
                                     m.Estado = "Cursando";
                                     var sem = informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "PERIODO ACTUAL O ULTIMO:")!.valor.Substring(1, 2);
@@ -202,8 +210,8 @@ namespace ReticulaPWA.Controllers
                             int s = i + 1;
                             Semestre newSemestre = new();
                             newSemestre.Numero = s;
-                            
-                            newSemestre.Materias = materiasFromKardex.Where(x => x.Semestre == s && !x.Clave.StartsWith("TUT") && x.Clave != "ACA0001" && !x.Clave.StartsWith("ING"));                         
+
+                            newSemestre.Materias = materiasFromKardex.Where(x => x.Semestre == s && !x.Clave.StartsWith("TUT") && x.Clave != "ACA0001" && !x.Clave.StartsWith("ING"));
                             semestres.Add(newSemestre);
 
                         }
@@ -216,7 +224,7 @@ namespace ReticulaPWA.Controllers
 
                         //crear dto a regresar
                         Match match = Regex.Match(informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "PLAN DE ESTUDIOS:")!.valor, @"\bDE\s+(\d+)\b");
-                         int creditos = 0;
+                        int creditos = 0;
 
                         string especialidad = informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "M&OACUTE;DULO DE ESPECIALIDAD:")!.valor;
                         if (match.Success)
@@ -234,12 +242,12 @@ namespace ReticulaPWA.Controllers
                         {
                             InformacionGeneral = new()
                             {
-                                
+
                                 Semestres = semestres,
-                                NombreDelAlumno = informacionGeneral.Informacion!.FirstOrDefault(x=>x.dato == "NOMBRE DEL ALUMNO:")!.valor,
+                                NombreDelAlumno = informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "NOMBRE DEL ALUMNO:")!.valor,
                                 Carrera = informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "CARRERA:")!.valor.Split(" ")[1],
                                 PlanDeEstudios = informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "PLAN DE ESTUDIOS:")!.valor.Split(" ")[1],
-                                Especialidad = especialidad.Substring(4,especialidad.Length-4),
+                                Especialidad = especialidad.Substring(4, especialidad.Length - 4),
                                 CreditosAcumulados = double.Parse(informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "CR&EACUTE;DITOS ACUMULADOS:")!.valor),
                                 CreditosTotales = creditos,
                                 Vigencia = informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "SITUACI&OACUTE;N DE VIGENCIA:")!.valor,
@@ -260,22 +268,22 @@ namespace ReticulaPWA.Controllers
                                 Tutor = informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "TUTOR:")!.valor,
                                 //TotalSemestres =
                             }
-                            
-                            
+
+
                         };
-                        
+
                         return Ok(respuestaDTO);
                     }
                     catch (Exception ex)
                     {
                         return BadRequest($"Error en las peticiones: {ex.Message}");
-                    }                    
+                    }
                 }
             }
             else
             {
                 return BadRequest(ModelState);
-            }            
+            }
         }
     }
 }
