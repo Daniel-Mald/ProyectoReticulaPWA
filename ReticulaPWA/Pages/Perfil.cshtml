@@ -5,70 +5,57 @@
         <section class="perfil__fondo">
             <div class="perfil__fondo__color"></div>
             <figure class="perfil__foto">
-                <img src="assets/img/foto.jpg"
+                <img id="perfil__fotografia"
                      alt="Foto de perfil"
                      class="perfil__img" />
             </figure>
         </section>
 
         <section class="perfil__info">
-            <label class="perfil__nombre">Jorge Fabian Liñan Alcala</label>
-            <label class="perfil__numcontrol">201G0264</label>
+            <label class="perfil__nombre" id="perfil__nombre"></label>
+            <label class="perfil__numcontrol" id="perfil__numControl"></label>
         </section>
 
         <section class="perfil__info-general">
             <h4 class="informacion__titulo">Información general</h4>
 
-            <div class="perfil__contenido__informacion">
-                <div class="informacion__div">
-                    <label class="informacion__label">Carrera</label>
-                    <label class="informacion__dato">Ingeniería en Sistemas Computacionales</label>
-                </div>
-                <div class="informacion__div">
-                    <label class="informacion__label">Plan de Estudios</label>
-                    <label class="informacion__dato">(K) ISIC-2010-224 DE 260 CREDITOS</label>
-                </div>
-                <div class="informacion__div">
-                    <label class="informacion__label">Módulo de Especialidad</label>
-                    <label class="informacion__dato">(3) DESARROLLO DE MULTIPLATAFORMA</label>
-                </div>
-                <div class="informacion__div">
-                    <label class="informacion__label">Créditos Acumulados</label>
-                    <label class="informacion__dato">245.0</label>
-                </div>
-                <div class="informacion__div">
-                    <label class="informacion__label">Situcación de Vigencia</label>
-                    <label class="informacion__dato">Vigente</label>
-                </div>
-                <div class="informacion__div">
-                    <label class="informacion__label">Periodo de Ingreso</label>
-                    <label class="informacion__dato">(2203) AGODIC2020</label>
-                </div>
-                <div class="informacion__div">
-                    <label class="informacion__label">Número de Periodos Convalidados</label>
-                    <label class="informacion__dato">00</label>
-                </div>
-                <div class="informacion__div">
-                    <label class="informacion__label">Periodo Actual o Último</label>
-                    <label class="informacion__dato">(09) (2243) AGODIC2024</label>
-                </div>
-                <div class="informacion__div">
-                    <label class="informacion__label">Periodo Actual o Último</label>
-                    <label class="informacion__dato">(09) (2243) AGODIC2024</label>
-                </div>
-                <div class="informacion__div">
-                    <label class="informacion__label">Periodo Actual o Último</label>
-                    <label class="informacion__dato">(09) (2243) AGODIC2024</label>
-                </div>
-                <div class="informacion__div">
-                    <label class="informacion__label">Periodo Actual o Último</label>
-                    <label class="informacion__dato">(09) (2243) AGODIC2024</label>
-                </div>
-                <div class="informacion__div">
-                    <label class="informacion__label">Periodo Actual o Último</label>
-                    <label class="informacion__dato">(09) (2243) AGODIC2024</label>
-                </div>
+            <div class="perfil__contenido__informacion" id="contenedor__informacion">
+                <template id="plantilla__informacion">
+                    <div class="informacion__div">
+                        <label class="informacion__label">Carrera</label>
+                        <label class="informacion__dato">Ingeniería en Sistemas Computacionales</label>
+                    </div>
+                </template>
+
             </div>
         </section>
     </section>
 </div>
+
+<script>
+
+    const plantilla = document.getElementById('plantilla__informacion');
+    const nombreLbl = document.getElementById('perfil__nombre');
+    const numControlLbl = document.getElementById('perfil__numControl');
+    const fotoPerfil = document.getElementById('perfil__fotografia');
+    const contenedorInformacion = document.getElementById("contenedor__informacion")
+    const listaInformacion = document.createDocumentFragment();
+
+    const informacionChannel = new BroadcastChannel('informacion_recibida');
+
+
+    informacionChannel.onmessage = (event =>{
+
+        const perfil = event.data;
+
+
+
+
+
+    }
+
+
+
+
+
+</script>
