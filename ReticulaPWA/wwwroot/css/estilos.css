@@ -236,7 +236,7 @@ body {
 }
 
     .perfil .perfil__fondo {
-        height: 150px;
+        height: 200px;
         width: 100%;
         position: relative;
     }
@@ -256,7 +256,6 @@ body {
     width: 120px;
     height: 120px;
     border-radius: 50%;
-    border: 3px solid white;
     position: absolute;
     bottom: 0;
     left: 2rem;
