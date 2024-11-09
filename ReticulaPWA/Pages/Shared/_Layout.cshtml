@@ -2,9 +2,7 @@
 <html lang="en" translate="no">
 <head>
     <meta charset="UTF-8" />
-    @* <meta name="viewport" content="width=device-width, initial-scale=1.0" /> *@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
-
     <link rel="stylesheet" href="~/css/estilos.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -42,7 +40,7 @@
 
             <div class="menu-flotante">
                 <div class="menu-flotante__info menu-flotante__item">
-                    <img src="assets/iconos/card-info.svg"
+                    <img src="assets/iconos/card-info.png"
                          alt="info"
                          class="menu-flotante__img" />
                     <div class="menu-flotante__info-div">
@@ -123,7 +121,43 @@
         <!-- #endregion CONTENIDO-->
 
     </div>
+    <script>
+        const registerServiceWorker = async () => {
+            if ("serviceWorker" in navigator) {
+                try {
+                    await navigator.serviceWorker.register("/serviceworker.js");
+                } catch (error) {
+                    console.error(`Falló el registro con el ${error}`);
+                }
+            }
+        };
 
+        registerServiceWorker();
+
+
+
+
+        async function login() {
+
+
+            const response = await fetch("/api/reticula", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    numControl: "201G0266",
+                    password: "ESCOLARES"
+                })
+            });
+
+            const data = await response.json();
+
+            console.log(data);
+        }
+
+        login();
+    </script>
     <script src="~/scripts/main.js"></script>
 </body>
 </html>
