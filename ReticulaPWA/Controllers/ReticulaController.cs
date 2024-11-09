@@ -232,10 +232,11 @@ namespace ReticulaPWA.Controllers
                         }
                         RespuestaDTO respuestaDTO = new()
                         {
+                            Semestres = semestres,
+
                             InformacionGeneral = new()
                             {
                                 
-                                Semestres = semestres,
                                 NombreDelAlumno = informacionGeneral.Informacion!.FirstOrDefault(x=>x.dato == "NOMBRE DEL ALUMNO:")!.valor,
                                 Carrera = informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "CARRERA:")!.valor.Split(" ")[1],
                                 PlanDeEstudios = informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "PLAN DE ESTUDIOS:")!.valor.Split(" ")[1],

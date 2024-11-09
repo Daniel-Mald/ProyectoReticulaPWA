@@ -3,6 +3,9 @@
     public class RespuestaDTO
     {
         public Informacion InformacionGeneral { get; set; } = null!;
+        public IEnumerable<Semestre> Semestres { get; set; } = null!;
+
+
     }
     public class Informacion
     {
@@ -29,7 +32,6 @@
         public string EscuelaProcedencia { get; set; } = "";
         public string Tutor { get; set; } = "";
         public int TotalSemestres { get; set; }
-        public IEnumerable<Semestre> Semestres { get; set; } = null!;
     }
     public class MateriaReticula
     {
