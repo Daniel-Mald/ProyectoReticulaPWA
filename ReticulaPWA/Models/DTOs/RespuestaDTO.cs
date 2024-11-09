@@ -10,14 +10,14 @@
         public string Carrera { get; set; } = null!;
         public string PlanDeEstudios { get; set; } = null!;
         public string Especialidad { get; set; } = "";
-        public int CreditosAcumulados { get; set; }
-        public int CreditosTotales { get; set; }
+        public double CreditosAcumulados { get; set; }
+        public double CreditosTotales { get; set; }
         public string Vigencia { get; set; } = null!;
         public int PeriodosConvalidos { get; set; }
         public string PeriodoActualUltimo { get; set; } = null!;
         public int SemestreActualUltimo { get; set; }
         public string Curp { get; set; } = null!;
-        public string FechaNacimiento { get; set; }
+        public string FechaNacimiento { get; set; } = "";
         public string Calle { get; set; } = "";
         public string Num { get; set; } = "";
         public string Colonia { get; set; } = "";

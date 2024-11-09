@@ -6,6 +6,7 @@ using System;
 using System.Globalization;
 using System.Numerics;
 using System.Security.Claims;
+using System.Text.RegularExpressions;
 
 namespace ReticulaPWA.Controllers
 {
@@ -214,6 +215,21 @@ namespace ReticulaPWA.Controllers
                         //
 
                         //crear dto a regresar
+                        Match match = Regex.Match(informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "PLAN DE ESTUDIOS:")!.valor, @"\bDE\s+(\d+)\b");
+                         int creditos = 0;
+
+                        string especialidad = informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "M&OACUTE;DULO DE ESPECIALIDAD:")!.valor;
+                        if (match.Success)
+                        {
+                            creditos = int.Parse(match.Groups[1].Value);
+                        }
+                        int semestreActual = 0;
+                        Match match2 = Regex.Match(informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "PERIODO ACTUAL O ULTIMO:")!.valor, @"^\((\d+)\)");
+
+                        if (match2.Success)
+                        {
+                            semestreActual = int.Parse(match2.Groups[1].Value);
+                        }
                         RespuestaDTO respuestaDTO = new()
                         {
                             InformacionGeneral = new()
@@ -221,15 +237,15 @@ namespace ReticulaPWA.Controllers
                                 
                                 Semestres = semestres,
                                 NombreDelAlumno = informacionGeneral.Informacion!.FirstOrDefault(x=>x.dato == "NOMBRE DEL ALUMNO:")!.valor,
-                                Carrera = informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "CARRERA:")!.valor,
-                                PlanDeEstudios = informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "PLAN DE ESTUDIOS:")!.valor,
-                                Especialidad = informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "M&OACUTE;DULO DE ESPECIALIDAD:")!.valor,
-                                CreditosAcumulados = int.Parse(informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "CR&EACUTE;DITOS ACUMULADOS:")!.valor),
-                                //CreditosTotales = int.Parse(informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "CR&EACUTE;DITOS ACUMULADOS:")!.valor),
+                                Carrera = informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "CARRERA:")!.valor.Split(" ")[1],
+                                PlanDeEstudios = informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "PLAN DE ESTUDIOS:")!.valor.Split(" ")[1],
+                                Especialidad = especialidad.Substring(4,especialidad.Length-4),
+                                CreditosAcumulados = double.Parse(informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "CR&EACUTE;DITOS ACUMULADOS:")!.valor),
+                                CreditosTotales = creditos,
                                 Vigencia = informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "SITUACI&OACUTE;N DE VIGENCIA:")!.valor,
                                 PeriodosConvalidos = int.Parse(informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "N&UACUTE;MERO DE PERIODOS CONVALIDADOS:")!.valor),
-                                PeriodoActualUltimo = informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "PERIODO ACTUAL O ULTIMO:")!.valor,
-                                //SemestreActualUltimo = int.Parse(informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "CR&EACUTE;DITOS ACUMULADOS:")!.valor),
+                                PeriodoActualUltimo = informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "PERIODO ACTUAL O ULTIMO:")!.valor.Split(" ")[2],
+                                SemestreActualUltimo = semestreActual,
                                 Curp = informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "CLAVE CURP:")!.valor,
                                 FechaNacimiento = informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "FECHA DE NACIMIENTO:")!.valor,
                                 Calle = informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "CALLE:")!.valor,
@@ -242,7 +258,7 @@ namespace ReticulaPWA.Controllers
                                 Correo = informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "CORREO ELECTR&OACUTE;NICO:")!.valor,
                                 EscuelaProcedencia = informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "ESCUELA DE PROCEDENCIA:")!.valor,
                                 Tutor = informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "TUTOR:")!.valor,
-                                //TotalSemestres = 
+                                //TotalSemestres =
                             }
                             
                             
