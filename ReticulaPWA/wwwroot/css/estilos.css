@@ -415,6 +415,7 @@ body {
     grid-auto-flow: column;
     grid-auto-columns: 1fr;
     position: relative;
+    background-color:var(--color-bordes);
 }
 
     .tabla .tabla__columna {
@@ -447,9 +448,13 @@ body {
 }
 
     .tabla__materia .tabla__materia__titulo {
-        font-size: 1rem;
+        font-size: 0.8rem;
         font-weight: 600;
     }
+
+.tabla .tabla__materia__clave {
+    font-size: 0.7rem;
+}
 
 .tabla .tabla__columna:first-of-type .tabla__materia:last-of-type {
     border-radius: 0 0 0 10px;
@@ -877,9 +882,7 @@ body {
         font-size: 0.8rem;
     }
 
-    .tabla .tabla__materia__clave {
-        font-size: 0.8rem;
-    }
+  
 
     /* /END REGION TABLA */
 
