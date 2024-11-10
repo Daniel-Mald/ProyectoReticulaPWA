@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Primitives;
 using ReticulaPWA.Models.DTOs;
 using ReticulaPWA.Services;
 using System;
@@ -21,38 +22,54 @@ namespace ReticulaPWA.Controllers
             this.apiService = apiService;
         }
 
+        //[HttpGet]
+        //public IActionResult Get()
+        //{
+
+        //    var materia = new MateriasDTO
+        //    {
+        //        carrera = "ddd"
+        //    };
+
+
+        //    return Ok(JsonSerializer.Serialize(materia));
+        //}
+
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> Login()
         {
-
-            var materia = new MateriasDTO
+            //if (dto == null) { return BadRequest(); }
+            string NumeroControl = "";
+            string Password = "";
+            if (Request.Headers.TryGetValue("NumeroControl", out StringValues authHeader))
             {
-                carrera = "ddd"
-            };
-
-
-            return Ok(JsonSerializer.Serialize(materia));
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Login(LoginDTO dto)
-        {
-            if (dto == null) { return BadRequest(); }
-            if (string.IsNullOrWhiteSpace(dto.NumeroControl))
+                NumeroControl = authHeader.ToString();
+            }
+            if (Request.Headers.TryGetValue("Password", out StringValues authHeader2))
+            {
+                Password = authHeader2.ToString();
+            }
+            if (string.IsNullOrWhiteSpace(NumeroControl))
             { ModelState.AddModelError("", "El número de control no puede estar vacio"); }
-            if (string.IsNullOrWhiteSpace(dto.Password))
+            if (string.IsNullOrWhiteSpace(Password))
             { ModelState.AddModelError("", "La contraseña no puede estar vacia"); }
             if (ModelState.IsValid)
             {
-                var informacionGeneral = await apiService.GetInformacionGeneral(dto);
+                CredencialesModel Credenciales = new()
+                {
+                    Password = Password,
+                    NumeroControl = NumeroControl
+                };
+
+                var informacionGeneral = await apiService.GetInformacionGeneral(Credenciales);
                 if (informacionGeneral == null) { return BadRequest(); }
                 if (informacionGeneral.CredencialesIncorrectas == true) { return BadRequest("Credenciales incorrectas"); }
                 else if (informacionGeneral.Problemas == true) { return BadRequest("Ha ocurrido un problema"); }
                 else
                 {
                     string plan = informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "PLAN DE ESTUDIOS:")!.valor;
-                    var kardexTask = apiService.GetKardex(dto);
-                    var horarioTask = apiService.GetHorario(dto);
+                    var kardexTask = apiService.GetKardex(Credenciales);
+                    var horarioTask = apiService.GetHorario(Credenciales);
                     var materiasPlanTask = apiService.GetMateriasPlan(plan.Split(" ")[1]);
 
                     //hacer las peticiones

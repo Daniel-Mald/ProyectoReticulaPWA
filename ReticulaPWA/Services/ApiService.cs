@@ -15,7 +15,7 @@ namespace ReticulaPWA.Services
             _httpClientFactory = httpClientFactory;
 
         }
-        public async Task<IEnumerable<KardexDTO>?> GetKardex(LoginDTO dto)
+        public async Task<IEnumerable<KardexDTO>?> GetKardex(CredencialesModel dto)
         {
             var client = _httpClientFactory.CreateClient();
             var response = await client.GetAsync($"{sieUri}kardex?control={dto.NumeroControl}&password={dto.Password}");
@@ -30,7 +30,7 @@ namespace ReticulaPWA.Services
             }
             return null;
         }
-        public async Task<InformacionGeneral> GetInformacionGeneral(LoginDTO dto)
+        public async Task<InformacionGeneral> GetInformacionGeneral(CredencialesModel dto)
         {
             var client = _httpClientFactory.CreateClient();
             var response = await client.GetAsync($"{sieUri}datosgenerales?control={dto.NumeroControl}&password={dto.Password}");
@@ -71,7 +71,7 @@ namespace ReticulaPWA.Services
             }
             return null;
         }
-        public async Task<IEnumerable<HorarioDTO>?> GetHorario(LoginDTO dto)
+        public async Task<IEnumerable<HorarioDTO>?> GetHorario(CredencialesModel dto)
         {
             var client = _httpClientFactory.CreateClient();
             var response = await client.GetAsync($"{sieUri}horario?control={dto.NumeroControl}&password={dto.Password}");
