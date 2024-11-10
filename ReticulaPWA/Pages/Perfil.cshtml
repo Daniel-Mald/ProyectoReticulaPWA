@@ -20,42 +20,41 @@
             <h4 class="informacion__titulo">Información general</h4>
 
             <div class="perfil__contenido__informacion" id="contenedor__informacion">
-                <template id="plantilla__informacion">
-                    <div class="informacion__div">
-                        <label class="informacion__label">Carrera</label>
-                        <label class="informacion__dato">Ingeniería en Sistemas Computacionales</label>
-                    </div>
-                </template>
-
+                <div class="informacion__div">
+                    <label class="informacion__label">Carrera</label>
+                    <label class="informacion__dato" id="perfil__carrera"></label>
+                </div>
+                <div class="informacion__div">
+                    <label class="informacion__label">Plan de Estudios</label>
+                    <label class="informacion__dato" id="perfil__planEstudios"></label>
+                </div>
+                <div class="informacion__div">
+                    <label class="informacion__label">Módulo de Especialidad</label>
+                    <label class="informacion__dato" id="perfil__especialidad"></label>
+                </div>
+                <div class="informacion__div">
+                    <label class="informacion__label">Créditos Acumulados</label>
+                    <label class="informacion__dato" id="perfil__creditos"></label>
+                </div>
+                <div class="informacion__div">
+                    <label class="informacion__label">Situcación de Vigencia</label>
+                    <label class="informacion__dato" id="perfil__vigencia"></label>
+                </div>
+          @*       <div class="informacion__div">
+                    <label class="informacion__label">Periodo de Ingreso</label>
+                    <label class="informacion__dato" id="perfil__periodoIngreso"></label>
+                </div> *@
+                <div class="informacion__div">
+                    <label class="informacion__label">Número de Periodos Convalidados</label>
+                    <label class="informacion__dato" id="perfil__numConvalidados"></label>
+                </div>
+                <div class="informacion__div">
+                    <label class="informacion__label">Periodo Actual o Último</label>
+                    <label class="informacion__dato" id="perfil__periodoActual"></label>
+                </div>
             </div>
         </section>
     </section>
 </div>
 
-<script>
-
-    const plantilla = document.getElementById('plantilla__informacion');
-    const nombreLbl = document.getElementById('perfil__nombre');
-    const numControlLbl = document.getElementById('perfil__numControl');
-    const fotoPerfil = document.getElementById('perfil__fotografia');
-    const contenedorInformacion = document.getElementById("contenedor__informacion")
-    const listaInformacion = document.createDocumentFragment();
-
-    const informacionChannel = new BroadcastChannel('informacion_recibida');
-
-
-    informacionChannel.onmessage = (event =>{
-
-        const perfil = event.data;
-
-
-
-
-
-    }
-
-
-
-
-
-</script>
+<script src="~/scripts/perfil.js"></script>
