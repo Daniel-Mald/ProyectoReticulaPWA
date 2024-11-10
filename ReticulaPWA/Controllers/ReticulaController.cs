@@ -6,6 +6,7 @@ using System;
 using System.Globalization;
 using System.Numerics;
 using System.Security.Claims;
+using System.Text.Json;
 using System.Text.RegularExpressions;
 
 namespace ReticulaPWA.Controllers
@@ -20,7 +21,18 @@ namespace ReticulaPWA.Controllers
             this.apiService = apiService;
         }
 
-        
+        [HttpGet]
+        public IActionResult Get()
+        {
+
+            var materia = new MateriasDTO
+            {
+                carrera = "ddd"
+            };
+
+
+            return Ok(JsonSerializer.Serialize(materia));
+        }
 
         [HttpPost]
         public async Task<IActionResult> Login(LoginDTO dto)
