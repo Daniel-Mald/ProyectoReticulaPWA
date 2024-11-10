@@ -65,18 +65,13 @@
 
             event.preventDefault();
 
-            const dto = {
-                numeroControl: nombretxt.value.toUpperCase(),
-                password: passwordtxt.value
-            };
-
-
             const response = await fetch("/api/Reticula", {
-                method: "POST",
+                method: "GET",
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    "authHeader": nombretxt.value.toUpperCase(),
+                    "authHeader2": authHeader2
                 },
-                body: JSON.stringify(dto)
             });
 
 
