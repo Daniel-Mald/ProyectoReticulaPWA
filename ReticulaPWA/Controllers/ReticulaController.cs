@@ -20,11 +20,7 @@ namespace ReticulaPWA.Controllers
             this.apiService = apiService;
         }
 
-        [HttpGet]
-        public IActionResult Get()
-        {
-            return Ok("Hola mundo");
-        }
+        
 
         [HttpPost]
         public async Task<IActionResult> Login(LoginDTO dto)
