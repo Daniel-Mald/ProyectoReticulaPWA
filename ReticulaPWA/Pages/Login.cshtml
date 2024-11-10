@@ -88,7 +88,7 @@
                 };
            
                 perfilChannel.postMessage(data.informacionGeneral);
-                
+                localStorage.setItem("semestres", JSON.stringify(data.semestres));
                 localStorage.setItem("perfil", JSON.stringify(data.informacionGeneral));
                 localStorage.setItem("credenciales", JSON.stringify(credenciales));
 

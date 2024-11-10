@@ -38,13 +38,16 @@
             <template class="plantilla-columna">
                 <div class="tabla__columna" data-semestre="1">
                     <h2 class="tabla__columna__titulo"></h2>
+                    @* aqui van las fokin materias *@
                 </div>
+                               
             </template>
            
             <!-- PLANTILLA MATERIA -->
+            
             <template class="plantilla-materia">
                 <div class="tabla__materia materia-acreditada">
-                    <h3 class="tabla__materia__titulo"></h3>
+                    <h3 class="tabla__materia__titulo">ag</h3>
                     <span class="tabla__materia__clave"></span>
                 </div>
             </template>
@@ -57,54 +60,4 @@
       
 </div>
 
-<script type="module" src="~/scripts/ReticulaScript.js?v=2"></script>
-<script>
-    const Informacion = import { sharedData } from 'ReticulaScript.js';
-    
-    const oportunidad = document.querySelectorAll(".oportunidad");
-    const plantillaColumna = document.querySelector(".plantilla-columna");
-    const plantillaMateria = document.querySelector(".plantilla-materia");
-    const plantillaOportunidad = document.querySelector(
-        ".platilla-oportunidad"
-    );
-    const tabla = document.getElementById("tabla-materias");
-
-    function mostrarOportunidades(event) {
-        console.log(event.target);
-        event.target.classList.toggle("oportunidad-active");
-    }
-
-    function ocultarOportunidades(event) {
-        console.log(event.target);
-        event.target.classList.remove("oportunidad-active");
-    }
-   
-    function crearMaterias() {
-
-
-    }
-
-    function crearColumnas(semestres) {
-
-        const fragmento = document.createDocumentFragment();
-
-        tabla.innerHTML = "";
-
-        for (let i = 0; i < semestres; i++) {
-            const columna = plantillaColumna.content.cloneNode(true);
-            const titulo = columna.querySelector(".tabla__columna__titulo");
-            titulo.textContent = i + 1;
-            fragmento.appendChild(columna);
-        }
-
-        tabla.appendChild(fragmento);
-    }
-
-    crearColumnas(9);
-
-    oportunidad.forEach((oportunidad) => {
-        oportunidad.addEventListener("click", mostrarOportunidades);
-        oportunidad.addEventListener("mouseleave", ocultarOportunidades);
-    });
-
-</script>
+<script src="~/scripts/ReticulaScript.js"></script>
