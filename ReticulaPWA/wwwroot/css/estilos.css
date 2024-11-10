@@ -783,6 +783,8 @@ body {
     .form__descripcion {
         font-size: 1rem;
     }
+
+
 }
 
 @media (max-width: 580px) {
@@ -880,6 +882,16 @@ body {
     }
 
     /* /END REGION TABLA */
+
+    #loader {
+        height: 40px;
+        width: 40px;
+    }
+
+    .spinner {
+        border: 3px solid #D1D1D1;
+        border-left-color: #272259;
+    }
 }
 
 @media (max-width: 389px) {

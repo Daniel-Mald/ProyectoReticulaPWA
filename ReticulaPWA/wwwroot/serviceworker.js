@@ -186,7 +186,7 @@ self.addEventListener("fetch", (event) => {
         event.respondWith(networkOnly(event.request));
     }
     else {
-        event.respondWith(staleThenRevalidate(event.request));
+        event.respondWith(cacheFirst(event.request));
     }
 
 
