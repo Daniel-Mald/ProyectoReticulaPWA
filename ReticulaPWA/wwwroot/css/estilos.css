@@ -410,7 +410,7 @@ body {
 
 .tabla {
     width: 100%;
-    min-width: 1400px;
+    min-width: 1500px;
     border-radius: 10px;
     text-align: center;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
@@ -418,12 +418,12 @@ body {
     grid-auto-flow: column;
     grid-auto-columns: 1fr;
     position: relative;
-    background-color:var(--color-bordes);
 }
 
     .tabla .tabla__columna {
         display: flex;
         flex-direction: column;
+        background-color: var(--color-bordes);
     }
 
     .tabla .tabla__columna__titulo {
@@ -501,7 +501,7 @@ body {
     overflow: hidden;
     cursor: pointer;
     font-size: 0.8rem;
-    padding-right: 0.2rem;
+    padding-right: 0.5rem;
     display: flex;
     flex-direction: column;
     justify-content: center;

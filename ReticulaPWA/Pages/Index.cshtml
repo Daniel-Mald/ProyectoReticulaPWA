@@ -49,11 +49,11 @@
                 <div class="tabla__materia materia-acreditada">
                     <h3 class="tabla__materia__titulo">ag</h3>
                     <span class="tabla__materia__clave"></span>
-                    
+
                 </div>
-               
-                    
-              
+
+
+
             </template>
             <!-- PLANTILLA OPORTUNIDAD -->
             <template class="platilla-oportunidad">
@@ -64,19 +64,21 @@
 
 </div>
 
+<script src="~/scripts/ReticulaScript.js"></script>
+
 <script>
 
     window.addEventListener('load', function () {
-       
-        const credenciales =localStorage.getItem('credenciales');
 
-        if(!credenciales){
+        const credenciales = localStorage.getItem('credenciales');
+
+        if (!credenciales) {
             window.location.href = "/Login";
         }
 
 
     });
 
+  
 </script>
 
-<script src="~/scripts/ReticulaScript.js"></script>
