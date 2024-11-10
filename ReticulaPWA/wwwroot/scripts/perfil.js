@@ -4,25 +4,28 @@ const numControlLbl = document.getElementById("perfil__numControl");
 const fotoPerfil = document.getElementById("perfil__fotografia");
 
 
-const perfilChannel = new BroadcastChannel("Perfil_Channel");
+//const perfilChannel = new BroadcastChannel("Perfil_Channel");
 
-const mapeoPerfil = (perfilDto) => {
-    nombreLbl.textContent = perfilDto.nombreDelAlumno;
-    numControlLbl.textContent = perfilDto.num;
-};
+//const mapeoPerfil = (perfilDto) => {
+//    nombreLbl.textContent = perfilDto.nombreDelAlumno;
+//    numControlLbl.textContent = perfilDto.num;
+//};
+
 
 const mapeoPerfil2 = () => {
 
     const perfilDto = JSON.parse(localStorage.getItem("perfil"));
 
-    nombreLbl.textContent = perfilDto.nombreDelAlumno;
+    if (!perfilDto) return;
 
-    const numeroControl = perfilDto.numeroControl;
+    nombreLbl.textContent = perfilDto.nombreDelAlumno || "Errror";
+
+    const numeroControl = JSON.parse(localStorage.getItem("credenciales")).numeroControl || "ERROR";
+
     numControlLbl.textContent = numeroControl;
 
     const año = numeroControl.substring(0, 2);
     fotoPerfil.src = `https://intertec.tec-carbonifera.edu.mx/fotos/al/${año}/${numeroControl}.jpg`;
-
 
 
     document.getElementById("perfil__carrera").textContent = perfilDto.carrera;
@@ -35,12 +38,15 @@ const mapeoPerfil2 = () => {
     document.getElementById("perfil__numConvalidados").textContent = perfilDto.periodosConvalidos;
 
 
+
 };
 
-perfilChannel.onmessage = (event) => {
-    const perfil = event.data;
+//perfilChannel.onmessage = (event) => {
+//    const perfil = event.data;
 
-    mapeoPerfil(perfil);
-};
+//    mapeoPerfil(perfil);
+//};
 
-mapeoPerfil2();
+
+window.addEventListener("DOMContentLoaded", mapeoPerfil2);
+

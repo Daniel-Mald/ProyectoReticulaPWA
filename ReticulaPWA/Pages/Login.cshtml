@@ -65,21 +65,33 @@
 
             event.preventDefault();
 
+            const numeroControl =  nombretxt.value.toUpperCase();
+            const password = passwordtxt.value;
+
             const response = await fetch("/api/Reticula", {
                 method: "GET",
                 headers: {
                     'Content-Type': 'application/json',
-                    "authHeader": nombretxt.value.toUpperCase(),
-                    "authHeader2": authHeader2
+                    "NumeroControl": numeroControl,
+                    "Password": password
                 },
             });
 
 
             if (response.ok) {
-                const data = await response.json();
-                
+              
+              const data = await response.json();
+            
+              const credenciales = {
+                    numeroControl: numeroControl,
+                    password: password
+                };
+           
                 perfilChannel.postMessage(data.informacionGeneral);
+                
                 localStorage.setItem("perfil", JSON.stringify(data.informacionGeneral));
+                localStorage.setItem("credenciales", JSON.stringify(credenciales));
+
 
                 window.location.href = "/";
             }

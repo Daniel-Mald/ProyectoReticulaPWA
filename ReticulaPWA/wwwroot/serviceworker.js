@@ -1,8 +1,5 @@
 ﻿const CACHE_NAME = "cachev1";
 const urls = [
-    "/",
-    "/perfil",
-    "/login",
     "/css/estilos.css",
     "/assets/logos/icon.png",
     "/assets/logos/Logo144x144.png",
@@ -99,6 +96,8 @@ async function networkFirst(request) {
         return response || new Response("Recurso no disponible en caché ni en la red", { status: 503 });
     }
 }
+
+const channel = new BroadcastChannel("Cambios_Channel");
 async function staleThenRevalidate(request) {
     try {
         const cache = await caches.open(CACHE_NAME);
@@ -117,10 +116,8 @@ async function staleThenRevalidate(request) {
 
                 await cache.put(request, networkResponse.clone());
 
-                //channel.postMessage({
-                //    url: req.url,
-                //    data: networkData
-                //});
+                channel.postMessage({ message: "Cambios en la retícula", url: request.url });
+                
 
             }).catch(err => {
                 console.error(`Error al obtener la respuesta de la red: ${err} url ${request.url}`);
@@ -157,14 +154,14 @@ self.addEventListener("activate", (event) => {
 
 self.addEventListener('fetch', (event) => {
 
-    if (event.request.url.includes("png") || event.request.url.includes("jpg") || event.request.url.includes("svg")) {
-        event.respondWith(cacheFirst(event.request));
-    }
-    else if (event.request.url.includes("api/reticula")) {
+    if (event.request.url.includes("/login")) {
         event.respondWith(networkOnly(event.request));
     }
-    else {
+    else if (event.request.url.includes("api/reticula")) {
         event.respondWith(staleThenRevalidate(event.request));
+    }
+    else {
+        event.respondWith(cacheFirst(event.request));
     }
 });
 

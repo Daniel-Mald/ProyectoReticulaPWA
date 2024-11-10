@@ -60,6 +60,7 @@ function redirigirLogin() {
 
 
 
+
 window.addEventListener("DOMContentLoaded", redirigirLogin);
 btnAceptarCerrarSesion.addEventListener("click", navegarLogin);
 btnCerrarSesion.addEventListener("click", mostrarModalCerrarSesion);
