@@ -133,7 +133,7 @@ namespace ReticulaPWA.Controllers
                             }
                             if (semesstre != 0)
                                 item.Semestre = semesstre;
-                            if (matInKardex!.materia == "N.A")
+                            if (matInKardex!.promedio == "N.A")
                             {
                                 item.Estado = "No acreditada";
                             }
@@ -167,71 +167,17 @@ namespace ReticulaPWA.Controllers
                                 materiasFromKardex.Add(m);
                             }
                         }
-                        //foreach (var item in materias)
-                        //{
-                        //    var matInHorario = resultado.Horario.FirstOrDefault(x => x.clave.Split(" ")[0] == item.Clave) as HorarioDTO;
-                        //    if (matInHorario != null)
-                        //    {
-                        //        //si esta en el horario la cursa
-                        //        item.Estado = "Cursando";
-                        //        //se queda en el semestre actual
-                        //        var sem = informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "PERIODO ACTUAL O ULTIMO:")!.valor.Substring(1, 2);
-                        //        if(sem!= null)
-                        //        {
-                        //            item.Semestre = int.Parse(sem);
-                        //        }
-
-                        //    }
-                        //    else
-                        //    {
-                        //        //sino la busco en el fokin kardex, y checo si esta aprobada o que onda
-                        //        var matInKardex = resultado.Kardex.LastOrDefault(x => x.clave == item.Clave) as KardexDTO;
-                        //        if (matInKardex != null)
-                        //        {
-                        //            int semesstre = 0;
-                        //            var propiedadesSemestre = typeof(KardexDTO).GetProperties()
-                        //                 .Where(p => p.Name.StartsWith("semestre") && p.PropertyType == typeof(int));
-                        //            foreach (var s in propiedadesSemestre)
-                        //            {
-                        //                var ss = (int)s.GetValue(matInKardex)!;
-
-                        //                if (ss != 0)
-                        //                {
-                        //                    semesstre = ss;
-                        //                }
-
-                        //            }
-                        //            if (semesstre != 0)
-                        //                item.Semestre = semesstre;
-
-                        //            if (matInKardex.promedio == "N.A")
-                        //            {
-                        //                    item.Estado = "No acreditada";
-                        //                    //semestre se queda en el que lo reprobo
-
-                        //            }
-                        //            else
-                        //            {
-                        //                    item.Estado = "Acreditada";
-                        //                    item.Oportunidad = matInKardex.oportunidad;
-
-                        //                //semestre se queda en donde si lo aprobo
-                        //            }
-                        //        }
-                        //        else
-                        //        {
-                        //            item.Estado = "Sin cursar";
-                        //            //semestre se queda igual
-                        //        }
-
-                        //    }
-
-                        //}
-
-
+                       
                         List<Semestre> semestres = new List<Semestre>();
+                        int semestreActual = 0;
+                        Match match2 = Regex.Match(informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "PERIODO ACTUAL O ULTIMO:")!.valor, @"^\((\d+)\)");
 
-                        for (int i = 0; i < 9; i++)
+                        if (match2.Success)
+                        {
+                            semestreActual = int.Parse(match2.Groups[1].Value);
+                        }
+                        
+                        for (int i = 0; i < semestreActual; i++)
                         {
                             int s = i + 1;
                             Semestre newSemestre = new();
@@ -257,13 +203,7 @@ namespace ReticulaPWA.Controllers
                         {
                             creditos = int.Parse(match.Groups[1].Value);
                         }
-                        int semestreActual = 0;
-                        Match match2 = Regex.Match(informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "PERIODO ACTUAL O ULTIMO:")!.valor, @"^\((\d+)\)");
-
-                        if (match2.Success)
-                        {
-                            semestreActual = int.Parse(match2.Groups[1].Value);
-                        }
+                        
                         RespuestaDTO respuestaDTO = new()
                         {
                             Semestres = semestres,

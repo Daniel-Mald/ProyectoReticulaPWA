@@ -43,6 +43,11 @@ function crearMaterias(semestresFetch) {
             let estado1 = materias.estado;
             if (estado1 == "Acreditada") {
                 estado.classList.add("materia-acreditada");
+                let oport = plantillaOportunidad.content.cloneNode(true);
+                let oportunid = oport.querySelector(".oportunidad");
+                oportunid.textContent = materias.oportunidad;
+
+                estado.appendChild(oport);
             } else if (estado1 == "No acreditada") {
                 estado.classList.add("materia-no-acreditada");
             } else if (estado1 == "Cursando") {
