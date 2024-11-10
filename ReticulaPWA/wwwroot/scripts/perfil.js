@@ -33,6 +33,8 @@ const mapeoPerfil2 = () => {
     document.getElementById("perfil__vigencia").textContent = perfilDto.vigencia;
     document.getElementById("perfil__periodoActual").textContent = perfilDto.periodoActualUltimo;
     document.getElementById("perfil__numConvalidados").textContent = perfilDto.periodosConvalidos;
+
+
 };
 
 perfilChannel.onmessage = (event) => {
