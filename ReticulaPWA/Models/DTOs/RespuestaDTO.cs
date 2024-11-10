@@ -32,6 +32,7 @@
         public string EscuelaProcedencia { get; set; } = "";
         public string Tutor { get; set; } = "";
         public int TotalSemestres { get; set; }
+        public string NumeroControl { get; set; } = "";
     }
     public class MateriaReticula
     {

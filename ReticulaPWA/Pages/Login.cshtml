@@ -57,6 +57,9 @@
         const erroresLbl = document.querySelector(".form__errores");
 
 
+        const perfilChannel = new BroadcastChannel("Perfil_Channel");
+        const reticulaChannel = new BroadcastChannel("Reticula_Channel");
+
 
         async function ingresar(event) {
 
@@ -79,13 +82,16 @@
 
             if (response.ok) {
                 const data = await response.json();
-                alert("exito");
+                
+                perfilChannel.postMessage(data.informacionGeneral);
+                localStorage.setItem("perfil", JSON.stringify(data.informacionGeneral));
+
+                window.location.href = "/";
             }
             else {
                 alert("fracado");
             }
 
-            console.log(data);
 
 
 

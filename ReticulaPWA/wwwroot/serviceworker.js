@@ -166,7 +166,7 @@ self.addEventListener('fetch', (event) => {
     if (event.request.url.includes("png") || event.request.url.includes("jpg") || event.request.url.includes("svg")) {
         event.respondWith(cacheFirst(event.request));
     }
-    else if (event.request.url.includes("api/login")) {
+    else if (event.request.url.includes("api/reticula")) {
         event.respondWith(networkOnly(event.request));
     }
     else {
