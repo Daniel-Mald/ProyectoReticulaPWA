@@ -7,6 +7,10 @@ namespace ReticulaPWA.Pages
     {
         public void OnGet()
         {
+
+
+
+
         }
     }
 }
