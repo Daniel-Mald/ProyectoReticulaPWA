@@ -292,7 +292,7 @@ namespace ReticulaPWA.Controllers
                                 Correo = informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "CORREO ELECTR&OACUTE;NICO:")!.valor,
                                 EscuelaProcedencia = informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "ESCUELA DE PROCEDENCIA:")!.valor,
                                 Tutor = informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "TUTOR:")!.valor,
-                                NumeroControl = dto.NumeroControl,
+                                NumeroControl = NumeroControl,
                                 //TotalSemestres =
                             }
 
