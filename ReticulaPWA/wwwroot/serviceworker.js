@@ -18,9 +18,8 @@ const urls = [
     "/assets/iconos/download.svg",
     "/assets/iconos/user.svg",
     "/assets/iconos/logout.svg",
-    "/scripts/main.js"
+    "/scripts/main.js",
 ];
-
 
 async function precache() {
     const cache = await caches.open(CACHE_NAME);
@@ -37,7 +36,6 @@ const borrarCacheAntiguo = async () => {
     await Promise.all(cacheToDelete.map(borrarCache));
 };
 
-
 async function cacheFirst(req) {
     try {
         let cache = await caches.open(CACHE_NAME);
@@ -45,12 +43,11 @@ async function cacheFirst(req) {
 
         if (response) {
             return response;
-        }
-        else {
-
+        } else {
             let respuestaNetwork = await fetch(req);
 
-            if (respuestaNetwork.ok) { // Verificar si la respuesta es válida
+            if (respuestaNetwork.ok) {
+                // Verificar si la respuesta es válida
                 cache.put(req, respuestaNetwork.clone());
             }
 
@@ -58,10 +55,11 @@ async function cacheFirst(req) {
         }
     } catch (error) {
         console.log(error);
-        return new Response("Error fetching the resource: " + req.url, { status: 500 });
+        return new Response("Error fetching the resource: " + req.url, {
+            status: 500,
+        });
     }
 }
-
 
 async function networkOnly(req) {
     try {
@@ -69,7 +67,9 @@ async function networkOnly(req) {
         if (response.ok) {
             return response;
         } else {
-            return new Response("Error al obtener la respuesta de la red", { status: 500 });
+            return new Response("Error al obtener la respuesta de la red", {
+                status: 500,
+            });
         }
     } catch (error) {
         console.log(error);
@@ -80,20 +80,20 @@ async function networkOnly(req) {
 async function networkFirst(request) {
     let cache = await caches.open(CACHE_NAME);
     try {
-
         let respuesta = await fetch(request);
-
-        console.log("Respuesta de la red", respuesta);
-        console.log("Peticion: " + request);
 
         if (respuesta.ok) {
             cache.put(request, respuesta.clone());
         }
         return respuesta;
-
     } catch (error) {
         let response = await cache.match(request);
-        return response || new Response("Recurso no disponible en caché ni en la red", { status: 503 });
+        return (
+            response ||
+            new Response("Recurso no disponible en caché ni en la red", {
+                status: 503,
+            })
+        );
     }
 }
 
@@ -104,37 +104,34 @@ async function staleThenRevalidate(request) {
         const cachedResponse = await cache.match(request);
 
         if (cachedResponse) {
+            fetch(request)
+                .then(async (networkResponse) => {
+                    if (!networkResponse.ok) return; // No fue existosa la respuesta de la red
 
-            fetch(request).then(async (networkResponse) => {
+                    const cacheResponseCloneText = await cachedResponse.clone().text();
+                    const responseNetworkCloneText = await networkResponse.clone().text();
 
-                if (!networkResponse.ok) return; // No fue existosa la respuesta de la red
+                    if (cacheResponseCloneText === responseNetworkCloneText) return; // No hay cambios en la respuesta
 
-                const cacheResponseCloneText = await cachedResponse.clone().text();
-                const responseNetworkCloneText = await networkResponse.clone().text();
+                    await cache.put(request, networkResponse.clone());
 
+                    console.log("SON DIFERENTES");
 
-                console.log("Respuesta de la red", responseNetworkCloneText);
-                console.log("Respuesta del caché", cacheResponseCloneText);
-
-
-                if (cacheResponseCloneText === responseNetworkCloneText) return; // No hay cambios en la respuesta
-
-                await cache.put(request, networkResponse.clone());
-
-                channel.postMessage({ message: "Cambios en la retícula", url: request.url });
-                
-
-            }).catch(err => {
-                console.error(`Error al obtener la respuesta de la red: ${err} url ${request.url}`);
-            });
+                    channel.postMessage({
+                        message: "Cambios en la retícula",
+                        url: request.url,
+                    });
+                })
+                .catch((err) => {
+                    console.error(
+                        `Error al obtener la respuesta de la red: ${err} url ${request.url}`
+                    );
+                });
 
             return cachedResponse.clone();
-
         } else {
-
             return networkFirst(request);
         }
-
     } catch (error) {
         console.error(`Error en staleThenRevalidate: ${error}, url ${request.url}`);
         return new Response("Error interno", { status: 500 });
@@ -144,29 +141,55 @@ async function staleThenRevalidate(request) {
 
 
 
+async function fuckCache(request) {
+
+    try {
+        const cache = await caches.open(CACHE_NAME);
+        const response = await cache.match(req);
+
+        if (response) return response;
+
+        const respuestaNetwork = await fetch(req);
+
+        if (respuestaNetwork.ok) {
+            cache.put(req, respuestaNetwork.clone());
+        }
+
+        return respuestaNetwork;
+
+    } catch (error) {
+        console.log(error);
+        return new Response("Error fetching the resource: " + req.url, {
+            status: 500,
+        });
+    }
+
+}
+
+
+
+
+
 
 self.addEventListener("install", (event) => {
-    console.log("Service Worker Instalado");
     event.waitUntil(precache());
 });
-
 
 self.addEventListener("activate", (event) => {
     console.log("Service Worker Activo");
     event.waitUntil(borrarCacheAntiguo());
 });
 
+self.addEventListener("fetch", (event) => {
 
-self.addEventListener('fetch', (event) => {
-
-    if (event.request.url.includes("/login")) {
+    if (event.request.url.includes("api")) {
         event.respondWith(networkOnly(event.request));
     }
-    else if (event.request.url.includes("api/reticula")) {
+    else {
         event.respondWith(staleThenRevalidate(event.request));
     }
-    else {
-        event.respondWith(cacheFirst(event.request));
-    }
-});
 
+
+
+
+});

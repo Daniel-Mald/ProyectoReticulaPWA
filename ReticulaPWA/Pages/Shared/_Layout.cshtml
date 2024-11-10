@@ -9,8 +9,8 @@
     <link rel="shortcut icon"
           href="~/assets/logos/Logo144x144.png"
           type="image/x-icon" />
- @*    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
-          rel="stylesheet" /> *@
+    @*    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet" /> *@
 
     <link rel="manifest" href="~/manifest.json" />
 
@@ -122,6 +122,10 @@
 
     </div>
     <script>
+
+        const channel = new BroadcastChannel("Cambios_Channel");
+
+
         const registerServiceWorker = async () => {
             if ("serviceWorker" in navigator) {
                 try {
@@ -133,6 +137,25 @@
         };
 
         registerServiceWorker();
+
+
+        // channel.onmessage = (event) => {
+        //     alert("Hay cambios pendientes por favor vuelve a iniciar sesion");
+        // };
+
+         window.addEventListener("DOMContentLoaded", () =>{
+
+             // const credenciales = localStorage.getItem("credenciales");
+
+             // if (credenciales) {
+             //        window.location.href = "/";
+             //    } else {
+             //        window.location.href = "/login";
+             //    }
+         });
+
+
+
 
 
     </script>
