@@ -112,6 +112,11 @@ async function staleThenRevalidate(request) {
                 const cacheResponseCloneText = await cachedResponse.clone().text();
                 const responseNetworkCloneText = await networkResponse.clone().text();
 
+
+                console.log("Respuesta de la red", responseNetworkCloneText);
+                console.log("Respuesta del caché", cacheResponseCloneText);
+
+
                 if (cacheResponseCloneText === responseNetworkCloneText) return; // No hay cambios en la respuesta
 
                 await cache.put(request, networkResponse.clone());
