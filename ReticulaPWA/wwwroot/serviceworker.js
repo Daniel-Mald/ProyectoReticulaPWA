@@ -182,14 +182,5 @@ self.addEventListener("activate", (event) => {
 
 self.addEventListener("fetch", (event) => {
 
-    if (event.request.url.includes("api")) {
-        event.respondWith(networkOnly(event.request));
-    }
-    else {
-        event.respondWith(cacheFirst(event.request));
-    }
-
-
-
-
+    event.respondWith(networkOnly(event.request));
 });
