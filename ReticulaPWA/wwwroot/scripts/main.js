@@ -31,7 +31,10 @@ function navegarReticula(e) {
 function navegarPerfil() {
     window.location.href = "/perfil";
 }
-
+function navegarLogin() {
+    window.location.href = "/login";
+    localStorage.removeItem("perfil");
+}
 function cancelarCerrarSesion() {
     modalCerrarSesion.classList.remove("modal__cerrar-sesion--activo");
 }
@@ -54,9 +57,7 @@ function redirigirLogin() {
     }
 }
 
-function navegarLogin() {
-    window.location.href = "/login";
-}
+
 
 
 window.addEventListener("DOMContentLoaded", redirigirLogin);

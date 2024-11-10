@@ -26,20 +26,8 @@ const urls = [
 
 
 async function precache() {
-    let cache = await caches.open(CACHE_NAME);
-
-    //urls.forEach(async (url) => {
-
-    //    try {
-    //        await cache.add(url);
-    //    }
-    //    catch (error) {
-    //        console.error("error ", url)
-    //    }
-    //});
-
+    const cache = await caches.open(CACHE_NAME);
     return cache.addAll(urls);
-
 }
 
 const borrarCache = async (key) => {
@@ -92,38 +80,42 @@ async function networkOnly(req) {
     }
 }
 
-async function networkFirst(req) {
+async function networkFirst(request) {
     let cache = await caches.open(CACHE_NAME);
     try {
 
-        let respuesta = await fetch(req);
+        let respuesta = await fetch(request);
+
+        console.log("Respuesta de la red", respuesta);
+        console.log("Peticion: " + request);
 
         if (respuesta.ok) {
-            cache.put(req, respuesta.clone());
+            cache.put(request, respuesta.clone());
         }
         return respuesta;
 
     } catch (error) {
-        let response = await cache.match(req);
+        let response = await cache.match(request);
         return response || new Response("Recurso no disponible en caché ni en la red", { status: 503 });
     }
 }
-async function staleThenRevalidate(req) {
+async function staleThenRevalidate(request) {
     try {
-        let cache = await caches.open(CACHE_NAME);
-        let cachedResponse = await cache.match(req);
+        const cache = await caches.open(CACHE_NAME);
+        const cachedResponse = await cache.match(request);
 
         if (cachedResponse) {
 
-            fetch(req).then(async (networkResponse) => {
+            fetch(request).then(async (networkResponse) => {
+
                 if (!networkResponse.ok) return; // No fue existosa la respuesta de la red
 
-                let cacheData = await cachedResponse.clone().text();
-                let networkData = await networkResponse.clone().text();
+                const cacheResponseCloneText = await cachedResponse.clone().text();
+                const responseNetworkCloneText = await networkResponse.clone().text();
 
-                if (cacheData === networkData) return; // No hay cambios en la respuesta
+                if (cacheResponseCloneText === responseNetworkCloneText) return; // No hay cambios en la respuesta
 
-                await cache.put(req, networkResponse.clone());
+                await cache.put(request, networkResponse.clone());
 
                 //channel.postMessage({
                 //    url: req.url,
@@ -131,16 +123,18 @@ async function staleThenRevalidate(req) {
                 //});
 
             }).catch(err => {
-                console.error(`Error al obtener la respuesta de la red: ${err} url ${req.url}`);
+                console.error(`Error al obtener la respuesta de la red: ${err} url ${request.url}`);
             });
 
             return cachedResponse.clone();
+
         } else {
-            return networkFirst(req);
+
+            return networkFirst(request);
         }
 
     } catch (error) {
-        console.error(`Error en staleThenRevalidate: ${error}, url ${req.url}`);
+        console.error(`Error en staleThenRevalidate: ${error}, url ${request.url}`);
         return new Response("Error interno", { status: 500 });
     }
 }
