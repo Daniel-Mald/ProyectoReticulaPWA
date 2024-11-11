@@ -9,8 +9,6 @@
     <link rel="shortcut icon"
           href="~/assets/logos/Logo144x144.png"
           type="image/x-icon" />
-    @*    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
-    rel="stylesheet" /> *@
 
     <link rel="manifest" href="~/manifest.json" />
 
@@ -44,8 +42,8 @@
                          alt="info"
                          class="menu-flotante__img" />
                     <div class="menu-flotante__info-div">
-                        <label class="menu-flotante__nombre">Jorge Fabian Liñan Alcala</label>
-                        <label class="menu-flotante__numcontrol">201G0264</label>
+                        <label class="menu-flotante__nombre"></label>
+                        <label class="menu-flotante__numcontrol"></label>
                     </div>
                 </div>
 
@@ -139,20 +137,18 @@
         registerServiceWorker();
 
 
-        // channel.onmessage = (event) => {
-        //     alert("Hay cambios pendientes por favor vuelve a iniciar sesion");
-        // };
+        window.addEventListener("DOMContentLoaded", () => {
 
-         window.addEventListener("DOMContentLoaded", () =>{
+            const perfil = JSON.parse(localStorage.getItem("perfil"));
+            const credenciales = JSON.parse(localStorage.getItem("credenciales"));
 
-             // const credenciales = localStorage.getItem("credenciales");
+            if (perfil && credenciales) {
 
-             // if (credenciales) {
-             //        window.location.href = "/";
-             //    } else {
-             //        window.location.href = "/login";
-             //    }
-         });
+                document.querySelector(".menu-flotante__nombre").textContent = perfil.nombreDelAlumno;
+                document.querySelector(".menu-flotante__numcontrol").textContent = credenciales.numeroControl;
+            }
+
+        });
 
 
 

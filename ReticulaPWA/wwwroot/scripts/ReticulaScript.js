@@ -1,23 +1,14 @@
-﻿const oportunidad = document.querySelectorAll(".oportunidad");
-const plantillaColumna = document.querySelector(".plantilla-columna");
+﻿const plantillaColumna = document.querySelector(".plantilla-columna");
 const plantillaMateria = document.querySelector(".plantilla-materia");
 const plantillaOportunidad = document.querySelector(
     ".platilla-oportunidad"
 );
+
 const tabla = document.getElementById("tabla-materias");
 
-function mostrarOportunidades(event) {
-    console.log(event.target);
-    event.target.classList.toggle("oportunidad-active");
-}
-
-function ocultarOportunidades(event) {
-    console.log(event.target);
-    event.target.classList.remove("oportunidad-active");
-}
 
 function crearMaterias(semestresFetch) {
-    
+
     const fragmento = document.createDocumentFragment();
     const fragmentoMateria = document.createDocumentFragment();
 
@@ -31,7 +22,7 @@ function crearMaterias(semestresFetch) {
         let tablaColumna = columna.querySelector(".tabla__columna");
         titulo.textContent = semestre.numero;
         i++;
-       
+
         for (let materias of semestre.materias) {
             let materia = plantillaMateria.content.cloneNode(true);
             let estado = materia.querySelector(".tabla__materia");
@@ -59,41 +50,47 @@ function crearMaterias(semestresFetch) {
             } else {
                 estado.classList.add("materia-sin-cursar");
             }
-            
+
             clave.textContent = materias.clave;
             tablaColumna.appendChild(materia);
-            
+
 
         }
-       // columna.appendChild(fragmentoMateria);
+        // columna.appendChild(fragmentoMateria);
         fragmento.appendChild(columna);
-        
+
     }
 
     tabla.appendChild(fragmento);
+
+    oportunidadesEvento();
+
 }
 
-function crearColumnas(semestres) {
+function mostrarOportunidades(event) {
+    event.target.classList.toggle("oportunidad-active");
+}
 
-    const fragmento = document.createDocumentFragment();
-
-    tabla.innerHTML = "";
-
-    for (let i = 0; i < semestres; i++) {
-        const columna = plantillaColumna.content.cloneNode(true);
-        const titulo = columna.querySelector(".tabla__columna__titulo");
-        titulo.textContent = i + 1;
-        fragmento.appendChild(columna);
-    }
-
-    tabla.appendChild(fragmento);
+function ocultarOportunidades(event) {
+    event.target.classList.remove("oportunidad-active");
 }
 
 
-oportunidad.forEach((oportunidad) => {
-    oportunidad.addEventListener("click", mostrarOportunidades);
-    oportunidad.addEventListener("mouseleave", ocultarOportunidades);
-});
+function oportunidadesEvento() {
+
+    const span = document.querySelectorAll(".oportunidad");
+
+    console.log(span);
+
+    span.forEach((oportunidad) => {
+        oportunidad.addEventListener("click", mostrarOportunidades);
+        oportunidad.addEventListener("mouseleave", ocultarOportunidades);
+    });
+
+}
+
+
+
 const mapeoPerfil2 = () => {
     //crearColumnas(9);
 
@@ -101,7 +98,7 @@ const mapeoPerfil2 = () => {
     crearMaterias(semestres);
     if (!semestres) return;
 }
-    
+
 window.addEventListener("DOMContentLoaded", mapeoPerfil2);
 
 

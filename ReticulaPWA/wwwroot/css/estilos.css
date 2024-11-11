@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
 * {
     margin: 0;
     padding: 0;
@@ -135,7 +137,8 @@ body {
 }
 
 .menu-flotante__nombre {
-    font-weight: bold;
+    font-size:0.8rem;
+    font-weight: 600;
 }
 
 .menu-flotante .menu-flotante__numcontrol {
@@ -407,7 +410,7 @@ body {
 
 .tabla {
     width: 100%;
-    min-width: 1400px;
+    min-width: 1500px;
     border-radius: 10px;
     text-align: center;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
@@ -415,12 +418,12 @@ body {
     grid-auto-flow: column;
     grid-auto-columns: 1fr;
     position: relative;
-    background-color:var(--color-bordes);
 }
 
     .tabla .tabla__columna {
         display: flex;
         flex-direction: column;
+        background-color: var(--color-bordes);
     }
 
     .tabla .tabla__columna__titulo {
@@ -456,7 +459,7 @@ body {
     font-size: 0.7rem;
 }
 
-.tabla .tabla__columna:first-of-type .tabla__materia:last-of-type {
+/*.tabla .tabla__columna:first-of-type .tabla__materia:last-of-type {
     border-radius: 0 0 0 10px;
 }
 
@@ -470,7 +473,7 @@ body {
 
 .tabla .tabla__columna:last-of-type .tabla__columna__titulo:last-of-type {
     border-radius: 0 10px 0 0;
-}
+}*/
 
 /* REGION ESTILOS MATERIAS */
 .materia-acreditada {
@@ -498,7 +501,7 @@ body {
     overflow: hidden;
     cursor: pointer;
     font-size: 0.8rem;
-    padding-right: 0.2rem;
+    padding-right: 0.5rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
