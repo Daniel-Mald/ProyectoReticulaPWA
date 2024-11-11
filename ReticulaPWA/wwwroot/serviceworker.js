@@ -187,5 +187,12 @@ self.addEventListener("activate", (event) => {
 
 self.addEventListener("fetch", (event) => {
 
-    event.respondWith(networkOnly(event.request));
+    if (event.request.url.includes("html2Pdf")) {
+        console.log("PDF");
+        console.log(event.request.url);
+        event.respondWith(cacheFirst(event.request));
+    }
+    else {
+        event.respondWith(networkOnly(event.request));
+    }
 });
