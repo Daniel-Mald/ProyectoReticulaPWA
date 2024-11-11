@@ -2,6 +2,7 @@ const btnOpciones = document.querySelector(".header__figure");
 const menuFlotante = document.querySelector(".menu-flotante");
 const btnReticulaNav = document.getElementById("link-reticula");
 const btnPerfilNav = document.getElementById("link-perfil");
+const btnDescargarPdf = document.querySelector(".menu-flotante__pdf");
 
 const btnCerrarSesion = document.querySelector(".menu-flotante__logout");
 const btnCancelarCerrarSesion = document.getElementById("btnCancelar");
@@ -55,6 +56,12 @@ function redirigirLogin() {
     btnPerfilNav.classList.remove("item-activo");
   }
 }
+
+function navegarPdf() {
+  window.location.href = "/pdf";
+}
+
+btnDescargarPdf.addEventListener("click", navegarPdf);
 
 window.addEventListener("DOMContentLoaded", redirigirLogin);
 btnAceptarCerrarSesion.addEventListener("click", navegarLogin);

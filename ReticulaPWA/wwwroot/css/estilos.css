@@ -647,17 +647,22 @@ body {
 
 /* REGION PDF */
 .header__pdf {
-    width: 90%;
+    width: 100%;
+    height: 50px;
     margin: 0 auto;
     text-align: center;
-    padding: 1rem;
+    padding: 2rem 1rem;
     display: flex;
-    gap: 1rem;
     align-items: center;
+    justify-content: center;
+    background-image: url("/assets/img/logo2.png");
+    background-size: auto 80%;
+    background-repeat: no-repeat;
+    background-position: left center;
 }
 
 .header__pdf__figure {
-    height: 80px;
+    height: 50px;
     padding: 4px;
     cursor: pointer;
 }
@@ -669,11 +674,77 @@ body {
 }
 
 .header__pdf__title {
-    font-size: 1.2rem;
+    font-size: 0.8rem;
+    width: 500px;
     font-weight: 600;
     color: var(--color-principal);
+    justify-self: center;
 }
 
+.container-pdf {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 1100px;
+    height: 770px;
+    margin: 0 auto;
+    margin-top: 10px;
+}
+
+.pdf__informacion {
+    padding: 0 2rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    place-content: center;
+}
+
+.pdf__informacion__div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.pdf__informacion__titulo {
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+.pdf__informacion__campo {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+}
+
+.tablaPDF {
+    flex: 1;
+    width: 100%;
+    display: grid;
+    grid-auto-flow: column;
+    background-color: #d1d1d1;
+    text-align: center;
+}
+
+.tablaPDF__columna__titulo {
+    font-size: 0.8rem;
+}
+
+.tablaPDF__materia {
+    padding: 5px 0;
+    display: flex;
+    border: 1px solid #d1d1d1;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.tablaPDF__materia__titulo {
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+.tablaPDF__materia__clave {
+    font-size: 0.7rem;
+}
 /* END REGION PDF */
 
 @media (max-width: 768px) {
