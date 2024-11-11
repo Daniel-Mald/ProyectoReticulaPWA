@@ -163,6 +163,10 @@
     </section>
     <script src="~/scripts/html2Pdf.js"></script>
     <script>
+
+        window.addEventListener("DOMContentLoaded", () => {
+
+
         const pdf = document.getElementById("pdf");
 
         const opciones = {
@@ -173,6 +177,11 @@
         };
 
         html2pdf().set(opciones).from(pdf).save();
+
+        window.location.href = "/";
+
+        });
+
     </script>
 </body>
 </html>

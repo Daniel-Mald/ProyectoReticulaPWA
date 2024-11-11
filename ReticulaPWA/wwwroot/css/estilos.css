@@ -19,7 +19,7 @@
 }
 
 body {
-    font-family: "Montserrat", sans-serif;
+    font-family: "Montserrat", system-ui,sans-serif;
 }
 
 .container {
@@ -418,6 +418,8 @@ body {
     grid-auto-flow: column;
     grid-auto-columns: 1fr;
     position: relative;
+
+    font-size:0.8rem;
 }
 
     .tabla .tabla__columna {
@@ -428,7 +430,7 @@ body {
 
     .tabla .tabla__columna__titulo {
         padding: 0.2rem 0;
-        font-size: 1rem;
+        /*font-size: 1rem;*/
         font-weight: 600;
         background-color: var(--color-bordes);
         position: sticky;
@@ -451,12 +453,12 @@ body {
 }
 
     .tabla__materia .tabla__materia__titulo {
-        font-size: 0.8rem;
+        /*font-size: 0.8rem;*/
         font-weight: 600;
     }
 
 .tabla .tabla__materia__clave {
-    font-size: 0.7rem;
+    /*font-size: 0.7rem;*/
 }
 
 /*.tabla .tabla__columna:first-of-type .tabla__materia:last-of-type {
@@ -524,6 +526,35 @@ body {
             content: "Oportunidad";
             font-size: 0.8rem;
         }
+
+
+
+
+
+.reticula-pdf {
+    width: 1100px;
+    min-width: 1100px;
+    height: 750px;
+    overflow: hidden;
+    border-radius: 0;
+    box-shadow: none;
+    font-size: 0.5rem;
+    margin:10px auto;
+
+}
+
+.tabla__materiaPDF {
+    padding: 6px;
+    height: initial;
+}
+
+
+.oportunidadPDF {
+    width: 1rem;
+    height: 1rem;
+    font-size: 0.6rem;
+    padding-right: 0.2rem;
+}
 
 /* END REGION ESTILOS MATERIAS */
 
@@ -646,7 +677,7 @@ body {
 /* END REGION LOGIN */
 
 /* REGION PDF */
-.header__pdf {
+/*.header__pdf {
     width: 100%;
     height: 50px;
     margin: 0 auto;
@@ -679,7 +710,7 @@ body {
     font-weight: 600;
     color: var(--color-principal);
     justify-self: center;
-}
+}*/
 
 .container-pdf {
     display: flex;

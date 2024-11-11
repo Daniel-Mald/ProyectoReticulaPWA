@@ -22,6 +22,7 @@ const mapeoPerfil2 = () => {
     const año = numeroControl.substring(0, 2);
     fotoPerfil.src = `https://intertec.tec-carbonifera.edu.mx/fotos/al/${año}/${numeroControl}.jpg`;
 
+
     document.getElementById("perfil__carrera").textContent = perfilDto.carrera;
     document.getElementById("perfil__planEstudios").textContent =
         perfilDto.planDeEstudios;
