@@ -80,21 +80,8 @@ function navegarPdf() {
 
     setTimeout(() => {
 
-        const tabla = document.getElementById("tabla-materias").cloneNode(true);
-        if (!tabla) return;
 
-        tabla.classList.add("reticula-pdf");
-
-        tabla.querySelectorAll(".tabla__materia").forEach((materia) => {
-
-            materia.classList.add("tabla__materiaPDF");
-
-            const oportunidad = materia.querySelector(".oportunidad");
-            if (oportunidad) {
-                oportunidad.classList.add("oportunidadPDF");
-            }
-        });
-
+        if (!reticulaClon) return;
 
         const opciones = {
             filename: "Reticula.pdf",
@@ -103,7 +90,7 @@ function navegarPdf() {
             jsPDF: { format: "a4", orientation: "landscape" },
         };
 
-        html2pdf().set(opciones).from(tabla).save();
+        html2pdf().set(opciones).from(reticulaClon).save();
     }, 0);
 
 }

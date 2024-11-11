@@ -1,4 +1,5 @@
-﻿const CACHE_NAME = "cachev1";
+﻿let version = "2";
+const CACHE_NAME = `cacheV${version}`;
 const urls = [
     "/css/estilos.css",
     "/assets/logos/icon.png",
@@ -22,16 +23,26 @@ const urls = [
     "/scripts/html2Pdf.js",
     "/scripts/perfil.js",
     "/scripts/ReticulaScript.js",
-    "/Index",
-    "/",
-    "/Shared/_Layout",
-    "/Login",
-    "/Perfil"
+    "https://fonts.googleapis.com/css2?family=Montserrat&display=swap",
+    "https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap"
 ];
 
 async function precache() {
     const cache = await caches.open(CACHE_NAME);
-    return cache.addAll(urls);
+
+    urls.forEach(async (url) => {
+
+        try {
+
+            await cache.add(url);
+        }
+        catch (error) {
+            console.log("No se pudo agregar el recurso al caché: " + url);
+        }
+
+    });
+
+
 }
 
 const borrarCache = async (key) => {
@@ -49,18 +60,16 @@ async function cacheFirst(req) {
         let cache = await caches.open(CACHE_NAME);
         let response = await cache.match(req);
 
-        if (response) {
-            return response;
-        } else {
-            let respuestaNetwork = await fetch(req);
+        if (response) return response;
 
-            if (respuestaNetwork.ok) {
-                // Verificar si la respuesta es válida
-                cache.put(req, respuestaNetwork.clone());
-            }
+        let respuestaNetwork = await fetch(req, { mode: 'cors', credentials: 'omit' });
 
-            return respuestaNetwork;
+        if (respuestaNetwork.ok) {
+            cache.put(req, respuestaNetwork.clone());
         }
+
+        return respuestaNetwork;
+
     } catch (error) {
         console.log(error);
         return new Response("Error fetching the resource: " + req.url, {
@@ -88,7 +97,7 @@ async function networkOnly(req) {
 async function networkFirst(request) {
     let cache = await caches.open(CACHE_NAME);
     try {
-        let respuesta = await fetch(request);
+        let respuesta = await fetch(request, { mode: 'cors', credentials: 'omit' });
 
         if (respuesta.ok) {
             cache.put(request, respuesta.clone());
@@ -111,35 +120,31 @@ async function staleThenRevalidate(request) {
         const cache = await caches.open(CACHE_NAME);
         const cachedResponse = await cache.match(request);
 
-        if (cachedResponse) {
-            fetch(request)
-                .then(async (networkResponse) => {
-                    if (!networkResponse.ok) return; // No fue existosa la respuesta de la red
+        if (!cachedResponse) return networkFirst(request);
 
-                    const cacheResponseCloneText = await cachedResponse.clone().text();
-                    const responseNetworkCloneText = await networkResponse.clone().text();
+        fetch(request, { mode: 'cors', credentials: 'omit' })
+            .then(async (networkResponse) => {
+                if (!networkResponse.ok) return; // No fue existosa la respuesta de la red
 
-                    if (cacheResponseCloneText === responseNetworkCloneText) return; // No hay cambios en la respuesta
+                //const cacheResponseCloneText = await cachedResponse.clone().text();
+                //const responseNetworkCloneText = await networkResponse.clone().text();
 
-                    await cache.put(request, networkResponse.clone());
+                //if (cacheResponseCloneText === responseNetworkCloneText) return; // No hay cambios en la respuesta
 
-                    console.log("SON DIFERENTES");
+                await cache.put(request, networkResponse.clone());
 
-                    channel.postMessage({
-                        message: "Cambios en la retícula",
-                        url: request.url,
-                    });
-                })
-                .catch((err) => {
-                    console.error(
-                        `Error al obtener la respuesta de la red: ${err} url ${request.url}`
-                    );
-                });
+                //AVISAR CAMBIOS
 
-            return cachedResponse.clone();
-        } else {
-            return networkFirst(request);
-        }
+            })
+            .catch((err) => {
+                console.error(
+                    `Error al obtener la respuesta de la red: ${err} url ${request.url}`
+                );
+            });
+
+        return cachedResponse.clone();
+
+
     } catch (error) {
         console.error(`Error en staleThenRevalidate: ${error}, url ${request.url}`);
         return new Response("Error interno", { status: 500 });
@@ -147,53 +152,40 @@ async function staleThenRevalidate(request) {
 }
 
 
-
-
-async function fuckCache(request) {
-
-    try {
-        const cache = await caches.open(CACHE_NAME);
-        const response = await cache.match(req);
-
-        if (response) return response;
-
-        const respuestaNetwork = await fetch(req);
-
-        if (respuestaNetwork.ok) {
-            cache.put(req, respuestaNetwork.clone());
-        }
-
-        return respuestaNetwork;
-
-    } catch (error) {
-        console.log(error);
-        return new Response("Error fetching the resource: " + req.url, {
-            status: 500,
-        });
-    }
-
-}
-
-
-
-
-
-
 self.addEventListener("install", (event) => {
     event.waitUntil(precache());
 });
 
 self.addEventListener("activate", (event) => {
-    console.log("Service Worker Activo");
     event.waitUntil(borrarCacheAntiguo());
 });
 
 self.addEventListener("fetch", (event) => {
 
-   if (event.request.url.includes("api")) {
+    const isOnline = self.navigator.onLine;
+    const url = new URL(event.request.url);
+    const isImage =
+        url.pathname.includes('.png') ||
+        url.pathname.includes('.jpeg') ||
+        url.pathname.includes('.svg') ||
+        url.pathname.endsWith('.jpg');
+
+
+    const url2 = event.request.url;
+        
+
+
+    if (event.request.url.includes("api") || event.request.method === "POST") {
         event.respondWith(networkOnly(event.request));
     }
-    else (event.request.url.includes("html2Pdf")) {
+    else if (event.request.url.includes("fonts")) {
         event.respondWith(cacheFirst(event.request));
     }
+    else if(isImage){
+        event.respondWith(cacheFirst(event.request));
+    }
+    else {
+        event.respondWith(staleThenRevalidate(event.request));
+    }
+
 });

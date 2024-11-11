@@ -80,8 +80,6 @@ function oportunidadesEvento() {
 
     const span = document.querySelectorAll(".oportunidad");
 
-    console.log(span);
-
     span.forEach((oportunidad) => {
         oportunidad.addEventListener("click", mostrarOportunidades);
         oportunidad.addEventListener("mouseleave", ocultarOportunidades);
@@ -89,6 +87,23 @@ function oportunidadesEvento() {
 
 }
 
+let reticulaClon;
+function guardarTablaLocalStorage() {
+
+    reticulaClon = document.getElementById("tabla-materias").cloneNode(true);
+
+    reticulaClon.classList.add("reticula-pdf");
+
+    reticulaClon.querySelectorAll(".tabla__materia").forEach((materia) => {
+
+        materia.classList.add("tabla__materiaPDF");
+
+        const oportunidad = materia.querySelector(".oportunidad");
+        if (oportunidad) {
+            oportunidad.classList.add("oportunidadPDF");
+        }
+    });
+}
 
 
 const mapeoPerfil2 = () => {
@@ -97,6 +112,7 @@ const mapeoPerfil2 = () => {
     const semestres = JSON.parse(localStorage.getItem("semestres"));
     crearMaterias(semestres);
     if (!semestres) return;
+    guardarTablaLocalStorage();
 }
 
 window.addEventListener("DOMContentLoaded", mapeoPerfil2);

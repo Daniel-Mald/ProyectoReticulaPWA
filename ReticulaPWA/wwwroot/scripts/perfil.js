@@ -4,10 +4,7 @@ const numControlLbl = document.getElementById("perfil__numControl");
 const fotoPerfil = document.getElementById("perfil__fotografia");
 
 
-
-
-
-const mapeoPerfil2 = () => {
+const mapeoPerfil = () => {
     const perfilDto = JSON.parse(localStorage.getItem("perfil"));
 
     if (!perfilDto) return;
@@ -20,7 +17,7 @@ const mapeoPerfil2 = () => {
     numControlLbl.textContent = numeroControl;
 
     const año = numeroControl.substring(0, 2);
-    fotoPerfil.src = `https://intertec.tec-carbonifera.edu.mx/fotos/al/${año}/${numeroControl}.jpg`;
+    //fotoPerfil.src = `https://intertec.tec-carbonifera.edu.mx/fotos/al/${año}/${numeroControl}.jpg`;
 
 
     document.getElementById("perfil__carrera").textContent = perfilDto.carrera;
@@ -38,4 +35,4 @@ const mapeoPerfil2 = () => {
         perfilDto.periodosConvalidos;
 };
 
-window.addEventListener("DOMContentLoaded", mapeoPerfil2);
+window.addEventListener("DOMContentLoaded", mapeoPerfil);

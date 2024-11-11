@@ -68,16 +68,17 @@
 
 <script>
 
-    window.addEventListener('load', function () {
+    window.addEventListener('DOMContentLoaded', function () {
 
         const credenciales = localStorage.getItem('credenciales');
 
         if (!credenciales) {
             window.location.href = "/Login";
         }
-
-
     });
+
+
+
 
   
 </script>
