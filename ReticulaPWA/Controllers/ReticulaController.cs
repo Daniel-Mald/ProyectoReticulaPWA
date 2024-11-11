@@ -61,6 +61,8 @@ namespace ReticulaPWA.Controllers
                     Password = Password,
                     NumeroControl = NumeroControl
                 };
+                bool a = await apiService.FokinLogin(Credenciales);
+                if(a == false) { return BadRequest("Credenciales incorrectas"); }
 
                 var informacionGeneral = await apiService.GetInformacionGeneral(Credenciales);
                 if (informacionGeneral == null) { return BadRequest(); }

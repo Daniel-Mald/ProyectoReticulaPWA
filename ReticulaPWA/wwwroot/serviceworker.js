@@ -19,6 +19,11 @@ const urls = [
     "/assets/iconos/user.svg",
     "/assets/iconos/logout.svg",
     "/scripts/main.js",
+    "/Index",
+    "/",
+    "/Shared/_Layout",
+    "/Login",
+    "/Perfil"
 ];
 
 async function precache() {
