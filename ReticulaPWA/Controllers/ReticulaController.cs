@@ -40,34 +40,43 @@ namespace ReticulaPWA.Controllers
         public async Task<IActionResult> Login()
         {
             //if (dto == null) { return BadRequest(); }
-            string NumeroControl = "";
-            string Password = "";
-            if (Request.Headers.TryGetValue("NumeroControl", out StringValues authHeader))
-            {
-                NumeroControl = authHeader.ToString();
-            }
-            if (Request.Headers.TryGetValue("Password", out StringValues authHeader2))
-            {
-                Password = authHeader2.ToString();
-            }
+            //string NumeroControl = "";
+            //string Password = "";
+
+            Request.Headers.TryGetValue("NumeroControl", out StringValues NumeroControl); // OBTENER EL NUMERO DE CONTROL
+            Request.Headers.TryGetValue("Password", out StringValues Password);  // OBTENER EL PASSWORD
+
             if (string.IsNullOrWhiteSpace(NumeroControl))
-            { ModelState.AddModelError("", "El número de control no puede estar vacio"); }
+            {
+                ModelState.AddModelError("", "El número de control no puede estar vacio");
+            }
+
             if (string.IsNullOrWhiteSpace(Password))
-            { ModelState.AddModelError("", "La contraseña no puede estar vacia"); }
+            {
+                ModelState.AddModelError("", "La contraseña no puede estar vacia");
+            }
+
             if (ModelState.IsValid)
             {
                 CredencialesModel Credenciales = new()
                 {
-                    Password = Password,
-                    NumeroControl = NumeroControl
+                    Password = Password.ToString(),
+                    NumeroControl = NumeroControl.ToString()
                 };
+                
                 bool a = await apiService.FokinLogin(Credenciales);
-                if(a == false) { return BadRequest("Credenciales incorrectas"); }
+
+                if (a == false)  return BadRequest("Credenciales incorrectas"); 
+
 
                 var informacionGeneral = await apiService.GetInformacionGeneral(Credenciales);
+                
                 if (informacionGeneral == null) { return BadRequest(); }
+                
                 if (informacionGeneral.CredencialesIncorrectas == true) { return BadRequest("Credenciales incorrectas"); }
+                
                 else if (informacionGeneral.Problemas == true) { return BadRequest("Ha ocurrido un problema"); }
+                
                 else
                 {
                     string plan = informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "PLAN DE ESTUDIOS:")!.valor;
@@ -110,8 +119,7 @@ namespace ReticulaPWA.Controllers
                         List<MateriaReticula> materiasFromKardex = resultado.Kardex.Select(x => new MateriaReticula
                         {
                             Clave = x.clave,
-                            Nombre = x.materia
-                            ,
+                            Nombre = x.materia,
                             Oportunidad = x.oportunidad
 
                         }).ToList();
@@ -169,7 +177,7 @@ namespace ReticulaPWA.Controllers
                                 materiasFromKardex.Add(m);
                             }
                         }
-                       
+
                         List<Semestre> semestres = new List<Semestre>();
                         int semestreActual = 0;
                         Match match2 = Regex.Match(informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "PERIODO ACTUAL O ULTIMO:")!.valor, @"^\((\d+)\)");
@@ -178,7 +186,7 @@ namespace ReticulaPWA.Controllers
                         {
                             semestreActual = int.Parse(match2.Groups[1].Value);
                         }
-                        
+
                         for (int i = 0; i < semestreActual; i++)
                         {
                             int s = i + 1;
@@ -205,15 +213,15 @@ namespace ReticulaPWA.Controllers
                         {
                             creditos = int.Parse(match.Groups[1].Value);
                         }
-                        
+
                         RespuestaDTO respuestaDTO = new()
                         {
                             Semestres = semestres,
 
                             InformacionGeneral = new()
                             {
-                                
-                                NombreDelAlumno = informacionGeneral.Informacion!.FirstOrDefault(x=>x.dato == "NOMBRE DEL ALUMNO:")!.valor,
+
+                                NombreDelAlumno = informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "NOMBRE DEL ALUMNO:")!.valor,
                                 Carrera = informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "CARRERA:")!.valor.Split(" ")[1],
                                 PlanDeEstudios = informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "PLAN DE ESTUDIOS:")!.valor.Split(" ")[1],
                                 Especialidad = especialidad.Substring(4, especialidad.Length - 4),

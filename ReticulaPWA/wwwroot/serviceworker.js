@@ -19,6 +19,9 @@ const urls = [
     "/assets/iconos/user.svg",
     "/assets/iconos/logout.svg",
     "/scripts/main.js",
+    "/scripts/html2Pdf.js",
+    "/scripts/perfil.js",
+    "/scripts/ReticulaScript.js",
     "/Index",
     "/",
     "/Shared/_Layout",
@@ -187,12 +190,10 @@ self.addEventListener("activate", (event) => {
 
 self.addEventListener("fetch", (event) => {
 
-    if (event.request.url.includes("html2Pdf")) {
-        console.log("PDF");
-        console.log(event.request.url);
-        event.respondWith(cacheFirst(event.request));
-    }
-    else {
+   if (event.request.url.includes("api")) {
         event.respondWith(networkOnly(event.request));
+    }
+    else (event.request.url.includes("html2Pdf")) {
+        event.respondWith(cacheFirst(event.request));
     }
 });

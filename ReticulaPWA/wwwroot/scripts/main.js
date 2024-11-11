@@ -49,9 +49,9 @@ function navegarPerfil() {
     window.location.href = "/perfil";
 }
 function navegarLogin() {
-  window.location.href = "/login";
-  localStorage.removeItem("perfil");
-    localStorage.removeItem("credenciales");
+    window.location.href = "/login";
+    //localStorage.removeItem("perfil");
+    //localStorage.removeItem("credenciales");
     logout();
 }
 function cancelarCerrarSesion() {
@@ -78,30 +78,33 @@ function redirigirLogin() {
 
 function navegarPdf() {
 
-    const tabla = document.getElementById("tabla-materias").cloneNode(true);
-    if (!tabla) return;
+    setTimeout(() => {
 
-    tabla.classList.add("reticula-pdf");
+        const tabla = document.getElementById("tabla-materias").cloneNode(true);
+        if (!tabla) return;
 
-    tabla.querySelectorAll(".tabla__materia").forEach((materia) => {
+        tabla.classList.add("reticula-pdf");
 
-        materia.classList.add("tabla__materiaPDF");
+        tabla.querySelectorAll(".tabla__materia").forEach((materia) => {
 
-        const oportunidad = materia.querySelector(".oportunidad");
-        if (oportunidad) {
-            oportunidad.classList.add("oportunidadPDF");
-        }
-    });
+            materia.classList.add("tabla__materiaPDF");
+
+            const oportunidad = materia.querySelector(".oportunidad");
+            if (oportunidad) {
+                oportunidad.classList.add("oportunidadPDF");
+            }
+        });
 
 
-    const opciones = {
-        filname: "Reticula.pdf",
-        image: { type: "pdf", quality: 1 },
-        html2canvas: { scale: 4 },
-        jsPDF: { format: "a4", orientation: "landscape" },
-    };
+        const opciones = {
+            filename: "Reticula.pdf",
+            image: { type: "jpeg", quality: 0.98 },
+            html2canvas: { scale: 3 },
+            jsPDF: { format: "a4", orientation: "landscape" },
+        };
 
-    html2pdf().set(opciones).from(tabla).save();
+        html2pdf().set(opciones).from(tabla).save();
+    }, 0);
 
 }
 
