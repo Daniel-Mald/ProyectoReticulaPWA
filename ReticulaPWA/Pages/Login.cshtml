@@ -65,6 +65,7 @@
 
         const perfilChannel = new BroadcastChannel("Perfil_Channel");
         const reticulaChannel = new BroadcastChannel("Reticula_Channel");
+        const usuarioChannel = new BroadcastChannel("USUARIO_CHANNEL");
 
 
         function validarUsuario({ numeroControl, password }) {
@@ -89,7 +90,6 @@
                 erroresLbl.innerHTML = "";
 
                 loading.style.display = "block";
-
 
                 const numeroControl = nombretxt.value.toUpperCase();
                 const password = passwordtxt.value;
@@ -126,9 +126,6 @@
                 }
 
 
-
-
-
                 const response = await fetch("/api/Reticula", {
                     method: "GET",
                     headers: {
@@ -156,6 +153,8 @@
                     localStorage.setItem("perfil", JSON.stringify(data.informacionGeneral));
                     localStorage.setItem("credenciales", JSON.stringify(credenciales));
 
+                    usuarioChannel.postMessage({ operacion: "AGREGAR", credencial: credenciales });
+
                     window.location.href = "/";
                 }
                 else if (response.status >= 500) {
@@ -173,8 +172,6 @@
                 console.error(error);
             }
         }
-
-
 
 
         btnIngresar.addEventListener("click", ingresar);

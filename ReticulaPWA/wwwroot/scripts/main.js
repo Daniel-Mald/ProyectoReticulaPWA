@@ -9,6 +9,8 @@ const btnCancelarCerrarSesion = document.getElementById("btnCancelar");
 const btnAceptarCerrarSesion = document.getElementById("btnAceptar");
 const modalCerrarSesion = document.querySelector(".modal");
 
+const usuarioChannel = new BroadcastChannel("USUARIO_CHANNEL");
+
 function logout() {
     // Limpiar almacenamiento
     localStorage.clear();
@@ -51,6 +53,8 @@ function navegarPerfil() {
 function navegarLogin() {
     logout();
     window.location.replace("/login");
+    usuarioChannel.postMessage({ operacion: "ELIMINAR", credencial: null });
+
 }
 function cancelarCerrarSesion() {
     modalCerrarSesion.classList.remove("modal__cerrar-sesion--activo");

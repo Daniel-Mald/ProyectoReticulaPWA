@@ -14,6 +14,9 @@ function crearMaterias(semestresFetch) {
 
     tabla.innerHTML = "";
     let i = 0;
+
+    if (!semestresFetch) return;
+
     for (let semestre of semestresFetch) {
 
         const columna = plantillaColumna.content.cloneNode(true);
