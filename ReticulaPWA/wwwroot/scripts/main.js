@@ -15,13 +15,13 @@ function logout() {
     sessionStorage.clear();
 
     // Eliminar cachés de Service Workers
-    if ('caches' in window) {
-        caches.keys().then((names) => {
-            names.forEach((name) => caches.delete(name));
-        });
-    }
-    // Recargar sin caché
-    window.location.reload(true);
+    //if ('caches' in window) {
+    //    caches.keys().then((names) => {
+    //        names.forEach((name) => caches.delete(name));
+    //    });
+    //}
+    //// Recargar sin caché
+    //window.location.reload(true);
 
     // Redirigir sin caché
     //window.location.href = '/login?timestamp=' + new Date().getTime();
@@ -78,8 +78,9 @@ function navegarPdf() {
 
     setTimeout(() => {
 
+        const reticulaPDF = JSON.parse(localStorage.getItem('reticulaPDF'));
 
-        if (!reticulaClon) return;
+        if (!reticulaPDF) return;
 
         const opciones = {
             filename: "Reticula.pdf",
@@ -88,7 +89,7 @@ function navegarPdf() {
             jsPDF: { format: "a4", orientation: "landscape" },
         };
 
-        html2pdf().set(opciones).from(reticulaClon).save();
+        html2pdf().set(opciones).from(reticulaPDF).save();
     }, 0);
 
 }

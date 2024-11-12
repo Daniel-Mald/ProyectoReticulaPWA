@@ -1,8 +1,7 @@
 ﻿const plantillaColumna = document.querySelector(".plantilla-columna");
 const plantillaMateria = document.querySelector(".plantilla-materia");
-const plantillaOportunidad = document.querySelector(
-    ".platilla-oportunidad"
-);
+const plantillaOportunidad = document.querySelector(".platilla-oportunidad");
+const plantillaPDF = document.querySelector("#plantilla-pdf");
 
 const tabla = document.getElementById("tabla-materias");
 
@@ -75,7 +74,6 @@ function ocultarOportunidades(event) {
     event.target.classList.remove("oportunidad-active");
 }
 
-
 function oportunidadesEvento() {
 
     const span = document.querySelectorAll(".oportunidad");
@@ -84,70 +82,46 @@ function oportunidadesEvento() {
         oportunidad.addEventListener("click", mostrarOportunidades);
         oportunidad.addEventListener("mouseleave", ocultarOportunidades);
     });
-
-}
-
-const plantillaInfo = ({ nombre, numControl, carrera, especialidad }) => {
-
-    return `
- <h2>INSTITUTO TECNOLÓGICO DE ESTUDIOS SUPERIORES DE LA REGIÓN CARBONÍFERA</h2>
-<div class="infoAlumnoPdf">
-<label>Nombre: ${nombre}</label>
-<label>No. Control: ${numControl}</label>
-<label>Carrera: ${carrera}</label>
-<label>Especialidad: ${especialidad}</label>
-</div>
-
-`
 }
 
 
-let reticulaClon;
 
 function guardarTablaLocalStorage() {
 
-    reticulaClon = document.createElement("div");
-    reticulaClon.classList.add("pdf-Alumno");
+    const clon = plantillaPDF.content.firstElementChild.cloneNode(true);
 
     const perfil = JSON.parse(localStorage.getItem("perfil"));
-    const credenciales = JSON.parse(localStorage.getItem("credenciales"));
 
-    const info = plantillaInfo({
-        nombre: perfil.nombreDelAlumno,
-        numControl: credenciales.numeroControl,
-        carrera: perfil.carrera,
-        especialidad: perfil.especialidad || "No especialidad"
-    });
+    clon.querySelector(".pdf__nombre").innerHTML = `<b>Nombre:</b> ${perfil.nombreDelAlumno}`;
+    clon.querySelector(".pdf__numControl").innerHTML = `<b>Número de control:</b> ${perfil.numeroControl}`;
+    clon.querySelector(".pdf__carrera").innerHTML = `<b>Carrera:</b> ${perfil.carrera}`;
+    clon.querySelector(".pdf__especialidad").innerHTML = `<b>Especialidad:</b> ${perfil.especialidad}`;
+    clon.querySelector(".pdf__especialidad").style.display = (perfil.especialidad) ? "block" : "none";
 
-    reticulaClon.innerHTML = info;
 
     reticula = document.querySelector("#tabla-materias").cloneNode(true);
-
     reticula.classList.add("reticula-pdf");
 
     Array.from(reticula.querySelectorAll(".tabla__materia")).forEach((materia) => {
-
-        materia.classList.add("tabla__materiaPDF");
-
+        materia.classList.replace("tabla__materia", "tabla__materiaPDF");
         const oportunidad = materia.querySelector(".oportunidad");
         if (oportunidad) {
             oportunidad.classList.add("oportunidadPDF");
         }
     });
 
-    reticulaClon.appendChild(reticula);
+    clon.appendChild(reticula);
+
+    localStorage.setItem("reticulaPDF", JSON.stringify(clon.outerHTML));
 }
 
 
 const mapeoPerfil2 = () => {
     //crearColumnas(9);
-
     const semestres = JSON.parse(localStorage.getItem("semestres"));
     crearMaterias(semestres);
     if (!semestres) return;
     guardarTablaLocalStorage();
-}
+};
 
 window.addEventListener("DOMContentLoaded", mapeoPerfil2);
-
-

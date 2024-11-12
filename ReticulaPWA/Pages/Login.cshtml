@@ -99,6 +99,8 @@
 
                 perfilChannel.postMessage(data.informacionGeneral);
 
+                data.informacionGeneral.numeroControl = numeroControl;
+
                 localStorage.setItem("semestres", JSON.stringify(data.semestres));
                 localStorage.setItem("perfil", JSON.stringify(data.informacionGeneral));
                 localStorage.setItem("credenciales", JSON.stringify(credenciales));
