@@ -24,7 +24,9 @@ const urls = [
     "/scripts/perfil.js",
     "/scripts/ReticulaScript.js",
     "/assets/fonts/Montserrat-Bold.ttf",
-    "/assets/fonts/Montserrat-Regular.ttf"
+    "/assets/fonts/Montserrat-Regular.ttf",
+    "/login",
+    "/"
 ];
 
 async function precache() {
@@ -152,6 +154,11 @@ async function staleThenRevalidate(request) {
 }
 
 
+function loginPerssistente(request) {
+    console.log("entri");
+    
+}
+
 self.addEventListener("install", (event) => {
     event.waitUntil(precache());
 });
@@ -176,7 +183,13 @@ self.addEventListener("fetch", (event) => {
     const isViewPerfil = url2.includes("/perfil");
 
 
-    if (event.request.url.includes("api") || event.request.method === "POST") {
+    if (`${event.request.url}/` === url.origin || `${event.request.url}` === url.origin) {
+        console.log("Vista principal origin" + url.login);
+        console.log("Vista principal " + event.request.url);
+        event.respondWith(staleThenRevalidate(event.request));
+    }
+
+    else if (event.request.url.includes("api") || event.request.method === "POST") {
         event.respondWith(networkOnly(event.request));
     }
     else if (event.request.url.includes("https://intertec.tec-carbonifera.edu.mx/fotos")) {
