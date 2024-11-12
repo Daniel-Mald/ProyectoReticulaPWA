@@ -314,7 +314,7 @@ body {
 
 .perfil__contenido__informacion {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     gap: 1rem;
 }
 
@@ -539,7 +539,6 @@ body {
             content: "Oportunidad";
             font-size: 0.8rem;
         }
-
 
 
 
