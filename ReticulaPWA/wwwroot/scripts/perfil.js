@@ -17,7 +17,7 @@ const mapeoPerfil = () => {
     numControlLbl.textContent = numeroControl;
 
     const año = numeroControl.substring(0, 2);
-    //fotoPerfil.src = `https://intertec.tec-carbonifera.edu.mx/fotos/al/${año}/${numeroControl}.jpg`;
+    fotoPerfil.src = `https://intertec.tec-carbonifera.edu.mx/fotos/al/${año}/${numeroControl}.jpg`;
 
 
     document.getElementById("perfil__carrera").textContent = perfilDto.carrera;

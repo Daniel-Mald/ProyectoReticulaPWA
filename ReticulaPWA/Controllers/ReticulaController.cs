@@ -194,7 +194,7 @@ namespace ReticulaPWA.Controllers
                             newSemestre.Numero = s;
 
                             newSemestre.Materias = materiasFromKardex.Where(x => x.Semestre == s && !x.Clave.StartsWith("TUT") 
-                            && x.Clave != "ACA0001" && !x.Clave.StartsWith("ING") && !x.Clave.StartsWith("SR") && !x.Clave.StartsWith("EXT")).ToList();
+                            && x.Clave != "ACA0001" && !x.Clave.StartsWith("ING") && !x.Clave.StartsWith("SR") && !x.Clave.StartsWith("EXT") && !x.Clave.StartsWith("SSY"));
                             semestres.Add(newSemestre);
 
                         }

@@ -42,7 +42,7 @@ function crearMaterias(semestresFetch) {
 
                     estado.appendChild(oport);
                 }
-                
+
             } else if (estado1 == "No acreditada") {
                 estado.classList.add("materia-no-acreditada");
             } else if (estado1 == "Cursando") {
@@ -87,14 +87,45 @@ function oportunidadesEvento() {
 
 }
 
+const plantillaInfo = ({ nombre, numControl, carrera, especialidad }) => {
+
+    return `
+ <h2>INSTITUTO TECNOLÓGICO DE ESTUDIOS SUPERIORES DE LA REGIÓN CARBONÍFERA</h2>
+<div class="infoAlumnoPdf">
+<label>Nombre: ${nombre}</label>
+<label>No. Control: ${numControl}</label>
+<label>Carrera: ${carrera}</label>
+<label>Especialidad: ${especialidad}</label>
+</div>
+
+`
+}
+
+
 let reticulaClon;
+
 function guardarTablaLocalStorage() {
 
-    reticulaClon = document.getElementById("tabla-materias").cloneNode(true);
+    reticulaClon = document.createElement("div");
+    reticulaClon.classList.add("pdf-Alumno");
 
-    reticulaClon.classList.add("reticula-pdf");
+    const perfil = JSON.parse(localStorage.getItem("perfil"));
+    const credenciales = JSON.parse(localStorage.getItem("credenciales"));
 
-    reticulaClon.querySelectorAll(".tabla__materia").forEach((materia) => {
+    const info = plantillaInfo({
+        nombre: perfil.nombreDelAlumno,
+        numControl: credenciales.numeroControl,
+        carrera: perfil.carrera,
+        especialidad: perfil.especialidad || "No especialidad"
+    });
+
+    reticulaClon.innerHTML = info;
+
+    reticula = document.querySelector("#tabla-materias").cloneNode(true);
+
+    reticula.classList.add("reticula-pdf");
+
+    Array.from(reticula.querySelectorAll(".tabla__materia")).forEach((materia) => {
 
         materia.classList.add("tabla__materiaPDF");
 
@@ -103,6 +134,8 @@ function guardarTablaLocalStorage() {
             oportunidad.classList.add("oportunidadPDF");
         }
     });
+
+    reticulaClon.appendChild(reticula);
 }
 
 

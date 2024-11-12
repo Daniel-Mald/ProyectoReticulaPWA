@@ -1,4 +1,4 @@
-﻿let version = "2";
+﻿let version = "3";
 const CACHE_NAME = `cacheV${version}`;
 const urls = [
     "/css/estilos.css",
@@ -23,8 +23,8 @@ const urls = [
     "/scripts/html2Pdf.js",
     "/scripts/perfil.js",
     "/scripts/ReticulaScript.js",
-    "https://fonts.googleapis.com/css2?family=Montserrat&display=swap",
-    "https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap"
+    "/assets/fonts/Montserrat-Bold.ttf",
+    "/assets/fonts/Montserrat-Regular.ttf"
 ];
 
 async function precache() {
@@ -71,7 +71,7 @@ async function cacheFirst(req) {
         return respuestaNetwork;
 
     } catch (error) {
-        console.log(error);
+        console.log( `${error} url: ${req.url}`);
         return new Response("Error fetching the resource: " + req.url, {
             status: 500,
         });
@@ -173,13 +173,14 @@ self.addEventListener("fetch", (event) => {
 
     const url2 = event.request.url;
         
+    const isViewPerfil = url2.includes("/perfil");
 
 
     if (event.request.url.includes("api") || event.request.method === "POST") {
         event.respondWith(networkOnly(event.request));
     }
-    else if (event.request.url.includes("fonts")) {
-        event.respondWith(cacheFirst(event.request));
+    else if (event.request.url.includes("https://intertec.tec-carbonifera.edu.mx/fotos")) {
+        return;
     }
     else if(isImage){
         event.respondWith(cacheFirst(event.request));
