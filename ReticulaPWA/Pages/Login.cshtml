@@ -9,11 +9,20 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
     <link rel="stylesheet" href="~/css/estilos.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
     <link rel="shortcut icon"
           href="~/assets/logos/Logo144x144.png"
           type="image/x-icon" />
     <link rel="manifest" href="~/manifest.json" />
     <title>Login</title>
+    <style>
+        body {
+            font-family: "Montserrat", system-ui,sans-serif;
+        }
+
+    </style>
 </head>
 <body>
     <main class="main">
@@ -49,134 +58,11 @@
                     <div class="spinner"></div>
                 </div>
 
-
-
             </form>
         </div>
     </main>
 
-    <script>
-        const btnIngresar = document.getElementById("btnIngresar");
-        const nombretxt = document.getElementById("numControltxt");
-        const passwordtxt = document.getElementById("passwordtxt");
-        const erroresLbl = document.querySelector(".form__errores");
-        const loading = document.getElementById("loader");
-
-
-        const perfilChannel = new BroadcastChannel("Perfil_Channel");
-        const reticulaChannel = new BroadcastChannel("Reticula_Channel");
-        const usuarioChannel = new BroadcastChannel("USUARIO_CHANNEL");
-
-
-        function validarUsuario({ numeroControl, password }) {
-
-            const errores = [];
-
-            if (numeroControl === "") {
-                errores.push("El número de control no puede estar vacío.");
-            }
-            if (password === "") {
-                errores.push("La contraseña no puede estar vacía.");
-            }
-
-            return errores;
-        }
-
-
-        async function ingresar(event) {
-
-            try {
-
-                erroresLbl.innerHTML = "";
-
-                loading.style.display = "block";
-
-                const numeroControl = nombretxt.value.toUpperCase();
-                const password = passwordtxt.value;
-
-
-                const errores = validarUsuario({
-                    numeroControl: numeroControl,
-                    password: password
-                });
-
-
-                if (errores.length > 0) {
-
-                    let erroresAcumulados = "";
-
-                    errores.forEach(error => {
-
-                        erroresAcumulados += `${error}</br>`;
-
-                    });
-
-                    erroresLbl.innerHTML = erroresAcumulados;
-
-                    loading.style.display = "none";
-                    return;
-                }
-
-
-                if (!navigator.onLine) {
-
-                    erroresLbl.textContent = "No tienes conexión a internet";
-                    loading.style.display = "none";
-                    return;
-                }
-
-
-                const response = await fetch("/api/Reticula", {
-                    method: "GET",
-                    headers: {
-                        'Content-Type': 'application/json',
-                        "NumeroControl": numeroControl,
-                        "Password": password
-                    },
-                });
-
-
-                if (response.ok) {
-
-                    const data = await response.json();
-
-                    const credenciales = {
-                        numeroControl: numeroControl,
-                        password: password
-                    };
-
-                    perfilChannel.postMessage(data.informacionGeneral);
-
-                    data.informacionGeneral.numeroControl = numeroControl;
-
-                    localStorage.setItem("semestres", JSON.stringify(data.semestres));
-                    localStorage.setItem("perfil", JSON.stringify(data.informacionGeneral));
-                    localStorage.setItem("credenciales", JSON.stringify(credenciales));
-
-                    usuarioChannel.postMessage({ operacion: "AGREGAR", credencial: credenciales });
-
-                    window.location.href = "/";
-                }
-                else if (response.status >= 500) {
-                    erroresLbl.textContent = "Problemas con el servidor, Por favor inténtelo mas tarde.";
-                }
-                else {
-                    erroresLbl.textContent = "El número de control o la contraseña son incorrectas";
-                }
-
-                loading.style.display = "none";
-            }
-            catch (error) {
-                erroresLbl.textContent = "Problemas con el servidor, Por favor inténtelo mas tarde.";
-                loading.style.display = "none";
-                console.error(error);
-            }
-        }
-
-
-        btnIngresar.addEventListener("click", ingresar);
-
-    </script>
+    <script src="~/scripts/login.js"></script>
 </body>
 </html>
 

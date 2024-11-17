@@ -26,16 +26,22 @@ function crearMaterias(semestresFetch) {
         i++;
 
         for (let materias of semestre.materias) {
+
             let materia = plantillaMateria.content.cloneNode(true);
             let estado = materia.querySelector(".tabla__materia");
             let titulo = materia.querySelector(".tabla__materia__titulo");
             let clave = materia.querySelector(".tabla__materia__clave");
+            let promedio = materia.querySelector(".tabla__materia__promedio");
+
+
             estado.classList.remove("materia-acreditada");
 
             titulo.textContent = materias.nombre;
             let estado1 = materias.estado;
+
             if (estado1 == "Acreditada") {
                 estado.classList.add("materia-acreditada");
+
                 if (materias.oportunidad > 1) {
                     let oport = plantillaOportunidad.content.cloneNode(true);
                     let oportunid = oport.querySelector(".oportunidad");
@@ -45,6 +51,12 @@ function crearMaterias(semestresFetch) {
                     estado.appendChild(oport);
                 }
 
+                if (materias.promedio) {
+                    promedio.textContent = `Promedio: ${materias.promedio}`;
+                    promedio.style.display = "block";
+                }
+
+
             } else if (estado1 == "No acreditada") {
                 estado.classList.add("materia-no-acreditada");
             } else if (estado1 == "Cursando") {
@@ -52,6 +64,8 @@ function crearMaterias(semestresFetch) {
             } else {
                 estado.classList.add("materia-sin-cursar");
             }
+
+
 
             clave.textContent = materias.clave;
             tablaColumna.appendChild(materia);

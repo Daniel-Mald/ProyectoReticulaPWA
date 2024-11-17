@@ -1,8 +1,11 @@
 ﻿const versionCache = "3";
-const verdionBD = 3;
+const versionBD = 3;
 const CACHE_NAME = `cacheV${versionCache}`;
 const DB_NAME = "reticulaDB";
+const TABLA_CREDENCIALES = "credenciales";
 
+let isAutenticado = true;
+const usuarioChannel = new BroadcastChannel("USUARIO_CHANNEL");
 
 
 const urls = [
@@ -20,6 +23,7 @@ const urls = [
     "/assets/iconos/cursando.png",
     "/assets/iconos/opciones.svg",
     "/assets/iconos/reticula.svg",
+    "/assets/iconos/horario.png",
     "/assets/iconos/no-acreditada.png",
     "/assets/iconos/download.svg",
     "/assets/iconos/user.svg",
@@ -28,39 +32,15 @@ const urls = [
     "/scripts/html2Pdf.js",
     "/scripts/perfil.js",
     "/scripts/ReticulaScript.js",
-    "/assets/fonts/Montserrat-Bold.ttf",
-    "/assets/fonts/Montserrat-Regular.ttf",
     "/login",
-    "/"
+    "/",
+    "/perfil",
 ];
 
 async function precache() {
     const cache = await caches.open(CACHE_NAME);
-
-    urls.forEach(async (url) => {
-
-        try {
-
-            await cache.add(url);
-        }
-        catch (error) {
-            console.log("No se pudo agregar el recurso al caché: " + url);
-        }
-
-    });
-
-
+    return cache.addAll(urls);
 }
-
-const borrarCache = async (key) => {
-    await caches.delete(key);
-};
-
-const borrarCacheAntiguo = async () => {
-    const cacheKeys = await caches.keys();
-    const cacheToDelete = cacheKeys.filter((key) => key !== CACHE_NAME);
-    await Promise.all(cacheToDelete.map(borrarCache));
-};
 
 async function cacheFirst(req) {
     try {
@@ -79,7 +59,7 @@ async function cacheFirst(req) {
 
     } catch (error) {
         console.log(`${error} url: ${req.url}`);
-        return new Response("Error fetching the resource: " + req.url, {
+        return new Response("Error cache firts: " + req.url, {
             status: 500,
         });
     }
@@ -87,94 +67,38 @@ async function cacheFirst(req) {
 
 async function networkOnly(req) {
     try {
+
         let response = await fetch(req);
-        if (response.ok) {
-            return response;
-        } else {
-            return new Response("Error al obtener la respuesta de la red", {
-                status: 500,
-            });
-        }
+
+        if (response.ok) return response;
+
+        return new Response("Error al obtener la respuesta de la red", {
+            status: 500,
+        });
+
     } catch (error) {
-        console.log(error);
         return new Response("Error al acceder a la red", { status: 500 });
     }
 }
 
 async function networkFirst(request) {
-    let cache = await caches.open(CACHE_NAME);
     try {
-        let respuesta = await fetch(request, { mode: 'cors', credentials: 'omit' });
+        let cache = await caches.open(CACHE_NAME);
+        let respuesta = await fetch(request);
 
         if (respuesta.ok) {
             cache.put(request, respuesta.clone());
         }
+
         return respuesta;
+
     } catch (error) {
         let response = await cache.match(request);
-        return (
-            response ||
+
+        return response ||
             new Response("Recurso no disponible en caché ni en la red", {
                 status: 503,
-            })
-        );
-    }
-}
-
-const channel = new BroadcastChannel("Cambios_Channel");
-async function staleThenRevalidate(request) {
-    try {
-        const cache = await caches.open(CACHE_NAME);
-        const cachedResponse = await cache.match(request);
-
-        if (!cachedResponse) return networkFirst(request);
-
-        fetch(request, { mode: 'cors', credentials: 'omit' })
-            .then(async (networkResponse) => {
-                if (!networkResponse.ok) return; // No fue existosa la respuesta de la red
-
-                //const cacheResponseCloneText = await cachedResponse.clone().text();
-                //const responseNetworkCloneText = await networkResponse.clone().text();
-
-                //if (cacheResponseCloneText === responseNetworkCloneText) return; // No hay cambios en la respuesta
-
-                await cache.put(request, networkResponse.clone());
-
-                //AVISAR CAMBIOS
-
-            })
-            .catch((err) => {
-                console.error(
-                    `Error al obtener la respuesta de la red: ${err} url ${request.url}`
-                );
             });
-
-        return cachedResponse.clone();
-
-
-    } catch (error) {
-        console.error(`Error en staleThenRevalidate: ${error}, url ${request.url}`);
-        return new Response("Error interno", { status: 500 });
-    }
-}
-
-async function loginPerssistente(request) {
-
-    const cache = await caches.open(CACHE_NAME);
-
-    const credenciales = await getUsuarios();
-    console.log("LOGIN " + credenciales);
-    const isAutenticado = (credenciales && credenciales.length > 0) ? true : false;
-
-    if (isAutenticado) {
-
-        return await staleThenRevalidate(request);
-    }
-    else {
-
-        const loginCache = await cache.match("/login");
-
-        return loginCache || await networkFirst("/login");
     }
 }
 
@@ -184,44 +108,63 @@ self.addEventListener("install", (event) => {
     createDB();
 });
 
+
 self.addEventListener("activate", (event) => {
-    event.waitUntil(borrarCacheAntiguo());
+    isAutenticado = usuarioAutenticado();
+    event.waitUntil(event.request);
 });
 
 
 
+self.addEventListener("fetch", async (event) => {
 
-self.addEventListener("fetch", (event) => {
-
-    const isOnline = self.navigator.onLine;
+    // FILTRAR SOLO ACEPTE PETICIONES HTTPS Y DE NUESTRO DOMINIO
     const url = new URL(event.request.url);
+    const method = event.request.method;
+    const mode = event.request.mode;
+
     const isImage =
         url.pathname.includes('.png') ||
         url.pathname.includes('.jpeg') ||
         url.pathname.includes('.svg') ||
         url.pathname.endsWith('.jpg');
 
+    const isFuenteLetra =
+        url.pathname.includes('Montserrat') ||
+        url.pathname.includes('fonts');
 
-    const url2 = event.request.url;
+    const isFotoTec = url.pathname.includes("https://intertec.tec-carbonifera.edu.mx/fotos");
 
-    const isViewPerfil = url2.includes("/perfil");
+    const isMethodPOST = method === "POST";
 
+    const isHttps =
+        url.protocol.includes("https") ||
+        url.protocol.includes("HTTPS");
 
-    if (event.request.url == `${url.origin}/` || event.request.url == url.origin || event.request.url.includes("/perfil")) {
-        event.respondWith(loginPerssistente(event.request));
+    const isCss = url.pathname.includes(".css");
+
+    const isLogin = url.pathname.includes("/login");
+
+    if (!isHttps) return;
+
+    if (isFotoTec || isFuenteLetra) return;
+
+    console.log(isAutenticado);
+
+    if (!isAutenticado && !isLogin && mode === "navigate" && url.origin === location.origin) {
+
+        event.respondWith(Response.redirect('/login', 301));
     }
+    else if (url.pathname.includes("api") || isMethodPOST) {
 
-    else if (event.request.url.includes("api") || event.request.method === "POST") {
         event.respondWith(networkOnly(event.request));
     }
-    else if (event.request.url.includes("https://intertec.tec-carbonifera.edu.mx/fotos")) {
-        return;
-    }
-    else if (isImage) {
+    else if (isImage && isCss) {
+
         event.respondWith(cacheFirst(event.request));
     }
     else {
-        event.respondWith(staleThenRevalidate(event.request));
+        event.respondWith(networkFirst(event.request));
     }
 
 });
@@ -229,17 +172,14 @@ self.addEventListener("fetch", (event) => {
 
 
 var baseDatos;
+
 async function createDB() {
 
-    const request = indexedDB.open(DB_NAME, verdionBD);
+    const request = indexedDB.open(DB_NAME, versionBD);
 
     request.onupgradeneeded = function (event) {
         baseDatos = event.target.result;
         var objectStore = baseDatos.createObjectStore("credenciales", { autoIncrement: true });
-        objectStore.createIndex("numeroControl", "numeroControl", { unique: true });
-        objectStore.createIndex("password", "password", { unique: false });
-
-
     };
 
     request.onsuccess = function (event) {
@@ -251,80 +191,78 @@ async function createDB() {
     };
 }
 
-const UsuarioChannel = new BroadcastChannel("USUARIO_CHANNEL");
+
+
+function verificarExisteBaseDatos() {
+
+    if (baseDatos === undefined) {
+
+        const request = indexedDB.open(DB_NAME, verdionBD);
+
+        request.onsuccess = (event) => {
+            baseDatos = event.target.result;
+        }
+    }
+}
 
 
 
 function addToDatabaseCredenciales(obj) {
 
-    const transaction = baseDatos.transaction(["credenciales"], "readwrite");
-    const objectStore = transaction.objectStore("credenciales");
-    const resultado = objectStore.add(obj);
+    const resultado = baseDatos
+        .transaction([TABLA_CREDENCIALES], "readwrite")
+        .objectStore(TABLA_CREDENCIALES)
+        .add(obj);
 
-    resultado.onsuccess = function () {
-        console.log(`AGREGADA ${obj.numeroControl}`);
-    };
-    resultado.onerror = function () {
-        console.log(`ERROR AL AGREGAR ${obj.numeroControl}`);
-    };
+
+    resultado.onsuccess = () => isAutenticado = true;
+    resultado.onerror = () => isAutenticado = false;
 
 }
 
-function getUsuarios() {
-    return new Promise((resolve, reject) => {
-        var transaction = baseDatos.transaction(["credenciales"]);
-        var objectStore = transaction.objectStore("credenciales");
+function usuarioAutenticado() {
 
-        const usuarios = [];
-        var request = objectStore.openCursor(); // Obtiene todos los registros
+    const request = baseDatos
+        .transaction(TABLA_CREDENCIALES)
+        .objectStore(TABLA_CREDENCIALES)
+        .openCursor();
 
-        request.onsuccess = function (event) {
-            var cursor = event.target.result;
+    request.onsuccess = (event) => {
+        const cursor = event.target.result;
+        return (cursor) ? true : false;
 
-            if (cursor) {
+    };
 
-                usuarios.push({
-                    numeroControl: cursor.value.numeroControl,
-                    password: cursor.value.password
-                });
-                cursor.continue();
-            }
-        };
+    request.onerror = () => false;
 
-        request.onerror = function (event) {
-            console.error("Error al obtener los elementos:", event.target.error);
-            return [];
-        };
-
-
-        transaction.oncomplete = function () {
-            console.log("Se obtuvieron los usuarios");
-            resolve(usuarios);
-        }
-    });
+    return false;
 }
 
 function eliminarUsuario() {
+
     var request = baseDatos
-        .transaction(["credenciales"], "readwrite")
-        .objectStore("credenciales")
+        .transaction([TABLA_CREDENCIALES], "readwrite")
+        .objectStore(TABLA_CREDENCIALES)
         .clear();
+
     request.onsuccess = function (event) {
         console.log("SE ELIMINARON TODOS LOS USUARIOS");
+        isAutenticado = false;
     };
 }
 
 
 
-UsuarioChannel.onmessage = (event) => {
+usuarioChannel.onmessage = (event) => {
 
     const mensaje = event.data;
 
     if (mensaje.operacion === "AGREGAR") {
-
+        console.log("AGREGAR USUARIO MENSAJE");
         addToDatabaseCredenciales(mensaje.credencial);
     }
     else if (mensaje.operacion === "ELIMINAR") {
+        console.log("ELIMINAR USUARIO MENSAJE");
         eliminarUsuario();
     }
 

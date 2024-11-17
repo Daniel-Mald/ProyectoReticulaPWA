@@ -41,6 +41,7 @@
         public string Estado { get; set; } = null!;
         public int Semestre { get; set; }
         public int Oportunidad { get; set; }
+        public int? Promedio { get; set; }
     }
     public class Semestre
     {
