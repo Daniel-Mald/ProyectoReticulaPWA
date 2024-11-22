@@ -22,6 +22,44 @@ namespace ReticulaPWA.Controllers
             this.apiService = apiService;
         }
 
+
+        [HttpPost("login")]
+        public async Task<IActionResult> LoginReticula([FromBody] LoginDTO loginDto)
+        {
+            if (loginDto == null)
+                return BadRequest("No se recibieron datos");
+
+            if (string.IsNullOrWhiteSpace(loginDto.NumControl))
+                ModelState.AddModelError("", "El número de control no puede estar vacio");
+            else if(loginDto.NumControl.Length != 8)
+                ModelState.AddModelError("", "El número de control debe tener 8 caracteres");
+
+            if (string.IsNullOrWhiteSpace(loginDto.Password))
+                ModelState.AddModelError("", "La contraseña no puede estar vacia");
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            CredencialesModel Credenciales = new() { NumeroControl = loginDto.NumControl, Password = loginDto.Password };
+            InformacionGeneral? informacionGeneral = await apiService.GetInformacionGeneral(Credenciales);
+
+            if(informacionGeneral == null)
+                return BadRequest("No se encontro la información del alumno.");
+
+            if(informacionGeneral.CredencialesIncorrectas)
+                return BadRequest("Credenciales incorrectas");
+
+
+            return Ok();
+        }
+
+
+
+
+
+
+
+
         [HttpGet]
         public async Task<IActionResult> Login()
         {
@@ -177,11 +215,12 @@ namespace ReticulaPWA.Controllers
                             Semestre = item.Semestre
                         };
                         if (resultado.Horario.FirstOrDefault(x => x.clave.Split(" ")[0] == item.Clave) != null ||
-                            resultado.Horario.FirstOrDefault(x => x.nombre == item.Nombre) != null)
+                            resultado.Horario.FirstOrDefault(x => x.nombre == item.Nombre) != null )
                         {
                             nuevaMateriaReticula.Estado = "Cursando";
-                            var sem = informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "PERIODO ACTUAL O ULTIMO:")!.valor.Substring(1, 2);
-                            nuevaMateriaReticula.Semestre = int.Parse(sem);
+                            //var sem = informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "PERIODO ACTUAL O ULTIMO:")!.valor.Substring(1, 2);
+                            //nuevaMateriaReticula.Semestre = int.Parse(sem);
+                            nuevaMateriaReticula.Semestre = semestreActual;
                         }
                         else
                         {

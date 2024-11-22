@@ -4,7 +4,6 @@ const CACHE_NAME = `cacheV${versionCache}`;
 const DB_NAME = "reticulaDB";
 const TABLA_CREDENCIALES = "credenciales";
 
-let isAutenticado = true;
 const usuarioChannel = new BroadcastChannel("USUARIO_CHANNEL");
 
 
@@ -103,6 +102,31 @@ async function networkFirst(request) {
 }
 
 
+async function loginPersistente(request) {
+    try {
+        let isLogin = request.url.includes("/login");
+
+        if (isLogin) return cacheFirst(request);
+
+        let isAutenticado = false;
+
+        console.log("AUTENTICADO: ", isAutenticado);
+
+        if (!isAutenticado) {
+
+            return Response.redirect('/login', 301);
+        }
+
+        return cacheFirst(request);
+    }
+    catch (error) {
+        console.log(error);
+        return new Response("Error al verificar la autenticación", { status: 500 });
+    }
+}
+
+
+
 self.addEventListener("install", (event) => {
     event.waitUntil(precache());
     createDB();
@@ -110,7 +134,6 @@ self.addEventListener("install", (event) => {
 
 
 self.addEventListener("activate", (event) => {
-    isAutenticado = usuarioAutenticado();
     event.waitUntil(event.request);
 });
 
@@ -143,17 +166,16 @@ self.addEventListener("fetch", async (event) => {
 
     const isCss = url.pathname.includes(".css");
 
-    const isLogin = url.pathname.includes("/login");
+    /*  const isLogin = url.pathname.includes("/login");*/
 
     if (!isHttps) return;
 
     if (isFotoTec || isFuenteLetra) return;
 
-    console.log(isAutenticado);
 
-    if (!isAutenticado && !isLogin && mode === "navigate" && url.origin === location.origin) {
+    if (mode === "navigate" && url.origin === location.origin) {
 
-        event.respondWith(Response.redirect('/login', 301));
+        event.respondWith(loginPersistente(event.request));
     }
     else if (url.pathname.includes("api") || isMethodPOST) {
 
@@ -171,99 +193,19 @@ self.addEventListener("fetch", async (event) => {
 
 
 
-var baseDatos;
 
-async function createDB() {
-
-    const request = indexedDB.open(DB_NAME, versionBD);
-
-    request.onupgradeneeded = function (event) {
-        baseDatos = event.target.result;
-        var objectStore = baseDatos.createObjectStore("credenciales", { autoIncrement: true });
-    };
-
-    request.onsuccess = function (event) {
-        baseDatos = request.result;
-    };
-
-    request.onerror = function (event) {
-        console.error("ERROR AL CREAR LA BASE DE DATOS INDEXDB " + event.target.errorCode);
-    };
-}
-
-
-
-function verificarExisteBaseDatos() {
-
-    if (baseDatos === undefined) {
-
-        const request = indexedDB.open(DB_NAME, verdionBD);
-
-        request.onsuccess = (event) => {
-            baseDatos = event.target.result;
-        }
-    }
-}
-
-
-
-function addToDatabaseCredenciales(obj) {
-
-    const resultado = baseDatos
-        .transaction([TABLA_CREDENCIALES], "readwrite")
-        .objectStore(TABLA_CREDENCIALES)
-        .add(obj);
-
-
-    resultado.onsuccess = () => isAutenticado = true;
-    resultado.onerror = () => isAutenticado = false;
-
-}
-
-function usuarioAutenticado() {
-
-    const request = baseDatos
-        .transaction(TABLA_CREDENCIALES)
-        .objectStore(TABLA_CREDENCIALES)
-        .openCursor();
-
-    request.onsuccess = (event) => {
-        const cursor = event.target.result;
-        return (cursor) ? true : false;
-
-    };
-
-    request.onerror = () => false;
-
-    return false;
-}
-
-function eliminarUsuario() {
-
-    var request = baseDatos
-        .transaction([TABLA_CREDENCIALES], "readwrite")
-        .objectStore(TABLA_CREDENCIALES)
-        .clear();
-
-    request.onsuccess = function (event) {
-        console.log("SE ELIMINARON TODOS LOS USUARIOS");
-        isAutenticado = false;
-    };
-}
-
-
-
-usuarioChannel.onmessage = (event) => {
+usuarioChannel.onmessage = async (event) => {
 
     const mensaje = event.data;
+    const obj = mensaje.credencial;
 
     if (mensaje.operacion === "AGREGAR") {
-        console.log("AGREGAR USUARIO MENSAJE");
-        addToDatabaseCredenciales(mensaje.credencial);
+
+        console.log("AGREGAR Usuario: ", estado);
     }
     else if (mensaje.operacion === "ELIMINAR") {
+
         console.log("ELIMINAR USUARIO MENSAJE");
-        eliminarUsuario();
     }
 
 }
