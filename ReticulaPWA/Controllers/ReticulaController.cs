@@ -349,6 +349,7 @@ namespace ReticulaPWA.Controllers
             }
         }
         
+
         [HttpGet("horario")]
         public async Task<IActionResult> Horario()
         {
