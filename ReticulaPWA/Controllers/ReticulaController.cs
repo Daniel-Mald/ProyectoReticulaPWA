@@ -350,22 +350,22 @@ namespace ReticulaPWA.Controllers
         }
         
 
-                return Ok(respuestaDTO);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest($"Error en las peticiones: {ex.Message}");
-            }
+        //        return Ok(respuestaDTO);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest($"Error en las peticiones: {ex.Message}");
+        //    }
 
-        }
+        //}
 
 
         [HttpGet("horario")]
         public async Task<IActionResult> Horario()
         {
-            var credenciales = new CredencialesModel
+            var credenciales = new LoginDTO
             {
-                NumeroControl = "201G0256",
+                NumControl = "201G0256",
                 Password = "ESCOLARES"
             };
 
