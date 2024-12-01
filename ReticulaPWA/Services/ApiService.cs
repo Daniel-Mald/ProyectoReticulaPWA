@@ -16,10 +16,10 @@ namespace ReticulaPWA.Services
             _httpClientFactory = httpClientFactory;
 
         }
-        public async Task<IEnumerable<KardexDTO>?> GetKardex(CredencialesModel dto)
+        public async Task<IEnumerable<KardexDTO>?> GetKardex(LoginDTO dto)
         {
             var client = _httpClientFactory.CreateClient();
-            var response = await client.GetAsync($"{sieUri}kardex?control={dto.NumeroControl}&password={dto.Password}");
+            var response = await client.GetAsync($"{sieUri}kardex?control={dto.NumControl}&password={dto.Password}");
             if (response.IsSuccessStatusCode)
             {
                 var json = response.Content.ReadAsStringAsync().Result;
@@ -69,10 +69,10 @@ namespace ReticulaPWA.Services
             //}
             
         }
-        public async Task<InformacionGeneral> GetInformacionGeneral(CredencialesModel dto)
+        public async Task<InformacionGeneral> GetInformacionGeneral(LoginDTO dto)
         {
             var client = _httpClientFactory.CreateClient();
-            var response = await client.GetAsync($"{sieUri}datosgenerales?control={dto.NumeroControl}&password={dto.Password}");
+            var response = await client.GetAsync($"{sieUri}datosgenerales?control={dto.NumControl}&password={dto.Password}");
             if (response.IsSuccessStatusCode)
             {
                 var json = response.Content.ReadAsStringAsync().Result;
@@ -110,10 +110,10 @@ namespace ReticulaPWA.Services
             }
             return null;
         }
-        public async Task<IEnumerable<HorarioDTO>?> GetHorario(CredencialesModel dto)
+        public async Task<IEnumerable<HorarioDTO>?> GetHorario(LoginDTO dto)
         {
             var client = _httpClientFactory.CreateClient();
-            var response = await client.GetAsync($"{sieUri}horario?control={dto.NumeroControl}&password={dto.Password}");
+            var response = await client.GetAsync($"{sieUri}horario?control={dto.NumControl}&password={dto.Password}");
 
             if (response.IsSuccessStatusCode)
             {
