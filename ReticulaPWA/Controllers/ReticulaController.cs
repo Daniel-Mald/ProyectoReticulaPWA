@@ -349,17 +349,6 @@ namespace ReticulaPWA.Controllers
             }
         }
         
-
-        //        return Ok(respuestaDTO);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return BadRequest($"Error en las peticiones: {ex.Message}");
-        //    }
-
-        //}
-
-
         [HttpGet("horario")]
         public async Task<IActionResult> Horario()
         {
