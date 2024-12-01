@@ -36,13 +36,29 @@
                 <h1 class="header__title">Avance Reticular</h1>
             </div>
 
-            <figure class="header__figure">
-                <img src="assets/iconos/opciones.svg"
-                     alt="Opciones"
-                     class="header__img__opciones" />
-            </figure>
+            <div class="header__opciones">
+
+                <figure class="header__opciones-foto">
+                    <img alt="foto"
+                         class="header__opciones-img" />
+                </figure>
+
+                <div class="header__opciones__informacion">
+
+                <h3 class="header__opciones-nombre"></h3>
+                @* <span class="header__opciones-numero"></span> *@
+                </div>
+
+                <figure class="header__opciones-icono">
+                    <img alt="foto"
+                         src="~/assets/iconos/arrow.png"
+                         class="img" />
+                </figure>
+
+            </div>
 
             <div class="menu-flotante">
+
                 <div class="menu-flotante__info menu-flotante__item">
                     <img src="assets/iconos/card-info.png"
                          alt="info"
@@ -143,14 +159,26 @@
 
             if (perfil && credenciales) {
 
-                document.querySelector(".menu-flotante__nombre").textContent = perfil.nombreDelAlumno;
+                let año = perfil.numeroControl.substring(0,2);
+                const arrayNombre = perfil.nombreDelAlumno.split(" ");
+                let nombre = arrayNombre[0];
+
+                let apellido = (arrayNombre.length < 4) 
+                            ? arrayNombre[1]
+                            : arrayNombre[2];
+
+
+                document.querySelector(".header__opciones-img").src = `https://intertec.tec-carbonifera.edu.mx/fotos/al/${año}/${perfil.numeroControl}.jpg`;
+                document.querySelector(".header__opciones-nombre").textContent = `${nombre} ${apellido}`;
+                // document.querySelector(".header__opciones-numero").textContent = credenciales.numeroControl;
+                document.querySelector(".menu-flotante__nombre").textContent = `${nombre} ${apellido}`;
                 document.querySelector(".menu-flotante__numcontrol").textContent = credenciales.numeroControl;
             }
 
         });
 
     </script>
-    <script src="~/scripts/main.js?v=2"></script>
+    <script src="~/scripts/main.js?v=3"></script>
 
 </body>
 </html>

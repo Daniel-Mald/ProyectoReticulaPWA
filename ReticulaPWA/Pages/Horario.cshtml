@@ -1,0 +1,25 @@
+﻿@page "/horario"
+@model ReticulaPWA.Pages.HorarioModel
+@{
+}
+
+<section class="horario">
+
+    <template id="plantilla-horario">
+        <div class="columna-horario" data-dia="lunes">
+            <h2 class="horario-dia"></h2>
+        </div>
+    </template>
+
+    <template id="plantilla-horario-materia">
+        <section class="horario-materia">
+            <h3 class="horario-materia__nombre"></h3>
+            <p class="horario-materia__docente"></p>
+            <p class="horario-materia__hora"></p>
+            <p class="horario-materia__salon"></p>
+        </section>
+    </template>
+
+</section>
+
+<script src="~/scripts/horario.js"></script>

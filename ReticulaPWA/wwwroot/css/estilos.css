@@ -9,11 +9,11 @@
     --color-grid-fondo: #f0f0f0;
     --color-bordes: #d1d1d1;
     --color-rojo: #b00005;
-    --color-acredito: #86e870;
-    --color-cursando: #91bfef;
-    --color-no-acreditado: #df474d;
+    --color-acredito: #4CAF50;
+    --color-cursando: #72BCF8;
+    --color-no-acreditado: #F44336;
     --color-sin-cursar: #e7e7e7;
-    --box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+    --box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 .container {
@@ -77,16 +77,67 @@
     height: 100%;
 }
 
-/* #region  MENU FLOTANTE */
 
+.header__opciones{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:5px;
+}
+
+.header__opciones-foto{
+    width: 40px;
+    height:40px;
+
+}
+
+.header__opciones__informacion{
+    padding-left:5px;
+}
+
+.header__opciones-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.header__opciones-nombre{
+    font-size:0.8rem;
+}
+.header__opciones-numero{
+    font-size:0.7rem;
+    float:right;
+}
+
+.header__opciones-icono {
+    width: 2.2rem;
+    height: 2.2rem;
+    padding: 0.2rem;
+}
+
+    .header__opciones-icono:has(:hover) {
+        background-color: rgb(0, 0, 0, 0.25);
+        border-radius: 5px;
+        cursor:pointer;
+    }
+
+.img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* #region  MENU FLOTANTE */
 .menu-flotante {
     background-color: white;
     border-radius: 10px;
     box-shadow: var(--box-shadow);
-    width: 300px;
+    border:1px solid var(--color-bordes);
+    width: 250px;
     position: absolute;
-    top: 1.5rem;
-    right: 0.5rem;
+    top: 3rem;
+    right: 1rem;
     z-index: 2000;
     display: none;
 }
@@ -104,7 +155,7 @@
     border-bottom: 1px solid var(--color-bordes);
 }
 
-.menu-flotante > :not(:first-child):hover {
+.menu-flotante > :hover {
     background-color: rgb(0, 0, 0, 0.1);
 }
 
@@ -115,13 +166,15 @@
 
 .menu-flotante__img {
     place-self: center;
-    width: 1.5rem;
-    height: 1.5rem;
+    width: 1.2rem;
+    height: 1.2rem;
     object-fit: contain;
 }
-
+.menu-flotante__info {
+    display: none;
+}
 .menu-flotante label {
-    font-size: 1rem;
+    font-size: 0.8rem;
     color: var(--color-principal);
 }
 
@@ -142,7 +195,7 @@
 
 .menu {
     grid-area: menu;
-    background-color: var(--color-principal);
+    background-color: var(--color-secundario);
 }
 
 .nav {
@@ -163,7 +216,6 @@
     padding: 0.5rem 0;
     place-items: center;
     cursor: pointer;
-    border-radius: 5px;
     transition: background-color 0.3s ease;
 }
 
@@ -421,7 +473,6 @@
 }
 
     .tabla .tabla__columna {
-     
         display: flex;
         flex-direction: column;
         background-color: var(--color-bordes);
@@ -438,7 +489,7 @@
 }
 
 .tabla__materia {
-    height: 100px;
+    height: 110px;
     width: 100%;
     padding: 1rem;
     background-color: var(--color-sin-cursar);
@@ -449,39 +500,21 @@
     gap: 0.5rem;
     align-items: center;
     justify-content: center;
+    color: white;
 }
 
-.tabla__materia__titulo {
-    /*font-size: 0.8rem;*/
-    font-weight: 600;
+/*.tabla__materia__titulo {
+    font-weight: 200;
 }
-
-.tabla .tabla__materia__clave {
-    /*font-size: 0.7rem;*/
-}
-
-/*.tabla .tabla__columna:first-of-type .tabla__materia:last-of-type {
-    border-radius: 0 0 0 10px;
-}
-
-.tabla .tabla__columna:last-of-type .tabla__materia:last-of-type {
-    border-radius: 0 0 10px 0;
-}
-
-.tabla .tabla__columna:first-of-type .tabla__columna__titulo:first-of-type {
-    border-radius: 10px 0 0 0;
-}
-
-.tabla .tabla__columna:last-of-type .tabla__columna__titulo:last-of-type {
-    border-radius: 0 10px 0 0;
-}*/
-
+*/
 /* REGION ESTILOS MATERIAS */
 .materia-acreditada {
+    color: black;
     background-color: var(--color-acredito);
 }
 
 .materia-cursando {
+    color:black;
     background-color: var(--color-cursando);
 }
 
@@ -490,24 +523,23 @@
 }
 
 .materia-sin-cursar {
+    color: #000;
     background-color: var(--color-sin-cursar);
 }
 
 .tabla__materia__promedio {
-    font-weight: 600;
+    /*font-weight: 400;*/
     display: none;
 }
 
 .oportunidad {
-    background-color: var(--color-principal);
-    color: white;
+    background-color: #D1D1D1;
+    color: black;
     width: 1.5rem;
     height: 1.5rem;
-    border-radius: 1rem 0 0 0;
     overflow: hidden;
     cursor: pointer;
     font-size: 0.8rem;
-    padding-left: 0.1rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -723,7 +755,68 @@
 
 /* END REGION LOGIN */
 
-/* END REGION PDF */
+/* REGION HORARIO */
+.horario {
+    width: 100%;
+    overflow: auto;
+    padding: 5rem 1rem;
+    display: flex;
+}
+
+.columna-horario {
+    flex: 0 0 auto;
+    width: 260px;
+    display: flex;
+    flex-direction: column;
+}
+
+.horario-dia {
+    padding: 0.5rem 0;
+    font-size: 1rem;
+    font-weight: 600;
+    background-color: var(--color-bordes);
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.horario-materia {
+    height: 130px;
+    padding: 0.5rem;
+    border: 1px solid var(--color-bordes);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.horario-materia__nombre,
+.horario-materia__hora {
+    font-size: 1rem;
+}
+
+.horario-materia__docente {
+    font-size: 0.7rem;
+}
+
+/* .columna-horario-active {
+  background-color: var(--color-principal);
+  color: white;
+}
+
+.columna-horario-active .horario-dia {
+  background-color: var(--color-principal);
+}
+
+.columna-horario-active .horario-materia {
+  border-color: white;
+} */
+
+/* END REGION HORARIO */
+
 
 @media (max-width: 768px) {
     .header {
@@ -744,6 +837,12 @@
         height: 2rem;
     }
 
+    .header__opciones__informacion{
+        display:none;
+    }
+    .menu-flotante__info{
+        display:grid;
+    }
     .nav__list {
         height: 100%;
         padding: 0.5rem 2rem;
@@ -782,7 +881,7 @@
     }
 
     .nav__list {
-        padding: 5px 2rem;
+        padding: 0;
     }
 
     .nav__item {
@@ -817,6 +916,9 @@
         height: 7rem;
     }
 
+    .perfil__contenido__informacion {
+        grid-template-columns: 1fr;
+    }
     .perfil__foto {
         width: 80px;
         height: 80px;
@@ -874,9 +976,7 @@
         height: 0.7rem;
     }
 
-    .perfil__contenido__informacion {
-        grid-template-columns: 1fr;
-    }
+   
 
     .perfil__imagen {
         grid-template-rows: 3fr 1fr;
@@ -924,9 +1024,6 @@
 
     /* /REGION TABLA */
 
-    .tabla .tabla__materia {
-        height: 80px;
-    }
 
     .tabla__materiaPDF {
         height: 50px;

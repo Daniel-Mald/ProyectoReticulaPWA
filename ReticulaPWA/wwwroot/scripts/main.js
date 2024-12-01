@@ -1,6 +1,7 @@
-const btnOpciones = document.querySelector(".header__figure");
+const btnOpciones = document.querySelector(".header__opciones-icono");
 const menuFlotante = document.querySelector(".menu-flotante");
 const btnReticulaNav = document.getElementById("link-reticula");
+const btnHorarioNav = document.getElementById("link-horario");
 const btnPerfilNav = document.getElementById("link-perfil");
 const btnDescargarPdf = document.querySelector(".menu-flotante__pdf");
 
@@ -11,77 +12,98 @@ const modalCerrarSesion = document.querySelector(".modal");
 
 const usuarioChannel = new BroadcastChannel("USUARIO_CHANNEL");
 function toogleClase(event, claseRemover) {
-  event.classList.toggle(claseRemover);
+    event.classList.toggle(claseRemover);
 }
 function ocultarMenuFlotante(event) {
-  if (
-    !menuFlotante.contains(event.target) &&
-    !btnOpciones.contains(event.target)
-  ) {
-    menuFlotante.classList.remove("menu-flotante--activo");
-  }
+    if (
+        !menuFlotante.contains(event.target) &&
+        !btnOpciones.contains(event.target)
+    ) {
+        menuFlotante.classList.remove("menu-flotante--activo");
+    }
 }
 function monstrarMenuFlotante() {
-  toogleClase(menuFlotante, "menu-flotante--activo");
+    toogleClase(menuFlotante, "menu-flotante--activo");
 }
 
 function navegarReticula(e) {
-  window.location.replace("/");
+    window.location.replace("/");
 }
 
 function navegarPerfil() {
-  window.location.replace("/perfil");
+    window.location.replace("/perfil");
 }
 function navegarLogin() {
-  usuarioChannel.postMessage({ operacion: "ELIMINAR", credencial: null });
+    usuarioChannel.postMessage({ operacion: "ELIMINAR", credencial: null });
 
-  localStorage.clear();
-  sessionStorage.clear();
+    localStorage.clear();
+    sessionStorage.clear();
 
-  window.location.replace("/login");
+    window.location.replace("/login");
 }
 function cancelarCerrarSesion() {
-  modalCerrarSesion.classList.remove("modal__cerrar-sesion--activo");
+    modalCerrarSesion.classList.remove("modal__cerrar-sesion--activo");
 }
 
 function mostrarModalCerrarSesion() {
-  toogleClase(modalCerrarSesion, "modal__cerrar-sesion--activo");
-  toogleClase(menuFlotante, "menu-flotante--activo");
+    toogleClase(modalCerrarSesion, "modal__cerrar-sesion--activo");
+    toogleClase(menuFlotante, "menu-flotante--activo");
 }
 
 function redirigirLogin() {
-  if (location.href.includes("login")) {
-    return;
-  } else if (location.href.includes("perfil")) {
-    btnPerfilNav.classList.add("item-activo");
-    btnReticulaNav.classList.remove("item-activo");
-  } else {
-    btnReticulaNav.classList.add("item-activo");
-    btnPerfilNav.classList.remove("item-activo");
-  }
+
+    if (location.href.includes("login")) {
+        return;
+    }
+    else if (location.href.includes("perfil")) {
+        btnPerfilNav.classList.add("item-activo");
+        btnReticulaNav.classList.remove("item-activo");
+        btnHorarioNav.classList.remove("item-activo");
+
+
+    }
+    else if (location.href.includes("horario")) {
+        btnHorarioNav.classList.add("item-activo");
+        btnReticulaNav.classList.remove("item-activo");
+        btnPerfilNav.classList.remove("item-activo");
+
+    }
+    else {
+        btnReticulaNav.classList.add("item-activo");
+        btnPerfilNav.classList.remove("item-activo");
+        btnHorarioNav.classList.remove("item-activo");
+    }
 }
 
 function navegarPdf() {
-  setTimeout(() => {
-    const reticulaPDF = JSON.parse(localStorage.getItem("reticulaPDF"));
+    setTimeout(() => {
+        const reticulaPDF = JSON.parse(localStorage.getItem("reticulaPDF"));
 
-    if (!reticulaPDF) return;
+        if (!reticulaPDF) return;
 
-    const opciones = {
-      filename: "Reticula.pdf",
-      image: { type: "jpeg", quality: 0.98 },
-      html2canvas: { scale: 3 },
-      jsPDF: { format: "a4", orientation: "landscape" },
-    };
+        const opciones = {
+            filename: "Reticula.pdf",
+            image: { type: "jpeg", quality: 0.98 },
+            html2canvas: { scale: 3 },
+            jsPDF: { format: "a4", orientation: "landscape" },
+        };
 
-    html2pdf().set(opciones).from(reticulaPDF).save();
-  }, 0);
+        html2pdf().set(opciones).from(reticulaPDF).save();
+    }, 0);
 }
 
-btnDescargarPdf.addEventListener("click", navegarPdf);
 
+
+function navegarHorario() {
+    window.location.replace("/horario");
+}
+
+
+
+btnDescargarPdf.addEventListener("click", navegarPdf);
 window.addEventListener("DOMContentLoaded", redirigirLogin);
 btnAceptarCerrarSesion.addEventListener("click", navegarLogin);
+btnHorarioNav.addEventListener("click", navegarHorario);
 btnCerrarSesion.addEventListener("click", mostrarModalCerrarSesion);
 btnCancelarCerrarSesion.addEventListener("click", cancelarCerrarSesion);
 btnReticulaNav.addEventListener("click", navegarReticula);

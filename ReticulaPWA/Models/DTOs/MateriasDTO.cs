@@ -12,4 +12,5 @@
         public string carrera { get; set; } = "";
         public string plan { get; set; } = "";
     }
+
 }

@@ -3,6 +3,7 @@ const versionBD = 3;
 const CACHE_NAME = `cacheV${versionCache}`;
 const DB_NAME = "reticulaDB";
 const TABLA_CREDENCIALES = "credenciales";
+let token = null;   
 
 const usuarioChannel = new BroadcastChannel("USUARIO_CHANNEL");
 
@@ -104,15 +105,12 @@ async function networkFirst(request) {
 
 async function loginPersistente(request) {
     try {
-        let isLogin = request.url.includes("/login");
 
-        if (isLogin) return cacheFirst(request);
-
-        let isAutenticado = false;
-
-        console.log("AUTENTICADO: ", isAutenticado);
-
-        if (!isAutenticado) {
+        if (request.url.includes("/login")) {
+            return cacheFirst(request);
+        }
+        token = "ss";
+        if (token == null) {
 
             return Response.redirect('/login', 301);
         }
@@ -129,7 +127,6 @@ async function loginPersistente(request) {
 
 self.addEventListener("install", (event) => {
     event.waitUntil(precache());
-    createDB();
 });
 
 
@@ -166,11 +163,12 @@ self.addEventListener("fetch", async (event) => {
 
     const isCss = url.pathname.includes(".css");
 
-    /*  const isLogin = url.pathname.includes("/login");*/
-
     if (!isHttps) return;
 
     if (isFotoTec || isFuenteLetra) return;
+
+
+    console.log("token: ", token); 
 
 
     if (mode === "navigate" && url.origin === location.origin) {
@@ -200,12 +198,12 @@ usuarioChannel.onmessage = async (event) => {
     const obj = mensaje.credencial;
 
     if (mensaje.operacion === "AGREGAR") {
-
-        console.log("AGREGAR Usuario: ", estado);
+        token = "TOKEN";
     }
     else if (mensaje.operacion === "ELIMINAR") {
 
         console.log("ELIMINAR USUARIO MENSAJE");
+        token = null;
     }
 
 }
