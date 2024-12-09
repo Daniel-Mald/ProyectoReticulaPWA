@@ -54,29 +54,62 @@ async function ingresar(event) {
             return;
         }
 
-        const response = await fetch("/api/Reticula", {
-            method: "GET",
+        const response = await fetch("/api/Reticula/Login3", {
+            method: "POST",
             headers: {
-                "Content-Type": "application/json",
-                NumeroControl: numeroControl,
-                Password: password,
+                "Content-Type": "application/json"
+                
             },
+            body: JSON.stringify({
+                numControl: numeroControl,
+                password: password
+            })
         });
 
         if (response.ok) {
-            const data = await response.json();
+            //const data = await response.json();
 
             const credenciales = {
-                numeroControl: numeroControl,
+                numControl: numeroControl,
                 password: password,
             };
 
-            perfilChannel.postMessage(data.informacionGeneral);
 
-            data.informacionGeneral.numeroControl = numeroControl;
+            //data.informacionGeneral.numeroControl = numeroControl;
+            //Se hacen los fetch de los distintos elementos
+            //semestres
+            const responseSemestres = await fetch("/api/Reticula/Reticula", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
 
-            localStorage.setItem("semestres", JSON.stringify(data.semestres));
-            localStorage.setItem("perfil", JSON.stringify(data.informacionGeneral));
+                },
+                body: JSON.stringify({
+                    numControl: numeroControl,
+                    password: password
+                })
+            });
+            //perfil
+            const responseInformacionGeneral = await fetch("/api/Reticula/InformacionGeneral", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+
+                },
+                body: JSON.stringify({
+                    numControl: numeroControl,
+                    password: password
+                })
+            });
+
+            let dataInfoGeneral = await responseInformacionGeneral.json()
+            let dataSemestres = await responseSemestres.json();
+
+
+            perfilChannel.postMessage(dataInfoGeneral);
+
+            localStorage.setItem("semestres", JSON.stringify(dataSemestres));
+            localStorage.setItem("perfil", JSON.stringify(dataInfoGeneral));
             localStorage.setItem("credenciales", JSON.stringify(credenciales));
 
             usuarioChannel.postMessage({

@@ -2,7 +2,7 @@
 {
     public class LoginDTO
     {
-        public string NumControl { get; set; } = "";
-        public string Password { get; set; } = "";
+        public string numControl { get; set; } = "";
+        public string password { get; set; } = "";
     }
 }

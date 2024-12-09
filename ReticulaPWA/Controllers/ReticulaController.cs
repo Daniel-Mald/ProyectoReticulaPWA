@@ -25,17 +25,17 @@ namespace ReticulaPWA.Controllers
 
 
         [HttpPost("login")]
-        public async Task<IActionResult> LoginReticula([FromBody] LoginDTO loginDto)
+        public async Task<IActionResult> LoginReticula( LoginDTO loginDto)
         {
             if (loginDto == null)
                 return BadRequest("No se recibieron datos");
 
-            if (string.IsNullOrWhiteSpace(loginDto.NumControl))
+            if (string.IsNullOrWhiteSpace(loginDto.numControl))
                 ModelState.AddModelError("", "El número de control no puede estar vacio");
-            else if(loginDto.NumControl.Length != 8)
+            else if(loginDto.numControl.Length != 8)
                 ModelState.AddModelError("", "El número de control debe tener 8 caracteres");
 
-            if (string.IsNullOrWhiteSpace(loginDto.Password))
+            if (string.IsNullOrWhiteSpace(loginDto.password))
                 ModelState.AddModelError("", "La contraseña no puede estar vacia");
 
             if (!ModelState.IsValid)
@@ -60,18 +60,18 @@ namespace ReticulaPWA.Controllers
             if (loginDto == null)
                 return BadRequest("No se recibieron datos");
 
-            if (string.IsNullOrWhiteSpace(loginDto.NumControl))
+            if (string.IsNullOrWhiteSpace(loginDto.numControl))
                 ModelState.AddModelError("", "El número de control no puede estar vacio");
-            else if (loginDto.NumControl.Length != 8)
+            else if (loginDto.numControl.Length != 8)
                 ModelState.AddModelError("", "El número de control debe tener 8 caracteres");
 
-            if (string.IsNullOrWhiteSpace(loginDto.Password))
+            if (string.IsNullOrWhiteSpace(loginDto.password))
                 ModelState.AddModelError("", "La contraseña no puede estar vacia");
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            CredencialesModel Credenciales = new() { NumeroControl = loginDto.NumControl, Password = loginDto.Password };
+            CredencialesModel Credenciales = new() { NumeroControl = loginDto.numControl, Password = loginDto.password };
             var logged = await apiService.FokinLogin(Credenciales);
 
             if (!logged)
@@ -88,12 +88,12 @@ namespace ReticulaPWA.Controllers
             if (dto == null)
                 return BadRequest("No se recibieron datos");
 
-            if (string.IsNullOrWhiteSpace(dto.NumControl))
+            if (string.IsNullOrWhiteSpace(dto.numControl))
                 ModelState.AddModelError("", "El número de control no puede estar vacio");
-            else if (dto.NumControl.Length != 8)
+            else if (dto.numControl.Length != 8)
                 ModelState.AddModelError("", "El número de control debe tener 8 caracteres");
 
-            if (string.IsNullOrWhiteSpace(dto.Password))
+            if (string.IsNullOrWhiteSpace(dto.password))
                 ModelState.AddModelError("", "La contraseña no puede estar vacia");
 
             if (!ModelState.IsValid)
@@ -277,12 +277,12 @@ namespace ReticulaPWA.Controllers
             if (dto == null)
                 return BadRequest("No se recibieron datos");
 
-            if (string.IsNullOrWhiteSpace(dto.NumControl))
+            if (string.IsNullOrWhiteSpace(dto.numControl))
                 ModelState.AddModelError("", "El número de control no puede estar vacio");
-            else if (dto.NumControl.Length != 8)
+            else if (dto.numControl.Length != 8)
                 ModelState.AddModelError("", "El número de control debe tener 8 caracteres");
 
-            if (string.IsNullOrWhiteSpace(dto.Password))
+            if (string.IsNullOrWhiteSpace(dto.password))
                 ModelState.AddModelError("", "La contraseña no puede estar vacia");
 
             if (!ModelState.IsValid)
@@ -355,8 +355,8 @@ namespace ReticulaPWA.Controllers
         {
             var credenciales = new LoginDTO
             {
-                NumControl = "201G0256",
-                Password = "ESCOLARES"
+                numControl = "201G0256",
+                password = "ESCOLARES"
             };
 
             var horario = await apiService.GetHorario(credenciales);

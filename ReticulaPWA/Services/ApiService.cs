@@ -19,7 +19,7 @@ namespace ReticulaPWA.Services
         public async Task<IEnumerable<KardexDTO>?> GetKardex(LoginDTO dto)
         {
             var client = _httpClientFactory.CreateClient();
-            var response = await client.GetAsync($"{sieUri}kardex?control={dto.NumControl}&password={dto.Password}");
+            var response = await client.GetAsync($"{sieUri}kardex?control={dto.numControl}&password={dto.password}");
             if (response.IsSuccessStatusCode)
             {
                 var json = response.Content.ReadAsStringAsync().Result;
@@ -72,7 +72,7 @@ namespace ReticulaPWA.Services
         public async Task<InformacionGeneral> GetInformacionGeneral(LoginDTO dto)
         {
             var client = _httpClientFactory.CreateClient();
-            var response = await client.GetAsync($"{sieUri}datosgenerales?control={dto.NumControl}&password={dto.Password}");
+            var response = await client.GetAsync($"{sieUri}datosgenerales?control={dto.numControl}&password={dto.password}");
             if (response.IsSuccessStatusCode)
             {
                 var json = response.Content.ReadAsStringAsync().Result;
@@ -113,7 +113,7 @@ namespace ReticulaPWA.Services
         public async Task<IEnumerable<HorarioDTO>?> GetHorario(LoginDTO dto)
         {
             var client = _httpClientFactory.CreateClient();
-            var response = await client.GetAsync($"{sieUri}horario?control={dto.NumControl}&password={dto.Password}");
+            var response = await client.GetAsync($"{sieUri}horario?control={dto.numControl}&password={dto.password}");
 
             if (response.IsSuccessStatusCode)
             {
