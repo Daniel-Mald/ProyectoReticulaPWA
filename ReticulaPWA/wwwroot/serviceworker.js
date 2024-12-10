@@ -179,7 +179,7 @@ self.addEventListener("fetch", async (event) => {
 
         event.respondWith(networkOnly(event.request));
     }
-    else if (isImage && isCss) {
+    else if (isImage || isCss) {
 
         event.respondWith(cacheFirst(event.request));
     }
