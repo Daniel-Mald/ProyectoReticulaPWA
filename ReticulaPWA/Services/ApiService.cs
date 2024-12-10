@@ -10,7 +10,7 @@ namespace ReticulaPWA.Services
     public class ApiService
     {
         private readonly IHttpClientFactory _httpClientFactory;
-        string sieUri = "https://sie.itesrc.net/api/alumno/";
+        string sieUri = "https://sie.itesrc.edu.mx/api/alumno/";
         public ApiService(IHttpClientFactory httpClientFactory)
         {
             _httpClientFactory = httpClientFactory;
