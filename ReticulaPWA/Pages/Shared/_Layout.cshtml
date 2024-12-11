@@ -139,6 +139,7 @@
     <script src="~/scripts/html2Pdf.js"></script>
 
     <script>
+        const actualizarChannel = new BroadcastChannel("ACTUALIZAR_CHANNEL");
 
         const registerServiceWorker = async () => {
             if ("serviceWorker" in navigator) {
@@ -155,9 +156,8 @@
         window.addEventListener("DOMContentLoaded", () => {
 
             const perfil = JSON.parse(localStorage.getItem("perfil"));
-            const credenciales = JSON.parse(localStorage.getItem("credenciales"));
 
-            if (perfil && credenciales) {
+            if (perfil) {
 
                 let año = perfil.numeroControl.substring(0,2);
                 const arrayNombre = perfil.nombreDelAlumno.split(" ");
@@ -170,15 +170,21 @@
 
                 document.querySelector(".header__opciones-img").src = `https://intertec.tec-carbonifera.edu.mx/fotos/al/${año}/${perfil.numeroControl}.jpg`;
                 document.querySelector(".header__opciones-nombre").textContent = `${nombre} ${apellido}`;
-                // document.querySelector(".header__opciones-numero").textContent = credenciales.numeroControl;
                 document.querySelector(".menu-flotante__nombre").textContent = `${nombre} ${apellido}`;
-                document.querySelector(".menu-flotante__numcontrol").textContent = credenciales.numeroControl;
+                document.querySelector(".menu-flotante__numcontrol").textContent = perfil.numeroControl;
             }
 
         });
 
+
+        actualizarChannel.onmessage = (e) => {
+            console.log("Mensaje recibido");
+            location.reload();
+        };
+
+
     </script>
-    <script src="~/scripts/main.js?v=3"></script>
+    <script src="~/scripts/main.js?v=4"></script>
 
 </body>
 </html>

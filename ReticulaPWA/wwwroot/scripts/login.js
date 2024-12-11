@@ -55,8 +55,6 @@ async function ingresar(event) {
             loading.style.display = "none";
             return;
         }
-
-     
         const response = await fetch("/api/Reticula/login", {
             method: "POST",
             headers: {
@@ -68,15 +66,16 @@ async function ingresar(event) {
 
         if (response.ok) {
 
+            const requestPerfil = await fetch("api/reticula/perfil");
 
-            const urls = ["", "", ""];
-            const peticiones = urls.map(url => fetch(url));
+            if (!requestPerfil.ok)
+                return console.error("Error al obtener perfil");
 
-            const respuestas = await Promise.all(peticiones);
+            const perfil = await requestPerfil.json();
 
-            const respuestasJSON = await Promise.all(respuestas.map(respuesta => respuesta.json()));
+            localStorage.setItem("perfil", JSON.stringify(perfil));
 
-            console.log(respuestasJSON);
+            window.location.replace("/");
 
         } else if (response.status >= 500) {
             erroresLbl.textContent =

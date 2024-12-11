@@ -11,7 +11,6 @@ function crearMaterias(semestresFetch) {
     const fragmento = document.createDocumentFragment();
     const fragmentoMateria = document.createDocumentFragment();
 
-
     tabla.innerHTML = "";
     let i = 0;
 
@@ -133,11 +132,21 @@ function guardarTablaLocalStorage() {
 }
 
 
-const mapeoPerfil2 = () => {
+const mapeoPerfil2 = async () => {
     //crearColumnas(9);
-    const semestres = JSON.parse(localStorage.getItem("semestres"));
+
+    const request = await fetch("/api/reticula/reticula");
+
+    if (!request.ok) {
+        console.error("Error al obtener la retícula ", request.status);
+        return;
+    }
+    const semestres = await request.json();
+
     crearMaterias(semestres);
+
     if (!semestres) return;
+
     guardarTablaLocalStorage();
 };
 

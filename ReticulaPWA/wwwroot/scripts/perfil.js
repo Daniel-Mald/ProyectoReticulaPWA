@@ -4,20 +4,23 @@ const numControlLbl = document.getElementById("perfil__numControl");
 const fotoPerfil = document.getElementById("perfil__fotografia");
 
 
-const mapeoPerfil = () => {
-    const perfilDto = JSON.parse(localStorage.getItem("perfil"));
+const mapeoPerfil = async () => {
+
+    const requestPerfil = await fetch("/api/reticula/perfil");
+
+    if (!requestPerfil.ok)
+        throw new Error("No se pudo obtener la información del perfil");
+
+    const perfilDto = await requestPerfil.json();
 
     if (!perfilDto) return;
 
     nombreLbl.textContent = perfilDto.nombreDelAlumno || "ERROR";
 
-    const numeroControl =
-        JSON.parse(localStorage.getItem("credenciales")).numeroControl || "ERROR";
+    numControlLbl.textContent = perfilDto.numeroControl;
 
-    numControlLbl.textContent = numeroControl;
-
-    const año = numeroControl.substring(0, 2);
-    fotoPerfil.src = `https://intertec.tec-carbonifera.edu.mx/fotos/al/${año}/${numeroControl}.jpg`;
+    const año = perfilDto.numeroControl.substring(0, 2);
+    fotoPerfil.src = `https://intertec.tec-carbonifera.edu.mx/fotos/al/${año}/${perfilDto.numeroControl}.jpg`;
 
 
     document.getElementById("perfil__carrera").textContent = perfilDto.carrera;

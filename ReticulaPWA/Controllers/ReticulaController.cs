@@ -47,7 +47,9 @@ namespace ReticulaPWA.Controllers
             if (!logged)
                 return BadRequest("Credenciales incorrectas");
 
-            return Ok();
+            string credenciales = $"{loginDto.NumControl}-{loginDto.Password}";
+
+            return Ok(credenciales);
         }
 
         [HttpGet("Reticula")]
@@ -59,7 +61,7 @@ namespace ReticulaPWA.Controllers
             headers.TryGetValue("NumControl", out StringValues numControl);
             headers.TryGetValue("Password", out StringValues password);
 
-            if(StringValues.IsNullOrEmpty(numControl) || StringValues.IsNullOrEmpty(password))
+            if (StringValues.IsNullOrEmpty(numControl) || StringValues.IsNullOrEmpty(password))
                 return BadRequest("No se recibieron datos");
 
             var dto = new LoginDTO
@@ -68,23 +70,6 @@ namespace ReticulaPWA.Controllers
                 Password = password
             };
 
-            #region ValidacionCredenciales
-            if (dto == null)
-                return BadRequest("No se recibieron datos");
-
-            if (string.IsNullOrWhiteSpace(dto.NumControl))
-                ModelState.AddModelError("", "El número de control no puede estar vacio");
-            else if (dto.NumControl.Length != 8)
-                ModelState.AddModelError("", "El número de control debe tener 8 caracteres");
-
-            if (string.IsNullOrWhiteSpace(dto.Password))
-                ModelState.AddModelError("", "La contraseña no puede estar vacia");
-
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-            #endregion
-            #region Obtener Reticula
-            // cambiar por obtener plan de estudios
             var informacionGeneral = await apiService.GetInformacionGeneral(dto);
 
             if (informacionGeneral == null)
@@ -102,7 +87,6 @@ namespace ReticulaPWA.Controllers
             var horarioTask = apiService.GetHorario(dto);
             var materiasPlanTask = apiService.GetMateriasPlan(plan.Split(" ")[1]);
 
-            //hacer las peticiones
             var tasks = new List<Task>
                     {
                         kardexTask,
@@ -244,7 +228,6 @@ namespace ReticulaPWA.Controllers
                     semestres.Add(newSemestre);
 
                 }
-                #endregion
 
                 return Ok(semestres);
             }
@@ -253,9 +236,8 @@ namespace ReticulaPWA.Controllers
                 return BadRequest($"Error en las peticiones: {ex.Message}");
             }
         }
-       
-        
-        [HttpGet("InformacionGeneral")]
+
+        [HttpGet("Perfil")]
         public async Task<IActionResult> GetInfoGeneral()
         {
 
@@ -316,7 +298,7 @@ namespace ReticulaPWA.Controllers
 
                 Informacion infoGeneral = new()
                 {
-
+                    NumeroControl = numControl,
                     NombreDelAlumno = informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "NOMBRE DEL ALUMNO:")!.valor,
                     Carrera = informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "CARRERA:")!.valor.Split(" ")[1],
                     PlanDeEstudios = informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "PLAN DE ESTUDIOS:")!.valor.Split(" ")[1],
@@ -353,7 +335,7 @@ namespace ReticulaPWA.Controllers
         }
 
 
-        [HttpGet("horario")]
+        [HttpGet("Horario")]
         public async Task<IActionResult> Horario()
         {
             var credenciales = new LoginDTO
