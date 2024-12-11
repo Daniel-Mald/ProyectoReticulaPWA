@@ -23,55 +23,25 @@ namespace ReticulaPWA.Controllers
             this.apiService = apiService;
         }
 
-
         [HttpPost("login")]
-        public async Task<IActionResult> LoginReticula( LoginDTO loginDto)
-        {
-            if (loginDto == null)
-                return BadRequest("No se recibieron datos");
-
-            if (string.IsNullOrWhiteSpace(loginDto.numControl))
-                ModelState.AddModelError("", "El número de control no puede estar vacio");
-            else if(loginDto.numControl.Length != 8)
-                ModelState.AddModelError("", "El número de control debe tener 8 caracteres");
-
-            if (string.IsNullOrWhiteSpace(loginDto.password))
-                ModelState.AddModelError("", "La contraseña no puede estar vacia");
-
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            //CredencialesModel Credenciales = new() { NumeroControl = loginDto.NumControl, Password = loginDto.Password };
-            InformacionGeneral? informacionGeneral = await apiService.GetInformacionGeneral(loginDto);
-
-            if(informacionGeneral == null)
-                return BadRequest("No se encontro la información del alumno.");
-
-            if(informacionGeneral.CredencialesIncorrectas)
-                return BadRequest("Credenciales incorrectas");
-
-
-            return Ok();
-        }
-        //login 3
-        [HttpPost("Login3")]
         public async Task<IActionResult> Login3([FromBody] LoginDTO loginDto)
         {
             if (loginDto == null)
                 return BadRequest("No se recibieron datos");
 
-            if (string.IsNullOrWhiteSpace(loginDto.numControl))
+            if (string.IsNullOrWhiteSpace(loginDto.NumControl))
                 ModelState.AddModelError("", "El número de control no puede estar vacio");
-            else if (loginDto.numControl.Length != 8)
+
+            else if (loginDto.NumControl.Length != 8)
                 ModelState.AddModelError("", "El número de control debe tener 8 caracteres");
 
-            if (string.IsNullOrWhiteSpace(loginDto.password))
+            if (string.IsNullOrWhiteSpace(loginDto.Password))
                 ModelState.AddModelError("", "La contraseña no puede estar vacia");
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            CredencialesModel Credenciales = new() { NumeroControl = loginDto.numControl, Password = loginDto.password };
+            CredencialesModel Credenciales = new() { NumeroControl = loginDto.NumControl, Password = loginDto.Password };
             var logged = await apiService.FokinLogin(Credenciales);
 
             if (!logged)
@@ -80,20 +50,34 @@ namespace ReticulaPWA.Controllers
             return Ok();
         }
 
-        //obtener reticula
-        [HttpPost("Reticula")]        
-        public async Task<IActionResult> GetReticula(LoginDTO dto)
+        [HttpGet("Reticula")]
+        public async Task<IActionResult> GetReticula()
         {
+
+            var headers = HttpContext.Request.Headers;
+
+            headers.TryGetValue("NumControl", out StringValues numControl);
+            headers.TryGetValue("Password", out StringValues password);
+
+            if(StringValues.IsNullOrEmpty(numControl) || StringValues.IsNullOrEmpty(password))
+                return BadRequest("No se recibieron datos");
+
+            var dto = new LoginDTO
+            {
+                NumControl = numControl,
+                Password = password
+            };
+
             #region ValidacionCredenciales
             if (dto == null)
                 return BadRequest("No se recibieron datos");
 
-            if (string.IsNullOrWhiteSpace(dto.numControl))
+            if (string.IsNullOrWhiteSpace(dto.NumControl))
                 ModelState.AddModelError("", "El número de control no puede estar vacio");
-            else if (dto.numControl.Length != 8)
+            else if (dto.NumControl.Length != 8)
                 ModelState.AddModelError("", "El número de control debe tener 8 caracteres");
 
-            if (string.IsNullOrWhiteSpace(dto.password))
+            if (string.IsNullOrWhiteSpace(dto.Password))
                 ModelState.AddModelError("", "La contraseña no puede estar vacia");
 
             if (!ModelState.IsValid)
@@ -264,25 +248,42 @@ namespace ReticulaPWA.Controllers
 
                 return Ok(semestres);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return BadRequest($"Error en las peticiones: {ex.Message}");
             }
         }
-        //obtener infogeneral
-        [HttpPost("InformacionGeneral")]
-        public async Task<IActionResult> GetInfoGeneral(LoginDTO  dto)
+       
+        
+        [HttpGet("InformacionGeneral")]
+        public async Task<IActionResult> GetInfoGeneral()
         {
+
+            var headers = HttpContext.Request.Headers;
+
+            headers.TryGetValue("NumControl", out StringValues numControl);
+            headers.TryGetValue("Password", out StringValues password);
+
+            if (StringValues.IsNullOrEmpty(numControl) || StringValues.IsNullOrEmpty(password))
+                return BadRequest("No se recibieron datos");
+
+            var dto = new LoginDTO
+            {
+                NumControl = numControl,
+                Password = password
+            };
+
+
             #region ValidacionCredenciales
             if (dto == null)
                 return BadRequest("No se recibieron datos");
 
-            if (string.IsNullOrWhiteSpace(dto.numControl))
+            if (string.IsNullOrWhiteSpace(dto.NumControl))
                 ModelState.AddModelError("", "El número de control no puede estar vacio");
-            else if (dto.numControl.Length != 8)
+            else if (dto.NumControl.Length != 8)
                 ModelState.AddModelError("", "El número de control debe tener 8 caracteres");
 
-            if (string.IsNullOrWhiteSpace(dto.password))
+            if (string.IsNullOrWhiteSpace(dto.Password))
                 ModelState.AddModelError("", "La contraseña no puede estar vacia");
 
             if (!ModelState.IsValid)
@@ -292,10 +293,12 @@ namespace ReticulaPWA.Controllers
             {
                 var informacionGeneral = await apiService.GetInformacionGeneral(dto);
 
-                Match match = Regex.Match(informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "PLAN DE ESTUDIOS:")!.valor, @"\bDE\s+(\d+)\b");
+                Match match = Regex.Match(informacionGeneral.Informacion!
+                    .FirstOrDefault(x => x.dato == "PLAN DE ESTUDIOS:")!.valor, @"\bDE\s+(\d+)\b");
                 int creditos = 0;
 
-                string especialidad = informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "M&OACUTE;DULO DE ESPECIALIDAD:")!.valor;
+                string especialidad = informacionGeneral.Informacion!
+                    .FirstOrDefault(x => x.dato == "M&OACUTE;DULO DE ESPECIALIDAD:")!.valor;
                 if (match.Success)
                 {
                     creditos = int.Parse(match.Groups[1].Value);
@@ -342,26 +345,26 @@ namespace ReticulaPWA.Controllers
 
                 return Ok(infoGeneral);
             }
-            catch ( Exception ex)
+            catch (Exception ex)
             {
 
                 return BadRequest($"Error en las peticiones: {ex.Message}");
             }
         }
-        
+
 
         [HttpGet("horario")]
         public async Task<IActionResult> Horario()
         {
             var credenciales = new LoginDTO
             {
-                numControl = "201G0256",
-                password = "ESCOLARES"
+                NumControl = "201G0256",
+                Password = "ESCOLARES"
             };
 
             var horario = await apiService.GetHorario(credenciales);
 
-            if(horario == null || !horario.Any())
+            if (horario == null || !horario.Any())
                 return BadRequest("No se encontro el horario del alumno.");
 
 

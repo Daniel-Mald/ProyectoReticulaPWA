@@ -8,13 +8,13 @@ const perfilChannel = new BroadcastChannel("Perfil_Channel");
 const reticulaChannel = new BroadcastChannel("Reticula_Channel");
 const usuarioChannel = new BroadcastChannel("USUARIO_CHANNEL");
 
-function validarUsuario({ numeroControl, password }) {
+function validarUsuario(usuario) {
     const errores = [];
 
-    if (numeroControl === "") {
+    if (usuario.numControl === "") {
         errores.push("El número de control no puede estar vacío.");
     }
-    if (password === "") {
+    if (usuario.password === "") {
         errores.push("La contraseña no puede estar vacía.");
     }
 
@@ -27,13 +27,15 @@ async function ingresar(event) {
 
         loading.style.display = "block";
 
-        const numeroControl = nombretxt.value.toUpperCase();
+        const numControl = nombretxt.value.toUpperCase();
         const password = passwordtxt.value;
 
-        const errores = validarUsuario({
-            numeroControl: numeroControl,
-            password: password,
-        });
+        const credenciales = {
+            numControl,
+            password,
+        };
+
+        const errores = validarUsuario(credenciales);
 
         if (errores.length > 0) {
             let erroresAcumulados = "";
@@ -54,70 +56,27 @@ async function ingresar(event) {
             return;
         }
 
-        const response = await fetch("/api/Reticula/Login3", {
+     
+        const response = await fetch("/api/Reticula/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
                 
             },
-            body: JSON.stringify({
-                numControl: numeroControl,
-                password: password
-            })
+            body: JSON.stringify(credenciales)
         });
 
         if (response.ok) {
-            //const data = await response.json();
-
-            const credenciales = {
-                numControl: numeroControl,
-                password: password,
-            };
 
 
-            //data.informacionGeneral.numeroControl = numeroControl;
-            //Se hacen los fetch de los distintos elementos
-            //semestres
-            const responseSemestres = await fetch("/api/Reticula/Reticula", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
+            const urls = ["", "", ""];
+            const peticiones = urls.map(url => fetch(url));
 
-                },
-                body: JSON.stringify({
-                    numControl: numeroControl,
-                    password: password
-                })
-            });
-            //perfil
-            const responseInformacionGeneral = await fetch("/api/Reticula/InformacionGeneral", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
+            const respuestas = await Promise.all(peticiones);
 
-                },
-                body: JSON.stringify({
-                    numControl: numeroControl,
-                    password: password
-                })
-            });
+            const respuestasJSON = await Promise.all(respuestas.map(respuesta => respuesta.json()));
 
-            let dataInfoGeneral = await responseInformacionGeneral.json()
-            let dataSemestres = await responseSemestres.json();
-
-
-            perfilChannel.postMessage(dataInfoGeneral);
-
-            localStorage.setItem("semestres", JSON.stringify(dataSemestres));
-            localStorage.setItem("perfil", JSON.stringify(dataInfoGeneral));
-            localStorage.setItem("credenciales", JSON.stringify(credenciales));
-
-            usuarioChannel.postMessage({
-                operacion: "AGREGAR",
-                credencial: credenciales,
-            });
-
-            window.location.replace("/");
+            console.log(respuestasJSON);
 
         } else if (response.status >= 500) {
             erroresLbl.textContent =

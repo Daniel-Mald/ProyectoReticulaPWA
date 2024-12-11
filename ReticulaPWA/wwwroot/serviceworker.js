@@ -157,34 +157,24 @@ self.addEventListener("fetch", async (event) => {
 
     const isMethodPOST = method === "POST";
 
-    const isHttps =
-        url.protocol.includes("https") ||
-        url.protocol.includes("HTTPS");
-
     const isCss = url.pathname.includes(".css");
 
-    if (!isHttps) return;
-
     if (isFotoTec || isFuenteLetra) return;
-
-
-    console.log("token: ", token); 
 
 
     if (mode === "navigate" && url.origin === location.origin) {
 
         event.respondWith(loginPersistente(event.request));
     }
-    else if (url.pathname.includes("api") || isMethodPOST) {
+    else if (url.pathname.includes("Reticula/login") || isMethodPOST) {
 
         event.respondWith(networkOnly(event.request));
     }
-    else if (isImage || isCss) {
+    else if (url.pathname.includes("api/")) {
 
-        event.respondWith(cacheFirst(event.request));
     }
     else {
-        event.respondWith(networkFirst(event.request));
+        event.respondWith(cacheFirst(event.request));
     }
 
 });
