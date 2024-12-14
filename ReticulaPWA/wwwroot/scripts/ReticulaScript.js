@@ -119,8 +119,11 @@ function guardarTablaLocalStorage() {
     reticula.classList.add("reticula-pdf");
 
     Array.from(reticula.querySelectorAll(".tabla__materia")).forEach((materia) => {
+
         materia.classList.replace("tabla__materia", "tabla__materiaPDF");
+
         const oportunidad = materia.querySelector(".oportunidad");
+
         if (oportunidad) {
             oportunidad.classList.add("oportunidadPDF");
         }
@@ -128,20 +131,22 @@ function guardarTablaLocalStorage() {
 
     clon.appendChild(reticula);
 
-    localStorage.setItem("reticulaPDF", JSON.stringify(clon.outerHTML));
+    let tablaText = JSON.stringify(clon.outerHTML);
+
+    tablaText = tablaText.replace(/tabla__columna__titulo/g, "tabla__columna__titulo__pdf")
+
+
+    localStorage.setItem("reticulaPDF", tablaText);
 }
 
 
 const mapeoPerfil2 = async () => {
-    //crearColumnas(9);
 
     const request = await fetch("/api/reticula/reticula");
 
-    if (!request.ok) {
-        console.error("Error al obtener la retícula ", request.status);
-        return;
-    }
     const semestres = await request.json();
+
+    console.log("reticula ", semestres);
 
     crearMaterias(semestres);
 

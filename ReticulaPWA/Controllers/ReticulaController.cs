@@ -127,14 +127,9 @@ namespace ReticulaPWA.Controllers
                 }).ToList();
 
 
-                int semestreActual = 0;
-                Match match2 = Regex.Match(informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "PERIODO ACTUAL O ULTIMO:")!.valor, @"^\((\d+)\)");
-
-                if (match2.Success)
-                {
-                    semestreActual = int.Parse(match2.Groups[1].Value);
-                }
-
+                int semestreActual = ToValues.ObtenerSemestreActual(informacionGeneral);
+                
+           
                 foreach (var item in materiasFromKardex)
                 {
                     KardexDTO? matInKardex = resultado.Kardex.LastOrDefault(x => x.clave == item.Clave) as KardexDTO;
@@ -214,18 +209,26 @@ namespace ReticulaPWA.Controllers
                     }
                 }
 
-                List<Semestre> semestres = new List<Semestre>();
+                List<Semestre> semestres = [];
 
+                int semestreReticula = (semestreActual <= 9 ) ? 9 : semestreActual;
+                var kardexLimpio = materiasFromKardex
+                    .Where(x => !x.Clave.StartsWith("TUT") && 
+                            x.Clave != "ACA0001" && 
+                           !x.Clave.StartsWith("ING") && 
+                           !x.Clave.StartsWith("SR") && 
+                           !x.Clave.StartsWith("EXT") && 
+                           !x.Clave.StartsWith("SSY"))
+                    .ToList();
 
-                for (int i = 0; i < semestreActual; i++)
+                for (int i = 1; i <= semestreReticula; i++)
                 {
-                    int s = i + 1;
-                    Semestre newSemestre = new();
-                    newSemestre.Numero = s;
+                    semestres.Add(new()
+                    {
+                        Numero = i,
+                        Materias = [..kardexLimpio.Where(x => x.Semestre == i)]
 
-                    newSemestre.Materias = materiasFromKardex.Where(x => x.Semestre == s && !x.Clave.StartsWith("TUT")
-                    && x.Clave != "ACA0001" && !x.Clave.StartsWith("ING") && !x.Clave.StartsWith("SR") && !x.Clave.StartsWith("EXT") && !x.Clave.StartsWith("SSY"));
-                    semestres.Add(newSemestre);
+                    });
 
                 }
 
@@ -240,39 +243,24 @@ namespace ReticulaPWA.Controllers
         [HttpGet("Perfil")]
         public async Task<IActionResult> GetInfoGeneral()
         {
-
-            var headers = HttpContext.Request.Headers;
-
-            headers.TryGetValue("NumControl", out StringValues numControl);
-            headers.TryGetValue("Password", out StringValues password);
-
-            if (StringValues.IsNullOrEmpty(numControl) || StringValues.IsNullOrEmpty(password))
-                return BadRequest("No se recibieron datos");
-
-            var dto = new LoginDTO
-            {
-                NumControl = numControl,
-                Password = password
-            };
-
-
-            #region ValidacionCredenciales
-            if (dto == null)
-                return BadRequest("No se recibieron datos");
-
-            if (string.IsNullOrWhiteSpace(dto.NumControl))
-                ModelState.AddModelError("", "El número de control no puede estar vacio");
-            else if (dto.NumControl.Length != 8)
-                ModelState.AddModelError("", "El número de control debe tener 8 caracteres");
-
-            if (string.IsNullOrWhiteSpace(dto.Password))
-                ModelState.AddModelError("", "La contraseña no puede estar vacia");
-
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-            #endregion
             try
             {
+
+                var headers = HttpContext.Request.Headers;
+
+                if (!headers.TryGetValue("NumControl", out StringValues numControl) ||
+                    !headers.TryGetValue("Password", out StringValues password))
+                    return BadRequest("No se recibieron datos válidos.");
+
+                if (string.IsNullOrWhiteSpace(numControl) || string.IsNullOrWhiteSpace(password))
+                    return BadRequest("No se recibieron datos válidos.");
+
+                var dto = new LoginDTO
+                {
+                    NumControl = (string?)numControl ?? "",
+                    Password = (string?)password ?? ""
+                };
+
                 var informacionGeneral = await apiService.GetInformacionGeneral(dto);
 
                 Match match = Regex.Match(informacionGeneral.Informacion!
@@ -293,37 +281,7 @@ namespace ReticulaPWA.Controllers
                     semestreActual = int.Parse(match2.Groups[1].Value);
                 }
 
-
-
-
-                Informacion infoGeneral = new()
-                {
-                    NumeroControl = numControl,
-                    NombreDelAlumno = informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "NOMBRE DEL ALUMNO:")!.valor,
-                    Carrera = informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "CARRERA:")!.valor.Split(" ")[1],
-                    PlanDeEstudios = informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "PLAN DE ESTUDIOS:")!.valor.Split(" ")[1],
-                    Especialidad = especialidad.Substring(4, especialidad.Length - 4),
-                    CreditosAcumulados = double.Parse(informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "CR&EACUTE;DITOS ACUMULADOS:")!.valor),
-                    CreditosTotales = creditos,
-                    Vigencia = informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "SITUACI&OACUTE;N DE VIGENCIA:")!.valor,
-                    PeriodosConvalidos = int.Parse(informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "N&UACUTE;MERO DE PERIODOS CONVALIDADOS:")!.valor),
-                    PeriodoActualUltimo = informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "PERIODO ACTUAL O ULTIMO:")!.valor.Split(" ")[2],
-                    SemestreActualUltimo = semestreActual,
-                    Curp = informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "CLAVE CURP:")!.valor,
-                    FechaNacimiento = informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "FECHA DE NACIMIENTO:")!.valor,
-                    Calle = informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "CALLE:")!.valor,
-                    Num = informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "NUM:")!.valor,
-                    Colonia = informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "COLONIA:")!.valor,
-                    Ciudad = informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "CIUDAD:")!.valor,
-                    CP = informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "C.P.:")!.valor,
-                    TelefonoDomicilio = informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "TEL&EACUTE;FONO DOMICILIO:")!.valor,
-                    TelefonoCelular = informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "TEL&EACUTE;FONO CELULAR:")!.valor,
-                    Correo = informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "CORREO ELECTR&OACUTE;NICO:")!.valor,
-                    EscuelaProcedencia = informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "ESCUELA DE PROCEDENCIA:")!.valor,
-                    Tutor = informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "TUTOR:")!.valor,
-                };
-
-
+                Informacion infoGeneral =  ConvertClassHelper.ToInformacionDTO(informacionGeneral, numControl, especialidad, creditos, semestreActual);
 
                 return Ok(infoGeneral);
             }
@@ -338,10 +296,18 @@ namespace ReticulaPWA.Controllers
         [HttpGet("Horario")]
         public async Task<IActionResult> Horario()
         {
+            var headers = HttpContext.Request.Headers;
+
+            headers.TryGetValue("NumControl", out StringValues numControl);
+            headers.TryGetValue("Password", out StringValues password);
+
+            if (StringValues.IsNullOrEmpty(numControl) || StringValues.IsNullOrEmpty(password))
+                return BadRequest("No se recibieron datos");
+
             var credenciales = new LoginDTO
             {
-                NumControl = "201G0256",
-                Password = "ESCOLARES"
+                NumControl = numControl,
+                Password = password
             };
 
             var horario = await apiService.GetHorario(credenciales);

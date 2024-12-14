@@ -23,6 +23,10 @@ function validarUsuario(usuario) {
 
 async function ingresar(event) {
     try {
+
+        event.preventDefault();
+        event.target.disabled = true; // Deshabilitar el botón
+
         erroresLbl.innerHTML = "";
 
         loading.style.display = "block";
@@ -59,7 +63,7 @@ async function ingresar(event) {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
-                
+
             },
             body: JSON.stringify(credenciales)
         });
@@ -73,7 +77,12 @@ async function ingresar(event) {
 
             const perfil = await requestPerfil.json();
 
-            localStorage.setItem("perfil", JSON.stringify(perfil));
+            localStorage.setItem("perfil", JSON.stringify({
+                nombreDelAlumno: perfil.nombreDelAlumno,
+                numeroControl: perfil.numeroControl,
+                carrera: perfil.carrera,
+                especialidad: perfil.especialidad
+            }));
 
             window.location.replace("/");
 
@@ -86,11 +95,14 @@ async function ingresar(event) {
         }
 
         loading.style.display = "none";
+        event.target.disabled = false;
+
     } catch (error) {
         erroresLbl.textContent =
             "Problemas con el servidor, Por favor inténtelo mas tarde.";
         loading.style.display = "none";
-        console.error(error);
+        event.target.disabled = false;
+
     }
 }
 

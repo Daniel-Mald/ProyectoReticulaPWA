@@ -45,8 +45,8 @@
 
                 <div class="header__opciones__informacion">
 
-                <h3 class="header__opciones-nombre"></h3>
-                @* <span class="header__opciones-numero"></span> *@
+                    <h3 class="header__opciones-nombre"></h3>
+                    @* <span class="header__opciones-numero"></span> *@
                 </div>
 
                 <figure class="header__opciones-icono">
@@ -75,6 +75,14 @@
                          class="menu-flotante__img" />
                     <label class="menu-flotante__pdf-label noselect">Descargar Retícula</label>
                 </div>
+
+                <div class="menu-flotante__horario menu-flotante__item">
+                    <img src="assets/iconos/download.svg"
+                         alt="download"
+                         class="menu-flotante__img" />
+                    <label class="menu-flotante__pdf-label noselect">Descargar Horario</label>
+                </div>
+
                 <div class="menu-flotante__logout menu-flotante__item">
                     <img src="assets/iconos/logout.svg"
                          alt="logout"
@@ -137,23 +145,19 @@
 
     </div>
     <script src="~/scripts/html2Pdf.js"></script>
-
     <script>
-        const actualizarChannel = new BroadcastChannel("ACTUALIZAR_CHANNEL");
-
+        
         const registerServiceWorker = async () => {
             if ("serviceWorker" in navigator) {
                 try {
-                    await navigator.serviceWorker.register("/serviceworker.js?v=7");
+                    await navigator.serviceWorker.register("/serviceworker.js?v=8");
                 } catch (error) {
                     console.error(`Falló el registro con el ${error}`);
                 }
             }
         };
 
-        registerServiceWorker();
-
-        window.addEventListener("DOMContentLoaded", () => {
+        const asignarNombre = ()=>{
 
             const perfil = JSON.parse(localStorage.getItem("perfil"));
 
@@ -163,7 +167,7 @@
                 const arrayNombre = perfil.nombreDelAlumno.split(" ");
                 let nombre = arrayNombre[0];
 
-                let apellido = (arrayNombre.length < 4) 
+                let apellido = (arrayNombre.length < 4)
                             ? arrayNombre[1]
                             : arrayNombre[2];
 
@@ -174,17 +178,14 @@
                 document.querySelector(".menu-flotante__numcontrol").textContent = perfil.numeroControl;
             }
 
-        });
+        }
 
+        window.addEventListener("DOMContentLoaded",asignarNombre);
 
-        actualizarChannel.onmessage = (e) => {
-            console.log("Mensaje recibido");
-            location.reload();
-        };
-
+        registerServiceWorker();
 
     </script>
-    <script src="~/scripts/main.js?v=4"></script>
+    <script src="~/scripts/main.js?v=5"></script>
 
 </body>
 </html>

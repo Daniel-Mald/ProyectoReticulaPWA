@@ -4,6 +4,7 @@ const btnReticulaNav = document.getElementById("link-reticula");
 const btnHorarioNav = document.getElementById("link-horario");
 const btnPerfilNav = document.getElementById("link-perfil");
 const btnDescargarPdf = document.querySelector(".menu-flotante__pdf");
+const btnDescargarHorario = document.querySelector(".menu-flotante__horario");
 
 const btnCerrarSesion = document.querySelector(".menu-flotante__logout");
 const btnCancelarCerrarSesion = document.getElementById("btnCancelar");
@@ -34,9 +35,12 @@ function navegarPerfil() {
     window.location.replace("/perfil");
 }
 function navegarLogin() {
+
+    localStorage.removeItem("perfil");
+    localStorage.clear();
+
     usuarioChannel.postMessage({ operacion: "ELIMINAR", credencial: null });
 
-    localStorage.clear();
     sessionStorage.clear();
 
     window.location.replace("/login");
@@ -98,8 +102,27 @@ function navegarHorario() {
     window.location.replace("/horario");
 }
 
+function descargarHorario() {
+    setTimeout(() => {
+        const reticulaPDF = document.querySelector(".horario");
+
+        if (!reticulaPDF) return;
+
+        const opciones = {
+            filename: "Horario.pdf",
+            image: { type: "jpeg", quality: 0.98 },
+            html2canvas: { scale: 3 },
+            jsPDF: { format: "a4", orientation: "landscape" },
+        };
+
+        html2pdf().set(opciones).from(reticulaPDF).save();
+    }, 0);
+}
 
 
+
+
+btnDescargarHorario.addEventListener("click", descargarHorario);
 btnDescargarPdf.addEventListener("click", navegarPdf);
 window.addEventListener("DOMContentLoaded", redirigirLogin);
 btnAceptarCerrarSesion.addEventListener("click", navegarLogin);

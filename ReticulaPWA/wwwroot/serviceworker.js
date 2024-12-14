@@ -94,46 +94,15 @@ async function networkFirst(request) {
         return respuesta;
 
     } catch (error) {
+
+        console.log(error, " url ", request.url);
+
         let response = await cache.match(request);
 
         return response ||
             new Response("Recurso no disponible en caché ni en la red", {
                 status: 503,
             });
-    }
-}
-
-async function staleWhileRevalidate(request) {
-    try {
-        let cache = await caches.open(CACHE_NAME);
-
-        let responseCache = await cache.match(request);
-
-        let fetchPromise = fetch(request).then((networkResponse) => {
-
-            if (networkResponse.ok) {
-
-                const dataNetwork = await networkResponse.clone().text();
-                const dataCache = await responseCache.clone().text();
-
-                if (dataNetwork !== dataCache) {
-
-                    actualizarChannel.postMessage({actualizar: true})
-
-                }
-
-                cache.put(request, networkResponse.clone());
-
-                return networkResponse;
-            }
-        });
-
-        return responseCache || fetchPromise;
-
-    } catch (error) {
-        return new Response("Error al obtener la respuesta de la red", {
-            status: 500,
-        });
     }
 }
 
@@ -152,7 +121,8 @@ async function handlerLogin(request) {
 
         await actualizarElemento(db, data);
 
-        // Redirigir automáticamente a / después del login exitoso
+
+
         return Response.redirect('/', 302);
 
     } catch (err) {
@@ -181,13 +151,47 @@ async function informacionProtegida(request) {
         headers.set('NumControl', numControl);
         headers.set('Password', password);
 
-        return staleWhileRevalidate(new Request(request, { headers }));
+        const newRequest = new Request(request, { headers });
+
+        return cacheFirst(newRequest);
 
     }
     catch (err) {
-        return new Response(JSON.stringify({ error: 'API no disponible' }), { status: 500 });
+        return new Response(JSON.stringify({ error: 'API no disponible: '+ err }), { status: 500 });
     }
 }
+
+async function vistasProtegidas(request) {
+    try {
+        const db = await openDatabase();
+        const credenciales = await getCredenciales(db);
+
+        if (!credenciales || credenciales.length == 0) {
+            return Response.redirect('/login', 302);
+        }
+
+        return cacheFirst(request);
+    }
+    catch (err) {
+        console.log(err, "-url-", request.url);
+        return new Response(JSON.stringify({ error: 'Vista no disponible: ' + err }), { status: 500 });
+    }
+}
+
+
+async function eliminarCacheAPI() {
+
+    const cache = await caches.open(CACHE_NAME);
+    const cacheResponse = await cache.keys();
+
+    cacheResponse.map(async (key) => {
+
+        if (key.url.includes("api")) {
+            await cache.delete(key);
+        }
+    });
+}
+
 
 
 self.addEventListener("fetch", async (event) => {
@@ -221,7 +225,10 @@ self.addEventListener("fetch", async (event) => {
     else if (isMethodPOST) {
         event.respondWith(networkOnly(event.request));
     }
-    else if ((isHorario || isPerfil || isReticula || isView) && !isViewLogin) {
+    else if (isView && !isViewLogin) {
+        event.respondWith(vistasProtegidas(event.request));
+    }
+    else if ((isHorario || isPerfil || isReticula) && !isViewLogin) {
         event.respondWith(informacionProtegida(event.request))
     }
     else {
@@ -234,11 +241,10 @@ self.addEventListener("install", (event) => {
     event.waitUntil(precache());
 });
 
-
 self.addEventListener("activate", (event) => {
-    event.waitUntil(event.request);
+    
+    event.waitUntil(self.clients.claim());
 });
-
 
 usuarioChannel.onmessage = async (event) => {
 
@@ -246,10 +252,10 @@ usuarioChannel.onmessage = async (event) => {
     const obj = mensaje.credencial;
 
     if (mensaje.operacion === "ELIMINAR") {
-        await deleteAll();
-        console.log("Credenciales eliminadas");
-    }
 
+        await eliminarCacheAPI();
+        await deleteAll();
+    }
 }
 
 async function openDatabase() {
