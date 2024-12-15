@@ -5,6 +5,8 @@ const plantillaMateria = document.getElementById(
     "plantilla-horario-materia"
 ).content;
 
+
+
 const diaMap = new Map([
     ["lunes", "Lunes"],
     ["martes", "Martes"],
@@ -13,6 +15,23 @@ const diaMap = new Map([
     ["viernes", "Viernes"],
     ["sabado", "Sabado"],
 ]);
+
+
+
+const guardarHorario =  () => {
+
+    const horario = document.querySelector(".horario");
+
+    const horarioText = JSON.stringify(horario.outerHTML);
+
+    horarioText.replace(/.horario/g, ".horario__pdf");
+    horarioText.replace(/..columna-horario/g, "..columna-horario__pdf");
+
+
+    localStorage.setItem("horario", horarioText);
+}
+
+
 const cargarHorario = async () => {
     try {
         const request = await fetch("/api/reticula/horario");
@@ -46,9 +65,14 @@ const cargarHorario = async () => {
 
             listaHorario.appendChild(columna);
         }
+
+
+        guardarHorario();
+
     } catch (error) {
         console.error(error);
     }
 };
+
 
 window.addEventListener("DOMContentLoaded", cargarHorario);

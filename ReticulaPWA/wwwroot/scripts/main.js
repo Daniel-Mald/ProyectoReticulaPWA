@@ -104,9 +104,9 @@ function navegarHorario() {
 
 function descargarHorario() {
     setTimeout(() => {
-        const reticulaPDF = document.querySelector(".horario");
+        const horarioPdf = localStorage.getItem("horario");
 
-        if (!reticulaPDF) return;
+        if (!horarioPdf) return;
 
         const opciones = {
             filename: "Horario.pdf",
@@ -115,7 +115,7 @@ function descargarHorario() {
             jsPDF: { format: "a4", orientation: "landscape" },
         };
 
-        html2pdf().set(opciones).from(reticulaPDF).save();
+        html2pdf().set(opciones).from(horarioPdf).save();
     }, 0);
 }
 

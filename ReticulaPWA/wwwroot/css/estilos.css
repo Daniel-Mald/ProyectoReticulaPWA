@@ -219,6 +219,8 @@
     place-items: center;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    border-radius: 5px;
+
 }
 
     .nav__item:hover {
@@ -227,6 +229,8 @@
 
 .item-activo {
     background-color: var(--color-terciario);
+    border-radius:5px;
+
 }
 
 .nav__link {
@@ -706,7 +710,7 @@
     padding: 0.5rem 1rem;
     border: none;
     border-radius: 5px;
-    background-color: var(--color-principal);
+    background-color: var(--color-secundario);
     color: white;
     font-size: 1rem;
     cursor: pointer;
@@ -725,6 +729,16 @@
     font-size: 1rem;
     font-weight: 600;
 }
+
+
+.input-error {
+    background-color: #FCF1F2;
+    outline: 1.5px solid var(--color-no-acreditado);
+}
+.input-error::placeholder{
+    color:black;
+}
+
 
 #loader {
     height: 60px;
@@ -768,9 +782,7 @@
     overflow: auto;
     scrollbar-width: thin;
     height: 95%;
-    width:max-content;
     margin:1rem;
-    padding-right:1rem;
     padding-bottom:1rem;
 }
 
@@ -822,18 +834,24 @@
     font-size: 0.7rem;
 }
 
-/* .columna-horario-active {
-  background-color: var(--color-principal);
-  color: white;
+.horario__pdf {
+    width: 1100px;
+    min-width: 1100px;
+    height: 700px;
+    overflow: hidden;
+    border-radius: 0;
+    box-shadow: none;
+    display: grid;
+    grid-auto-columns: 1fr;
+    grid-auto-flow: column;
 }
 
-.columna-horario-active .horario-dia {
-  background-color: var(--color-principal);
+.columna-horario__pdf {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
 }
-
-.columna-horario-active .horario-materia {
-  border-color: white;
-} */
 
 /* END REGION HORARIO */
 
@@ -861,15 +879,13 @@
     }
     .nav__list {
         height: 100%;
-        padding: 0.5rem 2rem;
+        gap:0;
+        padding: 5px;
         flex-direction: row;
         align-items: center;
         justify-content: space-around;
     }
 
-    .nav__item {
-        padding: 0.3rem 1rem;
-    }
 
     .container {
         grid-template-columns: 1fr;
@@ -880,39 +896,24 @@
             "menu";
     }
 
-    /* .header {
-    position: fixed;
-    top: 0;
-    width: 100%;
-  }
-
-  .menu {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-  } */
 
     .menu {
         height: 60px;
     }
-
-    .nav__list {
-        padding: 0;
-    }
-
     .nav__item {
         overflow: hidden;
         gap: 0;
         height: 100%;
+        padding:5px 1rem;
     }
 
     .nav__img {
-        width: 1.2rem;
-        height: 1.2rem;
+        width: 1rem;
+        height: 1rem;
     }
 
     .nav__link {
-        font-size: 0.8rem;
+        font-size: 0.6rem;
     }
 
     .main__contenido {
@@ -955,8 +956,8 @@
 }
 
 @media (max-width: 630px) {
-    .form__descripcion {
-        font-size: 1rem;
+    .form__descripcion, .form__errores {
+        font-size: 0.8rem;
     }
 }
 
@@ -1058,7 +1059,36 @@
         border: 3px solid #D1D1D1;
         border-left-color: #272259;
     }
+
+    .columna-horario{
+        width:180px;
+    }
+
+
+    .horario-dia{
+        padding:0.2rem 0;
+    }
+
+    .horario-materia {
+        height: 110px;
+    }
+
+    .horario-materia__nombre,
+    .horario-materia__hora {
+        font-size: 0.7rem;
+    }
+
+    .horario-materia__salon {
+        font-size: 0.6rem;
+    }
+
+    .horario-materia__docente {
+        font-size: 0.6rem;
+    }
+
 }
+
+
 
 @media (max-width: 389px) {
     .login__img {
@@ -1073,6 +1103,19 @@
 
     .login {
         height: 450px;
+    }
+
+    .header__opciones-foto{
+        height:35px;
+        width:35px;
+    }
+
+    .header__div {
+        gap: 0.5rem;
+    }
+    .header__logo {
+        width: 1.5rem;
+        height: 1.5rem;
     }
 }
 

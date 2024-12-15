@@ -45,7 +45,7 @@ namespace ReticulaPWA.Controllers
             var logged = await apiService.FokinLogin(Credenciales);
 
             if (!logged)
-                return BadRequest("Credenciales incorrectas");
+                return NotFound("Credenciales incorrectas");
 
             string credenciales = $"{loginDto.NumControl}-{loginDto.Password}";
 
