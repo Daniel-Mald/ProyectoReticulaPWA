@@ -102,7 +102,7 @@ namespace ReticulaPWA.Controllers
                 // EXTRAER EL AÑO DEL NUMERO DE CONTROL Y COMPARARLO CON EL ACTUAL SI ES EL MISMO NO TIENE KARDEX POR LO QUE VA A DAR NULL
 
 
-                if (kardexTask.Result == null || materiasPlanTask.Result == null || horarioTask.Result == null)
+                if ( materiasPlanTask.Result == null || horarioTask.Result == null)
                 {
                     return BadRequest("Una o más peticiones fallaron.");
                 }
@@ -113,7 +113,7 @@ namespace ReticulaPWA.Controllers
                     Materias = materiasPlanTask.Result,
                     Horario = horarioTask.Result
                 };
-
+                
                 //quitar las de especialidad pendiente
                 var materiasFromPlan = resultado.Materias.Select(x => new MateriaReticula
                 {
@@ -122,6 +122,63 @@ namespace ReticulaPWA.Controllers
                     Semestre = x.semestre
 
                 });
+                int semestreActual = ToValues.ObtenerSemestreActual(informacionGeneral);
+
+                if (kardexTask.Result == null)
+                {
+                    List<MateriaReticula> materiasPrimerSemestre = new();
+                    foreach (var item in materiasFromPlan)
+                    {
+                        MateriaReticula nuevaMateriaReticula = new()
+                        {
+                            Nombre = item.Nombre,
+                            Clave = item.Clave,
+                            Semestre = item.Semestre
+                        };
+                        if (resultado.Horario.FirstOrDefault(x => x.clave.Split(" ")[0] == item.Clave) != null ||
+                            resultado.Horario.FirstOrDefault(x => x.nombre == item.Nombre) != null)
+                        {
+                            nuevaMateriaReticula.Estado = "Cursando";
+                            //var sem = informacionGeneral.Informacion!.FirstOrDefault(x => x.dato == "PERIODO ACTUAL O ULTIMO:")!.valor.Substring(1, 2);
+                            //nuevaMateriaReticula.Semestre = int.Parse(sem);
+                            nuevaMateriaReticula.Semestre = semestreActual;
+                        }
+                        else
+                        {
+                            nuevaMateriaReticula.Estado = "Sin cursar";
+                        }
+
+
+
+                        materiasPrimerSemestre.Add(nuevaMateriaReticula);
+                    }
+                    List<Semestre> semestres1 = [];
+
+                    int semestreReticula1 = (semestreActual <= 9) ? 9 : semestreActual;
+
+                    var kardexLimpio1 = materiasPrimerSemestre
+                        .Where(x => !x.Clave.StartsWith("TUT") &&
+                                x.Clave != "ACA0001" &&
+                               !x.Clave.StartsWith("ING") &&
+                               !x.Clave.StartsWith("SR") &&
+                               !x.Clave.StartsWith("EXT") &&
+                               !x.Clave.StartsWith("SSY"))
+                        .ToList();
+
+                    for (int i = 1; i <= semestreReticula1; i++)
+                    {
+                        semestres1.Add(new()
+                        {
+                            Numero = i,
+                            Materias = [.. kardexLimpio1.Where(x => x.Semestre == i).OrderBy(x=>x.Estado)]
+
+                        });
+
+                    }
+
+                    return Ok(semestres1);
+                }
+
 
                 var materiasFromKardex = resultado.Kardex.Select(x => new MateriaReticula
                 {
@@ -131,7 +188,6 @@ namespace ReticulaPWA.Controllers
                 }).ToList();
 
 
-                int semestreActual = ToValues.ObtenerSemestreActual(informacionGeneral);
                 
            
                 foreach (var item in materiasFromKardex)
@@ -216,6 +272,7 @@ namespace ReticulaPWA.Controllers
                 List<Semestre> semestres = [];
 
                 int semestreReticula = (semestreActual <= 9 ) ? 9 : semestreActual;
+
                 var kardexLimpio = materiasFromKardex
                     .Where(x => !x.Clave.StartsWith("TUT") && 
                             x.Clave != "ACA0001" && 
