@@ -91,16 +91,29 @@
         <aside class="menu">
             <nav class="nav">
                 <ul class="nav__list">
-                    <li class="nav__item" id="link-reticula">
-                        <img src="~/assets/iconos/reticula.svg" alt="Reticula" class="nav__img" />
+                    <li class="nav__item" id="link-reticula">@* 
+                        <img src="~/assets/iconos/reticula.svg" alt="Reticula" class="nav__img" /> *@
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             class="nav__svg"
+                             viewBox="0 0 24 24">
+                            <path d="M4 21h15.893c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2H4c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2zm0-2v-5h4v5H4zM14 7v5h-4V7h4zM8 7v5H4V7h4zm2 12v-5h4v5h-4zm6 0v-5h3.894v5H16zm3.893-7H16V7h3.893v5z"></path>
+                        </svg>
                         <a class="nav__link">Materias</a>
                     </li>
                     <li class="nav__item" id="link-perfil">
-                        <img src="~/assets/iconos/user.svg" alt="Perfil" class="nav__img" />
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             class="nav__svg"
+                             viewBox="0 0 24 24">
+                            <path d="M7.5 6.5C7.5 8.981 9.519 11 12 11s4.5-2.019 4.5-4.5S14.481 2 12 2 7.5 4.019 7.5 6.5zM20 21h1v-1c0-3.859-3.141-7-7-7h-4c-3.86 0-7 3.141-7 7v1h17z"></path>
+                        </svg>
                         <a class="nav__link">Perfil</a>
                     </li>
                     <li class="nav__item" id="link-horario">
-                        <img src="~/assets/iconos/horario.png" alt="Horario" class="nav__img" />
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             viewBox="0 0 24 24"
+                             class="nav__svg">
+                            <path d="M21 20V6c0-1.103-.897-2-2-2h-2V2h-2v2H9V2H7v2H5c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2h14c1.103 0 2-.897 2-2zM9 18H7v-2h2v2zm0-4H7v-2h2v2zm4 4h-2v-2h2v2zm0-4h-2v-2h2v2zm4 4h-2v-2h2v2zm0-4h-2v-2h2v2zm2-5H5V7h14v2z"></path>
+                        </svg>
                         <a class="nav__link">Horario</a>
                     </li>
                 </ul>
@@ -139,7 +152,7 @@
     </div>
     <script src="~/scripts/html2Pdf.js"></script>
     <script>
-        
+
         const registerServiceWorker = async () => {
             if ("serviceWorker" in navigator) {
                 try {

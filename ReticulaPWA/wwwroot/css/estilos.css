@@ -4,7 +4,7 @@
     box-sizing: border-box;
     --color-principal: #1D1F26;
     --color-secundario: #333740;
-    --color-terciario: #A1A6A5;
+    --color-terciario: #C3C6C5;
     --color-surface: #9c93fb;
     --color-grid-fondo: #f0f0f0;
     --color-bordes: #d1d1d1;
@@ -230,11 +230,12 @@
 .item-activo {
     background-color: var(--color-terciario);
     border-radius:5px;
+    color:#000;
 
 }
 
 .nav__link {
-    color: white;
+    color:white;
     font-size: 0.9rem;
 }
 
@@ -244,6 +245,31 @@
     object-fit:cover;
 
 }
+
+.nav__svg {
+    width: 20px;
+    height: 20px;
+    fill:white;
+}
+
+
+.item-activo .nav__link{
+    color:#000;
+}
+
+.item-activo .nav__svg{
+    fill:#000;
+}
+
+
+.nav__item:hover .nav__link {
+    color: #000;
+}
+
+.nav__item:hover .nav__svg {
+    fill: #000;
+}
+
 
 .main {
     grid-area: main;
@@ -436,6 +462,7 @@
 }
 
     .cerrar-sesion__btn:hover {
+        color:#000;
         background-color: var(--color-terciario);
     }
 
@@ -445,8 +472,13 @@
     align-items: center;
 }
 
+
 #btnCancelar {
     background-color: var(--color-rojo);
+}
+
+#btnCancelar:hover{
+    color:white;
 }
 
 .main__contenido {
@@ -541,8 +573,8 @@
 }
 
 .oportunidad {
-    background-color: #D1D1D1;
-    color: black;
+    background-color: var(--color-secundario);
+    color: white;
     width: 1.5rem;
     height: 1.5rem;
     overflow: hidden;
@@ -717,11 +749,12 @@
     width: 40%;
     display: inline-block;
     margin-top: 0.5rem;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
     .form__submit:hover {
         background-color: var(--color-terciario);
+        color:black;
     }
 
 .form__errores {
