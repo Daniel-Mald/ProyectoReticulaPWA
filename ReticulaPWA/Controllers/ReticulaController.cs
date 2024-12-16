@@ -98,10 +98,6 @@ namespace ReticulaPWA.Controllers
             {
                 await Task.WhenAll(tasks);
 
-
-                // EXTRAER EL AÑO DEL NUMERO DE CONTROL Y COMPARARLO CON EL ACTUAL SI ES EL MISMO NO TIENE KARDEX POR LO QUE VA A DAR NULL
-
-
                 if ( materiasPlanTask.Result == null || horarioTask.Result == null)
                 {
                     return BadRequest("Una o más peticiones fallaron.");

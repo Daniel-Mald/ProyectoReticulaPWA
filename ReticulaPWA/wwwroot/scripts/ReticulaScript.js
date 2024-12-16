@@ -45,7 +45,7 @@ function crearMaterias(semestresFetch) {
                     let oport = plantillaOportunidad.content.cloneNode(true);
                     let oportunid = oport.querySelector(".oportunidad");
 
-                    oportunid.textContent = materias.oportunidad;
+                    oportunid.textContent = `${materias.oportunidad}ª`;
 
                     estado.appendChild(oport);
                 }
