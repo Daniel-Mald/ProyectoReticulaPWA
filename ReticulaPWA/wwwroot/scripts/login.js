@@ -122,7 +122,13 @@ async function ingresar(event) {
         }
 
         const requestPerfil = await fetch("api/reticula/perfil");
-        const requestReticula = await fetch("api/reticula/reticula");
+        const requestReticula = fetch("api/reticula/reticula");
+        const requestHorario = fetch("api/reticula/horario");
+
+        const peticiones = await Promise.all([requestReticula, requestHorario]);
+        console.log(peticiones);
+
+
 
         const perfil = await requestPerfil.json();
 
